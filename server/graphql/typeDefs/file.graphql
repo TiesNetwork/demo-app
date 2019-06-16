@@ -1,0 +1,34 @@
+enum Color {
+  BLACK
+  BLUE
+  DOWNY
+  GREEN
+  ORANGE
+  PURPLE
+  RED
+}
+
+type File {
+  id: ID!
+  createdAt: String!
+  description: String!
+  extension: String!
+  name: String!
+  owner: String!
+  size: Int!
+  tags: [Tag!]
+  title: String!
+  updatedAt: String!
+}
+
+type Tag {
+  id: ID!
+  color: Color!
+  createdAt: String!
+  title: String!
+  updatedAt: String!
+}
+
+type Query {
+  getFileList: [File!]!
+}

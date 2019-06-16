@@ -1,0 +1,64 @@
+.Root {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 24px;
+}
+
+.Count {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  margin: 0 0 0 24px;
+}
+
+.Left {
+  align-items: center;
+  display: flex;
+}
+
+.Title {
+  color: var(--color-text);
+  font-size: 24px;
+  letter-spacing: .3px;
+  line-height: 32px;
+}
+
+.View {
+  align-items: center;
+  background: #fbfdff;
+  border: 1px solid #e9edf0;
+  border-radius: 6px;
+  display: flex;
+  height: 36px;
+  justify-content: space-around;
+  width: 72px;
+
+  &Button {
+    background: transparent no-repeat center center;
+    background-size: 16px 16px;
+    border: 0;
+    height: 24px;
+    margin: 0;
+    opacity: .6;
+    padding: 0 8px;
+    transition: all .2s;
+    width: 36px;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:not(:first-child) {
+      border-left: 1px solid #e9edf0;
+    }
+
+    &Grid {
+      background-image: url('~@components/Icon/assets/grid.svg');
+    }
+
+    &Table {
+      background-image: url('~@components/Icon/assets/table.svg');
+    }
+  }
+}

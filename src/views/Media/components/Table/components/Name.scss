@@ -1,0 +1,26 @@
+.Root {
+  display: flex;
+
+  &Variant {
+    &Image {
+      .Icon {
+        color: var(--color-blue);
+      }
+    }
+
+    &Pdf {
+      .Icon {
+        color: var(--color-red);
+      }
+    }
+  }
+}
+
+.Icon {
+  color: var(--color-purple);
+  font-size: 24px;
+}
+
+.Name {
+  margin: 0 0 0 16px;
+}

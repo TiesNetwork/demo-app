@@ -1,0 +1,90 @@
+.Root {
+  align-items: center;
+  display: flex;
+
+  &Color {
+    &Black {
+      .Color {
+        background: var(--color-black);
+      }
+
+      .Tag {
+        background: rgba(#5e6c84, .1);
+      }
+    }
+
+    &Blue {
+      .Color {
+        background: var(--color-blue);
+      }
+
+      .Tag {
+        background: rgba(#61a4e4, .1);
+      }
+    }
+
+    &Downy {
+      .Color {
+        background: var(--color-downy);
+      }
+
+      .Tag {
+        background: rgba(#64c8bc, .1);
+      }
+    }
+
+    &Orange {
+      .Color {
+        background: var(--color-orange);
+      }
+
+      .Tag {
+        background: rgba(#ffa958, .1);
+      }
+    }
+
+    &Purple {
+      .Color {
+        background: var(--color-purple);
+      }
+
+      .Tag {
+        background: rgba(#6554c0, .1);
+      }
+    }
+
+    &Red {
+      .Color {
+        background: var(--color-red);
+      }
+
+      .Tag {
+        background: rgba(#ff8a8a, .1);
+      }
+    }
+  }
+}
+
+.Color {
+  border-radius: 3px;
+  height: 12px;
+  width: 12px;
+}
+
+.More {
+  color: rgba(#5e6c84, .5);
+  font-size: 12px;
+  margin: 0 0 0 8px;
+}
+
+.Tag {
+  align-items: center;
+  border-radius: 6px;
+  display: flex;
+  height: 32px;
+  padding: 8px;
+}
+
+.Title {
+  margin: 0 0 0 8px;
+}

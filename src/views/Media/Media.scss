@@ -1,0 +1,28 @@
+.Root {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.Container {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  max-height: calc(100% - 100px);
+}
+
+.Header {
+  border-bottom: 1px solid #e9edf0;
+  flex: 0 0 100px;
+  height: 100px;
+}
+
+.List {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.Sidebar {
+  border-left: 1px solid #e9edf0;
+  flex: 0 0 320px;
+  width: 320px;
+}

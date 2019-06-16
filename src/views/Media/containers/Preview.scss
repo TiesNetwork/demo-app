@@ -1,0 +1,26 @@
+.Root {
+  max-width: 100%;
+  padding: 24px;
+}
+
+.Info {
+  margin: 20px 0 0;
+}
+
+.Preview {
+  border-radius: 6px;
+  height: 272px;
+  margin: 20px 0 0;
+  overflow: hidden;
+  width: 272px;
+
+  &Content {
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
+
+.Title {
+  font-size: 18px;
+  letter-spacing: .3px;
+}

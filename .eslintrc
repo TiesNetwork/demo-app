@@ -1,0 +1,68 @@
+{
+  "extends": [
+    "airbnb",
+    "plugin:react/recommended",
+    "prettier",
+    "prettier/react",
+    "react-app"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "plugins": ["jsx-a11y", "prettier", "react"],
+  "rules": {
+    "indent": [
+      1,
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+
+    "no-bitwise": "off",
+    "no-case-declarations": "off",
+    "no-nested-ternary": "off",
+    "no-shadow": "off",
+
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/no-autofocus": "off",
+    "jsx-a11y/no-noninteractive-tabindex": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+
+    "import/no-named-default": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off",
+    "import/order": "off",
+    "import/prefer-default-export": "off",
+
+    "react/display-name": "off",
+    "react/jsx-closing-bracket-location": [1],
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-first-prop-new-line": [1, "multiline"],
+    "react/jsx-indent": [1, 2, { "checkAttributes": false }],
+    "react/jsx-indent-props": [1, 2],
+    "react/jsx-max-props-per-line": [1, { "maximum": 2, "when": "always" }],
+    "react/jsx-one-expression-per-line": [1, { "allow": "literal" }],
+    "react/jsx-sort-props": [1],
+    "react/no-array-index-key": "off",
+    "react/no-danger": "off",
+    "react/prop-types": "off",
+    "react/require-default-props": "off",
+
+    "prettier/prettier": "off"
+  }
+}

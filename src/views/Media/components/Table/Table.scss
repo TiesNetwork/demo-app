@@ -1,0 +1,43 @@
+.Root {
+  :global .ReactTable {
+    border: 0;
+
+    .rt-td {
+      align-items: center;
+      border: 0;
+      color: var(--color-text);
+      display: flex;
+      font-size: 14px;
+      padding: 0 16px;
+    }
+
+    .rt-th {
+      align-items: center;
+      border: 0;
+      color: var(--color-text-secondary);
+      display: flex;
+      font-size: 14px;
+      padding: 0 16px;
+    }
+
+    .rt-tr {
+      &-group {
+        height: 64px;
+
+        &:hover {
+          background: rgba(0, 0, 0, .02);
+          cursor: pointer;
+        }
+      }
+    }
+
+    .rt-thead {
+      border-bottom: 2px solid #e9edf0;
+      height: 48px;
+
+      &.-header {
+        box-shadow: none;
+      }
+    }
+  }
+}

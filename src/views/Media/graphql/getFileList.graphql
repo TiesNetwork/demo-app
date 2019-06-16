@@ -1,0 +1,15 @@
+query {
+  getFileList {
+    id
+    createdAt
+    extension
+    name
+    size
+    tags {
+      id
+      color
+      title
+    }
+    title
+  }
+}

@@ -1,0 +1,47 @@
+@import './style/colors.scss';
+
+:global html {
+  box-sizing: border-box;
+}
+
+:global body {
+  color: var(--color-text);
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: .5px;
+  line-height: 28px;
+  margin: 0;
+  padding: 0;
+  text-transform: none !important;
+}
+
+:global * {
+  box-shadow: none;
+  box-sizing: inherit;
+  transition: all .2s;
+
+  &::after,
+  &::before {
+    box-sizing: inherit;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+button {
+  font-family: inherit;
+  text-align: inherit;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.Root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

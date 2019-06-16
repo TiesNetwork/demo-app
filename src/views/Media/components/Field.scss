@@ -1,0 +1,9 @@
+.Root {
+  display: flex;
+}
+
+.Label {
+  color: var(--color-text-secondary);
+  flex: 0 0 100px;
+  width: 100px;
+}
