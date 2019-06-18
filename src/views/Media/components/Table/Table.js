@@ -1,15 +1,25 @@
+import { get } from 'lodash';
 import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import Table from 'react-table';
 
 // Components
 import Name from './components/Name';
 import Tags from './components/Tags';
 
+// Entities
+import { setSelectedId } from '@views/Media/ducks/actions';
+
 // Style
 import 'react-table/react-table.css';
 import style from './Table.scss';
+
+type MediaTableType = {
+  data: Array<Object>,
+  setSelectedId: Function,
+};
 
 const COLUMNS = [
   {
@@ -40,12 +50,18 @@ const COLUMNS = [
   },
 ];
 
-const MediaTable = ({ data = [] }) => (
+const MediaTable = ({
+  data = [],
+  setSelectedId,
+}: MediaTableType): React.Element<'div'> => (
   <div className={style.Root}>
     <Table
       columns={COLUMNS}
       data={data}
       defaultPageSize={100000}
+      getTrProps={(root, { original }): Function => ({
+        onClick: () => setSelectedId(get(original, 'id')),
+      })}
       minRows={0}
       resizable={false}
       showPagination={false}
@@ -53,7 +69,9 @@ const MediaTable = ({ data = [] }) => (
   </div>
 );
 
-export default MediaTable;
-export type MediaTableType = {
-  data: Array<Object>,
-};
+export default connect(
+  null,
+  { setSelectedId },
+)(MediaTable);
+
+export type { MediaTableType };

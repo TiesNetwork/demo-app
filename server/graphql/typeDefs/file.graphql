@@ -11,7 +11,7 @@ enum Color {
 type File {
   id: ID!
   createdAt: String!
-  description: String!
+  description: String
   extension: String!
   name: String!
   owner: String!
@@ -31,4 +31,9 @@ type Tag {
 
 type Query {
   getFileList: [File!]!
+}
+
+type Mutation {
+  deleteFile(id: String!): Boolean!
+  updateFile(id: String!, description: String!, name: String!): Boolean!
 }

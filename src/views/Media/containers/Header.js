@@ -9,7 +9,7 @@ const MediaHeader = ({ count }: MediaHeaderType): React.Element<'div'> => (
     <div className={style.Left}>
       <div className={style.Title}>Media Library</div>
 
-      {count && (
+      {!!count && (
         <div className={style.Count}>
           {`(${count} media item${count > 1 ? 's' : ''})`}
         </div>

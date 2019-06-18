@@ -3,8 +3,89 @@
   padding: 24px;
 }
 
+.Actions {
+  display: flex;
+  margin: 40px -8px 0;
+
+  & > * {
+    flex: 0 0 calc(50% - 16px);
+    margin: 0 8px;
+  }
+}
+
+.Button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  box-shadow:
+    0 0   1px rgba(#0a1f44, .08),
+    0 1px 1px rgba(#0a1f44, .08);
+  color: #fff;
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  height: 36px;
+  justify-content: center;
+  min-width: 64px;
+  padding: 0 16px;
+  text-transform: uppercase;
+
+  &:hover:not(:active) {
+    box-shadow:
+      0 0   1px rgba(#0a1f44, .08),
+      0 8px 10px rgba(#0a1f44, .1);
+  }
+}
+
+.Description {
+  font-size: 14px !important;
+  min-height: 80px;
+  resize: none;
+  width: 100%;
+}
+
+.Delete {
+  background: #ec0018;
+
+  &:active {
+    background: #da0013;
+  }
+
+  &:hover:not(:active) {
+    background: #fa0915;
+  }
+}
+
 .Info {
-  margin: 20px 0 0;
+  border-bottom: 1px solid #E9EDF0;
+  margin: 0 0 20px;
+  padding: 20px 0;
+}
+
+.Description,
+.Name {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 18px;
+  letter-spacing: .3px;
+  padding: 6px 0;
+  width: 100%;
+
+  &:focus {
+    border-color: var(--color-downy);
+    box-shadow: 0 0 0 1px var(--color-downy);
+    cursor: text;
+    padding: 6px 12px;
+  }
+
+  &:hover:not(:focus) {
+    background: rgba(#E9EDF0, .3);
+    border-color: #E9EDF0;
+    cursor: pointer;
+    padding: 6px 12px;
+  }
 }
 
 .Preview {
@@ -20,7 +101,14 @@
   }
 }
 
-.Title {
-  font-size: 18px;
-  letter-spacing: .3px;
+.Save {
+  background: #00a08d;
+
+  &:active {
+    background: #008e7a;
+  }
+
+  &:hover:not(:active) {
+    background: #00b1a1;
+  }
 }

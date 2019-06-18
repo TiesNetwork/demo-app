@@ -15,5 +15,5 @@ app.listen(process.env.SERVER_PORT, error => {
   }
 
   // eslint-disable-next-line
-  console.log(`🚀 Server ready at http://localhost${server.graphqlPath}`);
+  console.log(`🚀 Server ready at http://localhost:3001${server.graphqlPath}`);
 });

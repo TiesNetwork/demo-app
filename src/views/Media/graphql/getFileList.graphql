@@ -2,6 +2,7 @@ query {
   getFileList {
     id
     createdAt
+    description
     extension
     name
     size

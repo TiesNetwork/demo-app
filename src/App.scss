@@ -31,13 +31,18 @@
   }
 }
 
-button {
+:global button {
   font-family: inherit;
   text-align: inherit;
 
   &:hover {
     cursor: pointer;
   }
+}
+
+:global input {
+  font-family: inherit;
+  text-align: inherit;
 }
 
 .Root {

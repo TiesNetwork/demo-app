@@ -1,5 +1,10 @@
 .Root {
   display: flex;
+  font-size: 13px;
+
+  &:not(:first-child) {
+    margin: 4px 0 0;
+  }
 }
 
 .Label {
