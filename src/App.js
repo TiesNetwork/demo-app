@@ -10,6 +10,10 @@ import Media from '@views/Media';
 
 const App = (): React.Element<'div'> => (
   <div className={style.Root}>
+    <div className={style.Header}>
+      <div className={style.Account} />
+    </div>
+
     <Switch>
       <Route component={Media} path="/" />
     </Switch>

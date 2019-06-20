@@ -1,0 +1,5 @@
+mutation createFile($extension: String!, $name: String!, $size: Int!) {
+  createFile(extension: $extension, name: $name, size: $size) {
+    id
+  }
+}

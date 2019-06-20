@@ -1,6 +1,7 @@
 import { ApolloError } from 'apollo-server-express';
 import { omit, set, values } from 'lodash';
-import { object, string } from 'yup';
+import uuid from 'uuid/v5';
+import { number, object, string } from 'yup';
 
 let FILES = {
   'b188cfd0-f673-4e18-8fdb-b6243f003c49': {
@@ -23,7 +24,6 @@ let FILES = {
         title: 'Awesome ✌️',
       },
     ],
-    title: 'Test file',
     updatedAt: '2019-06-15T11:40:21.344Z',
   },
   'b188cfd0-f673-4e18-8fdb-b6243f003c48': {
@@ -50,7 +50,6 @@ let FILES = {
         title: 'Awesome ✌️',
       },
     ],
-    title: 'Test file',
     updatedAt: '2019-06-15T11:40:21.344Z',
   },
 };
@@ -60,6 +59,40 @@ export default {
     getFileList: () => values(FILES),
   },
   Mutation: {
+    createFile: {
+      validation: object().shape({
+        extension: string()
+          // eslint-disable-next-line
+          .matches(/^(jpg|png|pdf)+$/, 'File extension is not correct!')
+          .required('File name is required!'),
+        name: string()
+          // eslint-disable-next-line
+          .matches(/^[A-я0-9-_]+$/, 'File name is not correct!')
+          .required('File name is required!'),
+        size: number()
+          .lessThan(8388608, 'File size must be less than 8mb!')
+          .required('File size is required!'),
+      }),
+      resolve: async (root, { extension, name, size }) => {
+        // Generate UUID
+        const id = uuid(name, uuid.URL);
+        // Create new file
+        const newFile = {
+          id,
+          extension,
+          name,
+          size,
+          createdAt: new Date().toISOString(),
+          description: '',
+          tags: [],
+          updatedAt: new Date().toISOString(),
+        };
+        // Update list
+        set(FILES, `${id}`, newFile);
+        // Return new file
+        return newFile;
+      },
+    },
     deleteFile: {
       validation: object().shape({
         id: string().required('ID is required!'),

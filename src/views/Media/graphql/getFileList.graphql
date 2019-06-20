@@ -11,6 +11,5 @@ query {
       color
       title
     }
-    title
   }
 }

@@ -10,6 +10,87 @@
   max-height: calc(100% - 100px);
 }
 
+.Drag {
+  background: rgba(255, 255, 255, .6);
+  height: 100%;
+  left: 0;
+  padding: 24px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+
+  &Animate {
+    &Enter {
+      transition: all .4s;
+
+      &:not(&Active) {
+        opacity: 0;
+
+        .DragIcon,
+        .DragTitle {
+          opacity: 0;
+          transform: translateY(100%);
+        }
+      }
+
+      &Active {
+        opacity: 1;
+
+        .DragIcon,
+        .DragTitle {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .DragTitle {
+        transition-delay: .2s;
+      }
+    }
+
+    &Exit {
+      transition: all .4s;
+
+      &:not(&Active) {
+        opacity: 1;
+      }
+
+      &Active {
+        opacity: 0;
+      }
+    }
+  }
+
+  &Content {
+    align-items: center;
+    background: rgba(255, 255, 255, .8);
+    border: 4px dashed #e9edf0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &Icon {
+    color: var(--color-downy);
+    font-size: 120px;
+  }
+
+  &Label {
+    color: var(--color-downy);
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  &Title {
+    font-size: 20px;
+    margin: 12px 0 0;
+  }
+}
+
 .Header {
   border-bottom: 1px solid #e9edf0;
   flex: 0 0 100px;

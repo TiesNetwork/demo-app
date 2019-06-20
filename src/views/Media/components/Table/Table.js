@@ -30,7 +30,7 @@ const COLUMNS = [
   },
   {
     accessor: 'tags',
-    Cell: Tags,
+    Cell: ({ value }) => value && value.length > 0 && <Tags value={value} />,
     Header: 'Labels',
     sortable: false,
   },

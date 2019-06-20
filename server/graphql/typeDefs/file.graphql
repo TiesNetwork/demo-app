@@ -14,10 +14,9 @@ type File {
   description: String
   extension: String!
   name: String!
-  owner: String!
+  owner: String
   size: Int!
   tags: [Tag!]
-  title: String!
   updatedAt: String!
 }
 
@@ -34,6 +33,7 @@ type Query {
 }
 
 type Mutation {
+  createFile(extension: String!, name: String!, size: Int!): File!
   deleteFile(id: String!): Boolean!
   updateFile(id: String!, description: String!, name: String!): Boolean!
 }
