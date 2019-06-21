@@ -1,0 +1,14 @@
+.Header {
+  background: #feffff;
+  box-shadow: 0 24px 52px rgba(0, 0, 0, .04);
+  display: flex;
+  height: 80px;
+  justify-content: flex-end;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.Modal {
+  width: 360px;
+}

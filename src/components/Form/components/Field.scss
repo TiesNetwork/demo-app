@@ -1,0 +1,41 @@
+.Root {
+  &:not(:first-child) {
+    margin: 20px 0 0;
+  }
+
+  &Is {
+    &Erred {
+      color: var(--color-red);
+
+      .Label {
+        color: var(--color-red);
+      }
+    }
+  }
+}
+
+.Control {
+  margin: 4px 0 0;
+}
+
+.Error {
+  color: var(--color-red);
+  font-size: 10px;
+  margin: 0 0 0 4px;
+}
+
+.Header {
+  align-items: center;
+  display: flex;
+}
+
+.Label {
+  color: rgba(#344563, .8);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

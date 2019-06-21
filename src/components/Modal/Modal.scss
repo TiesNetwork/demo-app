@@ -1,0 +1,102 @@
+.Root {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+
+  &Animate {
+    &Enter {
+      .Backdrop {
+        opacity: 0;
+      }
+
+      .Container {
+        opacity: 0;
+        transform: scale(.7);
+
+        & > * {
+          opacity: 0;
+          transition-delay: .2s;
+        }
+      }
+
+      &Active {
+        .Backdrop {
+          opacity: 1;
+        }
+
+        .Container {
+          opacity: 1;
+          transform: scale(1);
+
+          & > * {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    &Exit {
+      .Backdrop {
+        opacity: 1;
+      }
+
+      .Container {
+        opacity: 1;
+        transform: scale(1);
+
+        & > * {
+          opacity: 1;
+        }
+      }
+
+      &Active {
+        .Backdrop {
+          opacity: 0;
+        }
+
+        .Container {
+          opacity: 0;
+          transform: scale(.7);
+
+          & > * {
+            opacity: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.Backdrop {
+  background: rgba(#171725, .8);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.Container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 24px 52px rgba(#000, .04);
+  padding: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.Title {
+  color: var(--color-purple);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 20px;
+  text-align: center;
+  text-transform: uppercase;
+}

@@ -1,0 +1,16 @@
+.Input {
+  background: rgba(#344563, .02);
+  border: 1px solid rgba(#6554c0, .3);
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 300;
+  height: 42px;
+  padding: 0 12px;
+  width: 100%;
+
+  &:focus {
+    border-color: rgba(#6554c0, .7);
+    box-shadow: 0 0 0 1px rgba(#6554c0, .7);
+  }
+}
+

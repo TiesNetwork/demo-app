@@ -4,10 +4,12 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 // Reducer
 import { reducer as form } from 'redux-form';
 
-import views from './views/reducer';
+import services from '@services/reducer';
+import views from '@views/reducer';
 
 const reducer: Object = combineReducers({
   form,
+  services,
   views,
 });
 

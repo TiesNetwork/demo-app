@@ -1,0 +1,3 @@
+mutation importAccount($json: String!, $password: String!) {
+  importAccount(json: $json, password: $password)
+}

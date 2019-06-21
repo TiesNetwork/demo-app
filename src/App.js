@@ -6,16 +6,12 @@ import style from './App.scss';
 import '@fortawesome/fontawesome-pro/css/all.min.css';
 
 // Views
-import Media from '@views/Media';
+import Main from '@views/Main';
 
 const App = (): React.Element<'div'> => (
   <div className={style.Root}>
-    <div className={style.Header}>
-      <div className={style.Account} />
-    </div>
-
     <Switch>
-      <Route component={Media} path="/" />
+      <Route component={Main} path="/" />
     </Switch>
   </div>
 );

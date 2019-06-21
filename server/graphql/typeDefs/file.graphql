@@ -28,11 +28,11 @@ type Tag {
   updatedAt: String!
 }
 
-type Query {
+extend type Query {
   getFileList: [File!]!
 }
 
-type Mutation {
+extend type Mutation {
   createFile(extension: String!, name: String!, size: Int!): File!
   deleteFile(id: String!): Boolean!
   updateFile(id: String!, description: String!, name: String!): Boolean!
