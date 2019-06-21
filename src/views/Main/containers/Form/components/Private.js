@@ -10,8 +10,9 @@ import { Field } from '@components/Form';
 import style from './Private.scss';
 
 type MainFormPrivatePropTypes = {
-  address: string,
   id: number,
+  address: string,
+  error: string,
   handleChange: Function,
   name: string,
 };

@@ -1,4 +1,4 @@
-import { get, last } from 'lodash';
+import { get, isEmpty, last } from 'lodash';
 import * as React from 'react';
 import { Query, graphql } from 'react-apollo';
 import Dropzone from 'react-dropzone';
@@ -18,6 +18,9 @@ import { getSelectedId } from './ducks';
 import createFile from './graphql/createFile.graphql';
 import getFileList from './graphql/getFileList.graphql';
 
+// Services
+import { getSession } from '@services/session';
+
 // Style
 import style from './Media.scss';
 
@@ -26,11 +29,13 @@ import deepClear from '@utils/deepClear';
 
 type MediaType = {
   handleLoad: Function,
+  hasSession: boolean,
   selectedId: string,
 };
 
 const Media = ({
   handleLoad,
+  hasSession,
   selectedId,
 }: MediaType): React.Element<typeof Query> => (
   <Query query={getFileList}>
@@ -45,7 +50,7 @@ const Media = ({
       return (
         <Dropzone onDrop={handleLoad}>
           {({ getInputProps, getRootProps, isDragActive }) => (
-            <div className={style.Root} {...getRootProps()}>
+            <div {...getRootProps()} className={style.Root}>
               <div className={style.Container}>
                 <div className={style.Header}>
                   <Header count={list.length} />
@@ -60,7 +65,11 @@ const Media = ({
 
               {selectedId && preview && (
                 <div className={style.Sidebar}>
-                  <Preview {...preview} initialValues={preview} />
+                  <Preview
+                    {...preview}
+                    initialValues={preview}
+                    onSubmit={console.log}
+                  />
                 </div>
               )}
 
@@ -101,6 +110,7 @@ const Media = ({
 );
 
 const mapStateToProps: Function = (state: Object): Object => ({
+  hasSession: !isEmpty(getSession(state)),
   selectedId: getSelectedId(state),
 });
 
@@ -118,7 +128,7 @@ export default compose(
           refetchQueries: [{ query: getFileList }],
           variables: {
             extension: last(splittedFile),
-            name: splittedFile.slice(0, -1),
+            name: splittedFile.slice(0, -1).join('.'),
             size: file.size,
           },
         });

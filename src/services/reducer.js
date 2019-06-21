@@ -2,11 +2,11 @@ import { combineReducers } from 'redux';
 
 // Reducers
 import modals from './modals';
-// import session from './session';
+import session from './session';
 
 const servicesReducer = combineReducers({
   modals,
-  // session,
+  session,
 });
 
 export default (state = {}, action: Object) => {

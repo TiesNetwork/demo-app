@@ -1,12 +1,8 @@
 import { SET_SESSION } from './types';
 
-const initialState = {
-  address: localStorage.getItem('address'),
-  name: localStorage.getItem('name'),
-  privateKey: localStorage.getItem('privateKey'),
-};
+// const initialState = JSON.parse(localStorage.getItem('account') || '{}');
 
-export default (state = initialState, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case SET_SESSION:
       return {

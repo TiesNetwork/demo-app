@@ -1,3 +1,16 @@
+.Root {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.Container {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  max-height: calc(100% - 80px);
+}
+
 .Header {
   background: #feffff;
   box-shadow: 0 24px 52px rgba(0, 0, 0, .04);

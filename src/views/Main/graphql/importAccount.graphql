@@ -1,3 +1,6 @@
 mutation importAccount($json: String!, $password: String!) {
-  importAccount(json: $json, password: $password)
+  importAccount(json: $json, password: $password) {
+    address
+    privateKey
+  }
 }

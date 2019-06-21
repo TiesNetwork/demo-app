@@ -38,6 +38,7 @@ const MediaPreview = ({
   handleSubmit,
   name,
   size,
+  submit,
 }: MediaPreviewPropsType): React.Element<'div'> => (
   <div className={style.Root}>
     <form onSubmit={handleSubmit}>
@@ -98,17 +99,16 @@ export default compose(
   graphql(updateFile, { name: 'updateFile' }),
   reduxForm({
     form: 'fileForm',
-    enableReinitialize: true,
-    onSubmit: (
-      { id, description, name }: MediaPreviewValueType,
-      dispatch: Function,
-      { updateFile }: MediaPreviewPropsType,
-    ): void => {
-      updateFile({
-        refetchQueries: [{ query: getFileList }],
-        variables: { id, description, name },
-      });
-    },
+    // enableReinitialize: true,
+    // onSubmit: (
+    //   { id, description, name }: MediaPreviewValueType,
+    //   dispatch: Function,
+    //   { updateFile }: MediaPreviewPropsType,
+    // ): void => console.log,
+    // updateFile({
+    //   refetchQueries: [{ query: getFileList }],
+    //   variables: { id, description, name },
+    // }),
   }),
   withHandlers({
     handleDelete: ({

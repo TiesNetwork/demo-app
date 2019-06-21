@@ -1,62 +1,35 @@
 import { ApolloError } from 'apollo-server-express';
-import { omit, set, values } from 'lodash';
-import uuid from 'uuid/v5';
+import { omit, set } from 'lodash';
+import { Record } from 'tiesdb-client';
+import uuid from 'uuid/v4';
 import { number, object, string } from 'yup';
 
-let FILES = {
-  'b188cfd0-f673-4e18-8fdb-b6243f003c49': {
-    id: 'b188cfd0-f673-4e18-8fdb-b6243f003c49',
-    createdAt: '2019-06-15T11:32:41.674Z',
-    description: '123',
-    extension: 'jpg',
-    name: 'image',
-    owner: '0xad9f6a020fa81297b9cb29c271e3816f27c9331f',
-    size: 1621440,
-    tags: [
-      {
-        id: '43a624fb-4ef6-48bb-8fc5-dee45518b7f7',
-        color: 'DOWNY',
-        title: 'Awesome ✌️',
-      },
-      {
-        id: '43a624fb-4ef6-48bb-8fc5-dee45518b7f6',
-        color: 'BLUE',
-        title: 'Awesome ✌️',
-      },
-    ],
-    updatedAt: '2019-06-15T11:40:21.344Z',
-  },
-  'b188cfd0-f673-4e18-8fdb-b6243f003c48': {
-    id: 'b188cfd0-f673-4e18-8fdb-b6243f003c48',
-    createdAt: '2019-06-16T11:32:41.674Z',
-    extension: 'pdf',
-    name: 'offer',
-    owner: '0xad9f6a020fa81297b9cb29c271e3816f27c9331f',
-    size: 5621440,
-    tags: [
-      {
-        id: '43a624fb-4ef6-48bb-8fc5-dee45518b7f9',
-        color: 'ORANGE',
-        title: 'Employee',
-      },
-      {
-        id: '43a624fb-4ef6-48bb-8fc5-dee45518b7f3',
-        color: 'BLUE',
-        title: 'Awesome ✌️',
-      },
-      {
-        id: '43a624fb-4ef6-48bb-8fc5-dee45518b7f4',
-        color: 'BLUE',
-        title: 'Awesome ✌️',
-      },
-    ],
-    updatedAt: '2019-06-15T11:40:21.344Z',
-  },
-};
+// Database
+import DB from '../../database';
+
+// Models
+import File from '../../models/file';
+
+const SIGN = Buffer.from(
+  'f1d03dbc7ab2022506f7aa7c6f4897dfdee9bcd3d7416c50097767430d1b4513',
+  'hex',
+);
 
 export default {
   Query: {
-    getFileList: () => values(FILES),
+    getFileList: async () => {
+      const records = await DB.recollect(
+        'SELECT id, createdAt, extension, name, size  FROM "filestorage"."files"',
+      );
+
+      return records.map(record => ({
+        id: record.getValue('id'),
+        createdAt: record.getValue('createdAt').toISOString(),
+        extension: record.getValue('extension'),
+        name: record.getValue('name'),
+        size: record.getValue('size'),
+      }));
+    },
   },
   Mutation: {
     createFile: {
@@ -74,22 +47,23 @@ export default {
           .required('File size is required!'),
       }),
       resolve: async (root, { extension, name, size }) => {
-        // Generate UUID
-        const id = uuid(name, uuid.URL);
-        // Create new file
+        // Create a ties.db record
+        const record = new Record('filestorage', 'files');
+        // Generate id and file object
+        const id = uuid();
         const newFile = {
           id,
           extension,
-          name,
           size,
-          createdAt: new Date().toISOString(),
-          description: '',
-          tags: [],
-          updatedAt: new Date().toISOString(),
+          name,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         };
-        // Update list
-        set(FILES, `${id}`, newFile);
-        // Return new file
+
+        record.putFields(newFile, File);
+
+        const result = await DB.modify([record], SIGN);
+
         return newFile;
       },
     },
@@ -98,12 +72,20 @@ export default {
         id: string().required('ID is required!'),
       }),
       resolve: async (root, { id }) => {
-        if (!FILES[id]) {
-          throw new ApolloError('File does not exist!');
+        // Find the file in DB
+        const records = await DB.recollect(
+          `SELECT id FROM "filestorage"."files" WHERE id IN (${id})`,
+        );
+
+        // Throw error if file not exist
+        if (!records || records.length === 0) {
+          throw new ApolloError('File does not exist!', 'FILE_NOT_EXIST');
         }
 
-        // Delete file
-        FILES = omit(FILES, id);
+        // Mark record as delete
+        records[0].delete(['id']);
+        // Write rows
+        await DB.modify(records, SIGN);
 
         return true;
       },
@@ -117,14 +99,23 @@ export default {
           .required('File name is required!'),
       }),
       resolve: async (root, { id, description, name }) => {
-        if (!id || !FILES[id]) {
-          throw new ApolloError('File does not exist!');
+        console.log(123);
+        // Find the file in DB
+        const records = await DB.recollect(
+          `SELECT id, description, name FROM "filestorage"."files" WHERE id IN (${id})`,
+        );
+
+        if (!records || records.length === 0) {
+          throw new ApolloError('File does not exist!', 'FILE_NOT_EXIST');
         }
 
-        // Update file
-        description && set(FILES, `${id}.description`, description);
-        name && set(FILES, `${id}.name`, name);
+        description &&
+          records[0].putValue('description', description, File.description);
+        name && records[0].putValue('name', name, File.name);
 
+        // Write rows
+        const result = await DB.modify(records, SIGN);
+        console.log(result);
         return true;
       },
     },

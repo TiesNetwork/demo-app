@@ -1,3 +1,8 @@
+type Account {
+  address: String!
+  privateKey: String!
+}
+
 extend type Mutation {
-  importAccount(json: String!, password: String!): String!
+  importAccount(json: String!, password: String!): Account!
 }
