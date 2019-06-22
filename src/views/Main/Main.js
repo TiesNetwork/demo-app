@@ -5,7 +5,6 @@ import { Route, Switch } from 'react-router-dom';
 import Modal from '@components/Modal';
 
 // Containers
-import Account from './containers/Account';
 import Form from './containers/Form';
 
 // Ducks
@@ -28,10 +27,6 @@ type MainPropsType = {
 
 const Main = ({ match }: MainPropsType): React.Element<typeof Switch> => (
   <div className={style.Root}>
-    <div className={style.Header}>
-      <Account />
-    </div>
-
     <div className={style.Container}>
       <Switch>
         <Route component={Media} path={resolveUrl(match.url, '/')} />
@@ -39,7 +34,8 @@ const Main = ({ match }: MainPropsType): React.Element<typeof Switch> => (
     </div>
 
     <Modal
-      classNames={{ container: style.Modal }} id={MAIN_ACCOUNT_MODAL_ID}
+      classNames={{ container: style.Modal }}
+      id={MAIN_ACCOUNT_MODAL_ID}
       title="Authorization"
     >
       <Form />

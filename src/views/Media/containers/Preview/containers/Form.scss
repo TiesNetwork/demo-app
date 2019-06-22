@@ -1,0 +1,10 @@
+
+.Actions {
+  display: flex;
+  margin: 40px -8px 0;
+
+  & > * {
+    flex: 0 0 calc(50% - 16px);
+    margin: 0 8px;
+  }
+}

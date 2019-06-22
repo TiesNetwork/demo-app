@@ -49,6 +49,7 @@ export default {
       resolve: async (root, { extension, name, size }) => {
         // Create a ties.db record
         const record = new Record('filestorage', 'files');
+
         // Generate id and file object
         const id = uuid();
         const newFile = {
@@ -60,9 +61,10 @@ export default {
           updatedAt: new Date(),
         };
 
+        // Update record
         record.putFields(newFile, File);
-
-        const result = await DB.modify([record], SIGN);
+        // Push to DB
+        await DB.modify([record], SIGN);
 
         return newFile;
       },
@@ -84,7 +86,8 @@ export default {
 
         // Mark record as delete
         records[0].delete(['id']);
-        // Write rows
+
+        // Push to DB
         await DB.modify(records, SIGN);
 
         return true;
@@ -95,11 +98,10 @@ export default {
         id: string().required('ID is required!'),
         name: string()
           // eslint-disable-next-line
-          .matches(/^[A-z0-9]+$/, 'File name is not correct!')
+          .matches(/^[A-z0-9-_]+$/, 'File name is not correct!')
           .required('File name is required!'),
       }),
       resolve: async (root, { id, description, name }) => {
-        console.log(123);
         // Find the file in DB
         const records = await DB.recollect(
           `SELECT id, description, name FROM "filestorage"."files" WHERE id IN (${id})`,
@@ -109,13 +111,14 @@ export default {
           throw new ApolloError('File does not exist!', 'FILE_NOT_EXIST');
         }
 
+        // Update description & name
         description &&
           records[0].putValue('description', description, File.description);
         name && records[0].putValue('name', name, File.name);
 
-        // Write rows
-        const result = await DB.modify(records, SIGN);
-        console.log(result);
+        // Push to DB
+        await DB.modify(records, SIGN);
+
         return true;
       },
     },

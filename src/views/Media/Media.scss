@@ -1,4 +1,5 @@
 .Root {
+  background: #f8f9fb;
   display: flex;
   flex: 1 1 auto;
 }
@@ -103,7 +104,9 @@
 }
 
 .Sidebar {
-  border-left: 1px solid #e9edf0;
-  flex: 0 0 320px;
-  width: 320px;
+  background: #fff;
+  // border-left: 1px solid #e9edf0;
+  box-shadow: -4px 0 4px rgba(#0a1f44, .1);
+  flex: 0 0 336px;
+  width: 336px;
 }

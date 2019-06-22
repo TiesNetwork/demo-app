@@ -3,16 +3,6 @@
   padding: 24px;
 }
 
-.Actions {
-  display: flex;
-  margin: 40px -8px 0;
-
-  & > * {
-    flex: 0 0 calc(50% - 16px);
-    margin: 0 8px;
-  }
-}
-
 .Button {
   align-items: center;
   background: transparent;
@@ -38,6 +28,15 @@
   }
 }
 
+.Close {
+  background: transparent;
+  border: 0;
+  color: #a6aebc;
+  font-size: 20px;
+  height: 24px;
+  width: 24px;
+}
+
 .Description {
   font-size: 14px !important;
   min-height: 80px;
@@ -57,9 +56,17 @@
   }
 }
 
+.Header {
+  display: flex;
+  font-size: 20px;
+  font-weight: 500;
+  justify-content: space-between;
+}
+
 .Info {
   border-bottom: 1px solid #E9EDF0;
-  margin: 0 0 20px;
+  border-top: 1px solid #E9EDF0;
+  margin: 20px 0;
   padding: 20px 0;
 }
 
@@ -90,10 +97,10 @@
 
 .Preview {
   border-radius: 6px;
-  height: 272px;
+  height: 292px;
   margin: 20px 0 0;
   overflow: hidden;
-  width: 272px;
+  width: 292px;
 
   &Content {
     max-height: 100%;

@@ -1,0 +1,118 @@
+.Root {
+  border-radius: 4px;
+  font-family: inherit;
+  text-align: center;
+
+  &Color {
+    &Alert {
+      &.RootVariantDefault {
+        background: #ffad0d;
+        color: #fff;
+
+        &:hover {
+          background: #e19b13;
+        }
+      }
+
+      &.RootVariantOutline {
+        background: transparent;
+        color: #f07300;
+
+        &:hover {
+          background: #fffcf5;
+        }
+      }
+    }
+
+    &Danger {
+      &.RootVariantDefault {
+        background: #f03d3d;
+        color: #fff;
+
+        &:hover {
+          background: #d3393d;
+        }
+      }
+
+      &.RootVariantOutline {
+        background: transparent;
+        border-color: #f03d3d;
+        color: #dd2727;
+
+        &:hover {
+          background: #fff8f8;
+        }
+      }
+    }
+
+    &Primary {
+      &.RootVariantDefault {
+        background: #0c66ff;
+        color: #fff;
+
+        &:hover {
+          background: #0b5de8;
+        }
+      }
+
+      &.RootVariantOutline {
+        background: transparent;
+        border-color: #0c66ff;
+        color: #0d55cf;
+
+        &:hover {
+          background: #f5faff;
+        }
+      }
+    }
+
+    &Success {
+      &.RootVariantDefault {
+        background: #0bb07b;
+        color: #fff;
+
+        &:hover {
+          background: #0a9e74;
+        }
+      }
+
+      &.RootVariantOutline {
+        background: transparent;
+        border-color: #0bb07b;
+        color: #00865a;
+
+        &:hover {
+          background: #eafcf7;
+        }
+      }
+    }
+  }
+
+  &Size {
+    &Default {
+      font-size: 14px;
+      height: 48px;
+      min-width: 136px;
+    }
+
+    &Small {
+      font-size: 12px;
+      height: 32px;
+      min-width: 104px;
+    }
+  }
+
+  &Variant {
+    &Default {
+      border: 0;
+    }
+
+    &Outline {
+      border: 1px solid #000;
+    }
+  }
+}
+
+.Icon {
+  margin: 0 8px 0 0;
+}

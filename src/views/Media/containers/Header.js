@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import * as React from 'react';
 
 // Style
@@ -14,20 +13,6 @@ const MediaHeader = ({ count }: MediaHeaderType): React.Element<'div'> => (
           {`(${count} media item${count > 1 ? 's' : ''})`}
         </div>
       )}
-    </div>
-
-    <div className={style.Right}>
-      <div className={style.View}>
-        <button
-          className={classNames(style.ViewButton, style.ViewButtonGrid)}
-          type="button"
-        />
-
-        <button
-          className={classNames(style.ViewButton, style.ViewButtonTable)}
-          type="button"
-        />
-      </div>
     </div>
   </div>
 );

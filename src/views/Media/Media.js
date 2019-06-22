@@ -1,7 +1,6 @@
 import { get, isEmpty, last } from 'lodash';
 import * as React from 'react';
 import { Query, graphql } from 'react-apollo';
-import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 import { compose, withHandlers } from 'recompose';
@@ -48,62 +47,25 @@ const Media = ({
         selectedId && list.find(({ id }): boolean => id === selectedId);
 
       return (
-        <Dropzone onDrop={handleLoad}>
-          {({ getInputProps, getRootProps, isDragActive }) => (
-            <div {...getRootProps()} className={style.Root}>
-              <div className={style.Container}>
-                <div className={style.Header}>
-                  <Header count={list.length} />
-                </div>
+        <div className={style.Root}>
+          <div className={style.Container}>
+            <div className={style.Header}>
+              <Header count={list.length} />
+            </div>
 
-                {list && list.length > 0 && (
-                  <div className={style.List}>
-                    <List data={list} />
-                  </div>
-                )}
+            {list && list.length > 0 && (
+              <div className={style.List}>
+                <List data={list} />
               </div>
+            )}
+          </div>
 
-              {selectedId && preview && (
-                <div className={style.Sidebar}>
-                  <Preview
-                    {...preview}
-                    initialValues={preview}
-                    onSubmit={console.log}
-                  />
-                </div>
-              )}
-
-              <CSSTransition
-                classNames={{
-                  enter: style.DragAnimateEnter,
-                  enterActive: style.DragAnimateEnterActive,
-                  exit: style.DragAnimateExit,
-                  exitActive: style.DragAnimateExitActive,
-                }}
-                in={isDragActive}
-                timeout={400}
-                unmountOnExit
-              >
-                <div className={style.Drag}>
-                  <div className={style.DragContent}>
-                    <div className={style.DragIcon}>
-                      <i className="fas fa-cloud-upload" />
-                    </div>
-
-                    <div className={style.DragTitle}>
-                      {`Drag and drop, or `}
-                      <label className={style.DragLabel} htmlFor="file">
-                        browse
-                        <input {...getInputProps()} id="file" />
-                      </label>
-                      {' files!'}
-                    </div>
-                  </div>
-                </div>
-              </CSSTransition>
+          {selectedId && preview && (
+            <div className={style.Sidebar}>
+              <Preview {...preview} />
             </div>
           )}
-        </Dropzone>
+        </div>
       );
     }}
   </Query>
@@ -136,3 +98,34 @@ export default compose(
     },
   }),
 )(Media);
+
+// <Dropzone onDrop={handleLoad}>
+//   {({ getInputProps, getRootProps, isDragActive }) => (
+//  <CSSTransition
+//                 classNames={{
+//                   enter: style.DragAnimateEnter,
+//                   enterActive: style.DragAnimateEnterActive,
+//                   exit: style.DragAnimateExit,
+//                   exitActive: style.DragAnimateExitActive,
+//                 }}
+//                 in={isDragActive}
+//                 timeout={400}
+//                 unmountOnExit
+//               >
+//                 <div className={style.Drag}>
+//                   <div className={style.DragContent}>
+//                     <div className={style.DragIcon}>
+//                       <i className="fas fa-cloud-upload" />
+//                     </div>
+
+//                     <div className={style.DragTitle}>
+//                       {`Drag and drop, or `}
+//                       <label className={style.DragLabel} htmlFor="file">
+//                         browse
+//                         <input {...getInputProps()} id="file" />
+//                       </label>
+//                       {' files!'}
+//                     </div>
+//                   </div>
+//                 </div>
+//               </CSSTransition>

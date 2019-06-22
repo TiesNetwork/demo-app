@@ -1,4 +1,4 @@
-.Input {
+.Textarea {
   background: transparent;
   border: 1px solid #e1e4e8;
   border-radius: 4px;
@@ -6,7 +6,9 @@
   font-size: 14px;
   font-weight: 400;
   height: 48px;
-  padding: 0 12px;
+  min-height: 88px;
+  padding: 12px;
+  resize: none;
   width: 100%;
 
   &:focus {
