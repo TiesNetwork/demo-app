@@ -1,0 +1,40 @@
+.Root {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.Actions {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 0;
+
+  & > *:not(:first-child) {
+    margin: 0 0 0 16px;
+  }
+}
+
+.Description {
+  color: #8a94a6;
+  text-align: center;
+}
+
+.Icon {
+  color: #a6aebc;
+  font-size: 140px;
+  left: 20px;
+  position: relative;
+}
+
+.Logo {
+  display: flex;
+  justify-content: center;
+}
+
+.Title {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 40px 0 0;
+  text-align: center;
+}
