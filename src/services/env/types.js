@@ -1,0 +1,1 @@
+export const SET_LOCALE = 'SERVICES/ENV/SET_LOCALE';

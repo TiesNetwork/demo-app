@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { Connection } from 'tiesdb-client';
 
 class Database {
@@ -13,13 +14,19 @@ class Database {
   }
 
   async modify(records: Array, pk: string) {
-    console.log(123, this.connection.connection.connected);
+    const isConnected = get(this, 'connection.connection.connected');
+
+    !isConnected && (await this.connect());
+
     const result = await this.connection.modify(records, pk);
     return result;
   }
 
   async recollect(query: string) {
-    console.log(456, this.connection.connection.connected);
+    const isConnected = get(this, 'connection.connection.connected');
+
+    !isConnected && (await this.connect());
+
     const records = await this.connection.recollect(query);
     return records;
   }

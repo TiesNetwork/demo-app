@@ -7,6 +7,7 @@ import { compose, withHandlers } from 'recompose';
 
 // Components
 import Button from '@components/Button';
+import Language from './components/Language';
 
 // Containers
 import AccountList from './containers/AccountList';
@@ -59,47 +60,53 @@ const Main = ({
     <div className={style.Header}>
       <div className={style.Logo} />
 
-      <div className={style.Actions}>
-        {hasAccount ? (
-          <React.Fragment>
-            <Button
-              color="primary"
-              icon={hasSession ? 'fas fa-user' : 'fas fa-lock-alt'}
-              onClick={handleShowAccounts}
-              variant="outline"
-            >
-              <FormattedMessage
-                defaultMessage={hasSession ? 'Accounts' : 'Select account'}
-                id={
-                  hasSession ? 'main.actions.accounts' : 'main.actions.select'
-                }
-              />
-            </Button>
-
-            {hasSession && (
+      <div className={style.HeaderRight}>
+        <div className={style.Actions}>
+          {hasAccount ? (
+            <React.Fragment>
               <Button
-                color="success"
-                icon="fas fa-cloud-upload"
-                onClick={handleUpload}
+                color="primary"
+                icon={hasSession ? 'fas fa-user' : 'fas fa-lock-alt'}
+                onClick={handleShowAccounts}
+                variant="outline"
               >
                 <FormattedMessage
-                  defaultMessage="Upload file"
-                  id="main.actions.upload"
+                  defaultMessage={hasSession ? 'Accounts' : 'Select account'}
+                  id={
+                    hasSession ? 'main.actions.accounts' : 'main.actions.select'
+                  }
                 />
               </Button>
-            )}
-          </React.Fragment>
-        ) : (
-          <Button
-            color="primary" icon="fas fa-user"
-            onClick={handleImport}
-          >
-            <FormattedMessage
-              defaultMessage="Import account"
-              id="main.actions.import"
-            />
-          </Button>
-        )}
+
+              {hasSession && (
+                <Button
+                  color="success"
+                  icon="fas fa-cloud-upload"
+                  onClick={handleUpload}
+                >
+                  <FormattedMessage
+                    defaultMessage="Upload file"
+                    id="main.actions.upload"
+                  />
+                </Button>
+              )}
+            </React.Fragment>
+          ) : (
+            <Button
+              color="primary" icon="fas fa-user"
+              onClick={handleImport}
+            >
+              <FormattedMessage
+                defaultMessage="Import account"
+                id="main.actions.import"
+              />
+            </Button>
+          )}
+        </div>
+
+        <div className={style.Language}>
+          <Language />
+        </div>
       </div>
     </div>
 

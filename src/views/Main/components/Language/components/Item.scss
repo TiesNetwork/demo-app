@@ -1,0 +1,72 @@
+.Root {
+  display: flex;
+  flex: 0 0 32px;
+  flex-direction: column;
+  height: 32px;
+  opacity: .6;
+  width: 32px;
+
+  &Is {
+    &Disabled {
+      filter: grayscale(100);
+      opacity: .4;
+      pointer-events: none;
+    }
+
+    &Selected {
+      opacity: 1;
+      pointer-events: none;
+    }
+  }
+
+  &Variant {
+    &Ch {
+      .Logo {
+        background-image: url('~@assets/flags/ch.svg');
+      }
+    }
+
+    &En {
+      .Logo {
+        background-image: url('~@assets/flags/en.svg');
+      }
+    }
+
+    &Es {
+      .Logo {
+        background-image: url('~@assets/flags/es.svg');
+      }
+    }
+
+    &Fr {
+      .Logo {
+        background-image: url('~@assets/flags/fr.svg');
+      }
+    }
+
+    &Pt {
+      .Logo {
+        background-image: url('~@assets/flags/pt.svg');
+      }
+    }
+
+    &Ru {
+      .Logo {
+        background-image: url('~@assets/flags/ru.svg');
+      }
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
+}
+
+.Logo {
+  background: transparent no-repeat center center;
+  background-size: contain;
+  border-radius: 100%;
+  height: 32px;
+  width: 32px;
+}

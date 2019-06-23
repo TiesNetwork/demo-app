@@ -1,7 +1,7 @@
 export default {
   // Main
   'main.actions.accounts': 'Аккаунты',
-  'main.actions.import': 'Импортировать',
+  'main.actions.import': 'Добавить аккаунт',
   'main.actions.select': 'Выбрать аккаунт',
   'main.actions.upload': 'Загрузить файл',
 
