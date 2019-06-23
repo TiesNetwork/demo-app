@@ -5,7 +5,7 @@
     .rt-td {
       align-items: center;
       border: 0;
-      color: var(--color-text);
+      color: #0a1f44;
       display: flex;
       font-size: 14px;
       padding: 0 16px;
@@ -39,6 +39,18 @@
 
       &.-header {
         box-shadow: none;
+      }
+    }
+  }
+}
+
+.Row {
+  &Is {
+    &Selected {
+      background: #ebf5ff;
+
+      :global .rt-td {
+        color: #007fff !important;
       }
     }
   }

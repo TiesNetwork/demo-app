@@ -1,19 +1,16 @@
-const childProcess = require('child_process');
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
 const url = require('url');
 
-// const Database = require('../server/database');
 const menu = require('./menu');
-// const server = require('../server');
 
 let mainWindow;
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
     height: 720,
-    // icon: path.join(__dirname, './../build/icon.icns'),
+    icon: path.join(__dirname, './../build/icon-ties.icns'),
     title: 'Ties.DB',
     width: 1280,
   });
@@ -38,8 +35,10 @@ const createWindow = () => {
 
 app.on('activate', () => mainWindow === null && createWindow());
 app.on('ready', async () => {
-  childProcess.exec('yarn start:server');
   createWindow();
+  // eslint-disable-next-line
+  require(path.join(__dirname, './../build/server/start.js'));
+  // childProcess.exec('yarn start:server');
 });
 app.on('window-all-closed', () => process.platform !== 'darwin' && app.quit());
 

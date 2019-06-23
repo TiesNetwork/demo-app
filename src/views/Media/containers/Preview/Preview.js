@@ -76,6 +76,13 @@ const MediaPreview = ({
     </div>
 
     <div className={style.Info}>
+      {!isOwner && (
+        <Field
+          label="media.preview.field.name"
+          value={`${name}.${extension}`}
+        />
+      )}
+
       <Field label="media.preview.field.type" value={extension.toUpperCase()} />
       <Field
         label="media.preview.field.size"

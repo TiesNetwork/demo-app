@@ -45,6 +45,7 @@ export default {
   'media.preview.title': 'Просмотр файла',
   // Media preview fields
   'media.preview.field.createdAt': 'Дата создания',
+  'media.preview.field.name': 'Название',
   'media.preview.field.owner': 'Владелец',
   'media.preview.field.size': 'Размер',
   'media.preview.field.type': 'Тип',

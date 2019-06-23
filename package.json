@@ -19,6 +19,7 @@
     "babel-plugin-import-graphql": "^2.7.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-named-asset-import": "^0.3.2",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-react-app": "^9.0.0",
     "camelcase": "^5.2.0",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
@@ -67,6 +68,7 @@
     "postcss-normalize": "7.0.1",
     "postcss-preset-env": "6.6.0",
     "postcss-safe-parser": "4.0.1",
+    "prettier": "^1.18.2",
     "pretty-bytes": "^5.2.0",
     "react": "^16.8.6",
     "react-apollo": "^2.5.6",
@@ -90,7 +92,9 @@
     "style-loader": "0.23.1",
     "terser-webpack-plugin": "1.2.3",
     "tiesdb-client": "https://github.com/TiesNetwork/ties.db-client-nodejs",
+    "ts-loader": "^6.0.4",
     "ts-pnp": "1.1.2",
+    "typescript": "^3.5.2",
     "url-loader": "1.1.2",
     "uuid": "^3.3.2",
     "webpack": "4.29.6",
@@ -107,9 +111,10 @@
     "start:electron": "node app/react.js",
     "start:react": "node scripts/start.js",
     "start:server": "nodemon --exec \"eslint --fix . && NODE_ENV=development BABEL_ENV=development BABEL_DISABLE_CACHE=1 babel-node server/start.js --config-file ./server/.babelrc\"",
-    "build": "node scripts/build.js",
+    "build:react": "node scripts/build.js",
+    "build:server": "babel server/ --out-dir build/server --config-file ./server/.babelrc",
     "test": "node scripts/test.js",
-    "dist": "yarn build && build",
+    "dist": "yarn build:react && yarn build:server && build",
     "pack": "build --dir"
   },
   "eslintConfig": {
@@ -194,23 +199,23 @@
   },
   "main": "app/start.js",
   "build": {
-    "appId": "com.oasis.schema-designer",
+    "appId": "com.ties.filestorage",
     "directories": {
       "buildResources": "."
     },
     "files": [
       "**/*",
-      "build/icon.*"
+      "build/icon-ties.*"
     ],
-    "productName": "Oasis",
+    "productName": "Ties.DB",
     "dmg": {
-      "icon": "build/icon.icns"
+      "icon": "build/icon-ties.icns"
     },
     "mac": {
-      "icon": "build/icon.icns"
+      "icon": "build/icon-ties.icns"
     },
     "win": {
-      "icon": "build/icon.png"
+      "icon": "build/icon-ties.png"
     }
   },
   "homepage": "./"

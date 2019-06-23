@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { get } from 'lodash';
 import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
@@ -11,7 +12,7 @@ import Name from './components/Name';
 import Tags from './components/Tags';
 
 // Entities
-import { setSelectedId } from '@views/Media/ducks/actions';
+import { getSelectedId, setSelectedId } from '@views/Media/ducks';
 
 // Style
 import 'react-table/react-table.css';
@@ -64,6 +65,7 @@ const COLUMNS = [
 
 const MediaTable = ({
   data = [],
+  selectedId,
   setSelectedId,
 }: MediaTableType): React.Element<'div'> => (
   <div className={style.Root}>
@@ -72,6 +74,9 @@ const MediaTable = ({
       data={data}
       defaultPageSize={100000}
       getTrProps={(root, { original }): Function => ({
+        className: classNames(style.Row, {
+          [style.RowIsSelected]: get(original, 'id') === selectedId,
+        }),
         onClick: () => setSelectedId(get(original, 'id')),
       })}
       minRows={0}
@@ -81,8 +86,12 @@ const MediaTable = ({
   </div>
 );
 
+const mapStateToProps: Function = (state: Object) => ({
+  selectedId: getSelectedId(state),
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { setSelectedId },
 )(MediaTable);
 

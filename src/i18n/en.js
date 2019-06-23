@@ -45,6 +45,7 @@ export default {
   'media.preview.title': 'File Preview',
   // Media preview fields
   'media.preview.field.createdAt': 'Created date',
+  'media.preview.field.name': 'Name',
   'media.preview.field.owner': 'Owner',
   'media.preview.field.size': 'Size',
   'media.preview.field.type': 'Type',
