@@ -10,18 +10,13 @@ import DB from '../../database';
 // Models
 import File from '../../models/file';
 
-const SIGN = Buffer.from(
-  'f1d03dbc7ab2022506f7aa7c6f4897dfdee9bcd3d7416c50097767430d1b4513',
-  'hex',
-);
-
 export default {
   Query: {
-    getFileList: async () => {
+    getFileList: async (...args) => {
       const records = await DB.recollect(
         'SELECT id, createdAt, extension, name, size  FROM "filestorage"."files"',
       );
-
+      // console.log(args);
       return records.map(record => ({
         id: record.getValue('id'),
         createdAt: record.getValue('createdAt').toISOString(),
@@ -47,7 +42,7 @@ export default {
           .lessThan(8388608, 'File size must be less than 8mb!')
           .required('File size is required!'),
       }),
-      resolve: async (root, { extension, name, size }) => {
+      resolve: async (root, { extension, name, size }, { privateKey }) => {
         // Create a ties.db record
         const record = new Record('filestorage', 'files');
 
@@ -65,7 +60,7 @@ export default {
         // Update record
         record.putFields(newFile, File);
         // Push to DB
-        await DB.modify([record], SIGN);
+        await DB.modify([record], Buffer.from(privateKey, 'hex'));
 
         return newFile;
       },
@@ -74,7 +69,7 @@ export default {
       validation: object().shape({
         id: string().required('ID is required!'),
       }),
-      resolve: async (root, { id }) => {
+      resolve: async (root, { id }, { privateKey }) => {
         // Find the file in DB
         const records = await DB.recollect(
           `SELECT id FROM "filestorage"."files" WHERE id IN (${id})`,
@@ -89,7 +84,7 @@ export default {
         records[0].delete(['id']);
 
         // Push to DB
-        await DB.modify(records, SIGN);
+        await DB.modify(records, Buffer.from(privateKey, 'hex'));
 
         return true;
       },
@@ -102,7 +97,8 @@ export default {
           .matches(/^[A-z0-9-_]+$/, 'File name is not correct!')
           .required('File name is required!'),
       }),
-      resolve: async (root, { id, description, name }) => {
+      resolve: async (root, { id, description, name }, { privateKey }) => {
+        console.log(privateKey);
         // Find the file in DB
         const records = await DB.recollect(
           `SELECT id, description, name FROM "filestorage"."files" WHERE id IN (${id})`,
@@ -118,7 +114,7 @@ export default {
         name && records[0].putValue('name', name, File.name);
 
         // Push to DB
-        await DB.modify(records, SIGN);
+        await DB.modify(records, Buffer.from(privateKey, 'hex'));
 
         return true;
       },

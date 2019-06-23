@@ -20,7 +20,7 @@ import { deleteAccount, getAccountList } from '@entities/accounts';
 
 // Services
 import { openModal } from '@services/modals';
-import { getSession } from '@services/session';
+import { getSession, setSession } from '@services/session';
 
 // Style
 import style from './AccountList.scss';
@@ -78,11 +78,15 @@ const mapStateToProps = (state: Object) => ({
 export default compose(
   connect(
     mapStateToProps,
-    { deleteAccount, openModal },
+    { deleteAccount, openModal, setSession },
   ),
   withHandlers({
-    handleDelete: ({ deleteAccount }): Function => (address: string): void =>
-      deleteAccount(address),
+    handleDelete: ({ deleteAccount, session }): Function => (
+      address: string,
+    ): void => {
+      address === session.address && setSession({});
+      deleteAccount(address);
+    },
     handleImport: ({ openModal }): Function => (): void =>
       openModal(MAIN_IMPORT_ACCOUNT_MODAL_ID),
     handleSelect: ({ openModal }): Function => (address: string): void =>

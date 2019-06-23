@@ -1,6 +1,7 @@
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import Express from 'express';
 import { applyMiddleware } from 'graphql-middleware';
+import { get } from 'lodash';
 
 // GraphQL
 // import createContext from './context';
@@ -21,6 +22,9 @@ const createServer: Function = (app: Express): ApolloServer => {
 
   // Create Apollo Server 2.0
   const server = new ApolloServer({
+    context: ({ req }) => ({
+      privateKey: get(req, 'headers.authorization'),
+    }),
     introspection: true,
     playground: true,
     schema: schemaWithMiddleware,

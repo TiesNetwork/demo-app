@@ -6,6 +6,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 
+// Services
+import { getPrivateKey } from '@services/session';
+
 // Store
 import createStore from './store';
 
@@ -15,8 +18,19 @@ import * as serviceWorker from '@utils/serviceWorker';
 // Views
 import App from './App';
 
-const client = new ApolloClient({ uri: 'http://localhost:3001/graphql' });
 const { persistor, store } = createStore();
+const client = new ApolloClient({
+  request: (operation: Object): void => {
+    const state: Object = store.getState();
+
+    operation.setContext({
+      headers: {
+        authorization: getPrivateKey(state),
+      },
+    });
+  },
+  uri: 'http://localhost:3001/graphql',
+});
 
 ReactDOM.render(
   <ApolloProvider client={client}>

@@ -19,6 +19,9 @@ import {
 } from './ducks';
 import { MEDIA_UPLOAD_MODAL_ID } from '@views/Media/ducks';
 
+// Entities
+import { getAccountList } from '@entities/accounts';
+
 // Services
 import { openModal } from '@services/modals';
 import { getSession } from '@services/session';
@@ -36,6 +39,7 @@ type MainPropsType = {
   handleShowAccounts: Function,
   handleImport: Function,
   handleUpload: Function,
+  hasAccount: boolean,
   hasSession: boolean,
   match: {
     url: string,
@@ -46,6 +50,7 @@ const Main = ({
   handleShowAccounts,
   handleImport,
   handleUpload,
+  hasAccount,
   hasSession,
   match,
 }: MainPropsType): React.Element<typeof Switch> => (
@@ -54,24 +59,26 @@ const Main = ({
       <div className={style.Logo} />
 
       <div className={style.Actions}>
-        {hasSession ? (
+        {hasAccount ? (
           <React.Fragment>
             <Button
               color="primary"
-              icon="fas fa-user"
+              icon={hasSession ? 'fas fa-user' : 'fas fa-lock-alt'}
               onClick={handleShowAccounts}
               variant="outline"
             >
-              Accounts
+              {hasSession ? 'Accounts' : 'Select account'}
             </Button>
 
-            <Button
-              color="success"
-              icon="fas fa-cloud-upload"
-              onClick={handleUpload}
-            >
-              Upload file
-            </Button>
+            {hasSession && (
+              <Button
+                color="success"
+                icon="fas fa-cloud-upload"
+                onClick={handleUpload}
+              >
+                Upload file
+              </Button>
+            )}
           </React.Fragment>
         ) : (
           <Button
@@ -97,6 +104,7 @@ const Main = ({
 );
 
 const mapStateToProps = (state: Object) => ({
+  hasAccount: getAccountList(state).length > 0,
   hasSession: !isEmpty(getSession(state)),
 });
 

@@ -17,7 +17,7 @@ export default {
           const address = get(parsedJson, 'address').toLowerCase();
           const privateKey = nodeEth.recoverPrivateKey(password, parsedJson);
 
-          return { address, privateKey };
+          return { address, privateKey: privateKey.replace('0x', '') };
         } catch (e) {
           throw new ApolloError('Password not match!', 'INVALID_PASSWORD', {
             key: 'password',
