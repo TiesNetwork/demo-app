@@ -14,7 +14,7 @@ export default {
         try {
           const parsedJson = JSON.parse(json);
 
-          const address = get(parsedJson, 'address');
+          const address = get(parsedJson, 'address').toLowerCase();
           const privateKey = nodeEth.recoverPrivateKey(password, parsedJson);
 
           return { address, privateKey };

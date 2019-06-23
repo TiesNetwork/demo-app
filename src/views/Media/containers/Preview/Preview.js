@@ -20,6 +20,9 @@ import deleteFile from '@views/Media/graphql/deleteFile.graphql';
 import getFileList from '@views/Media/graphql/getFileList.graphql';
 import updateFile from '@views/Media/graphql/updateFile.graphql';
 
+// Services
+import { isOwner } from '@services/session';
+
 // Style
 import style from './Preview.scss';
 
@@ -72,24 +75,33 @@ const MediaPreview = ({
         label="Created date"
         value={moment(createdAt).format('MMM DD, YYYY')}
       />
-      <Field label="Owner" value={<Owner value={owner} />} />
+      <Field label="Owner" value={<Owner address={owner} isOwner={isOwner}  />} />
     </div>
 
-    <div className={style.Form}>
-      <Form
-        extension={extension}
-        form={`file-${id}-form`}
-        initialValues={{ id, description, name }}
-        onDelete={handleDelete}
-        onSubmit={handleSubmit}
-      />
-    </div>
+    {isOwner && (
+      <div className={style.Form}>
+        <Form
+          extension={extension}
+          form={`file-${id}-form`}
+          initialValues={{ id, description, name }}
+          onDelete={handleDelete}
+          onSubmit={handleSubmit}
+        />
+      </div>
+    )}
   </div>
 );
 
+const mapStateToProps: Function = (
+  state: Object,
+  { owner }: MediaPreviewPropsType,
+) => ({
+  isOwner: isOwner(state, owner),
+});
+
 export default compose(
   connect(
-    null,
+    mapStateToProps,
     { setSelectedId },
   ),
   graphql(deleteFile, { name: 'deleteFile' }),
