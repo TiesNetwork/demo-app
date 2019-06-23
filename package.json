@@ -80,6 +80,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-form": "^8.2.4",
+    "redux-persist": "^5.10.0",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "semver": "6.0.0",

@@ -1,0 +1,74 @@
+.Root {
+  align-items: center;
+  display: flex;
+  height: 72px;
+  padding: 24px;
+
+  &:hover {
+    background: #f8f9fb;
+    cursor: pointer;
+  }
+
+  &:not(:first-child) {
+    border-top: 1px solid #e1e4e8;
+  }
+
+  &Is {
+    &Selected {
+      background: #f5faff;
+      border-color: #99ccff;
+
+      .Address {
+        color: #99ccff;
+      }
+
+      .Name {
+        color: #007fff;
+      }
+    }
+  }
+}
+
+.Actions {
+  flex: 0 0 104px;
+  width: 104px;
+}
+
+.Address {
+  color: #8a94a6;
+  font-size: 12px;
+  line-height: 14px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Avatar {
+  align-items: center;
+  background: #fff;
+  border-radius: 100%;
+  display: flex;
+  flex: 0 0 40px;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
+
+.Icon {
+  background: transparent url('~@assets/logo.svg') no-repeat center center;
+  background-size: contain;
+  height: calc(100% - 12px);
+  width: calc(100% - 12px);
+}
+
+.Info {
+  flex: 1 1 auto;
+  margin: 0 16px;
+  max-width: calc(100% - 176px);
+}
+
+.Name {
+  font-size: 16px;
+  font-weight: 500;
+}

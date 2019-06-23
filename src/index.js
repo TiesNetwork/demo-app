@@ -4,6 +4,7 @@ import { ApolloProvider } from 'react-apollo';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
 
 // Store
 import createStore from './store';
@@ -15,14 +16,16 @@ import * as serviceWorker from '@utils/serviceWorker';
 import App from './App';
 
 const client = new ApolloClient({ uri: 'http://localhost:3001/graphql' });
-const store = createStore();
+const { persistor, store } = createStore();
 
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   </ApolloProvider>,
   document.getElementById('root'),

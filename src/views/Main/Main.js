@@ -8,10 +8,14 @@ import { compose, withHandlers } from 'recompose';
 import Button from '@components/Button';
 
 // Containers
+import AccountList from './containers/AccountList';
 import Import from './containers/Import';
 
 // Ducks
-import { MAIN_IMPORT_ACCOUNT_MODAL_ID } from './ducks';
+import {
+  MAIN_ACCOUNT_LIST_MODAL_ID,
+  MAIN_IMPORT_ACCOUNT_MODAL_ID,
+} from './ducks';
 import { MEDIA_UPLOAD_MODAL_ID } from '@views/Media/ducks';
 
 // Services
@@ -28,7 +32,8 @@ import { resolveUrl } from '@utils';
 import Media from '@views/Media';
 
 type MainPropsType = {
-  handleLogin: Function,
+  handleShowAccounts: Function,
+  handleImport: Function,
   handleUpload: Function,
   hasSession: boolean,
   match: {
@@ -37,7 +42,8 @@ type MainPropsType = {
 };
 
 const Main = ({
-  handleLogin,
+  handleShowAccounts,
+  handleImport,
   handleUpload,
   hasSession,
   match,
@@ -45,33 +51,35 @@ const Main = ({
   <div className={style.Root}>
     <div className={style.Header}>
       <div className={style.Logo} />
-      {console.log(hasSession)}
-      <div className={style.Actions}>
-        <Button
-          color="primary"
-          icon="fas fa-user"
-          onClick={handleUpload}
-          variant="outline"
-        >
-          Accounts
-        </Button>
 
-        {hasSession && (
+      <div className={style.Actions}>
+        {hasSession ? (
+          <React.Fragment>
+            <Button
+              color="primary"
+              icon="fas fa-user"
+              onClick={handleShowAccounts}
+              variant="outline"
+            >
+              Accounts
+            </Button>
+
+            <Button
+              color="success"
+              icon="fas fa-cloud-upload"
+              onClick={handleUpload}
+            >
+              Upload file
+            </Button>
+          </React.Fragment>
+        ) : (
           <Button
-            color="success"
-            icon="fas fa-cloud-upload"
-            onClick={handleUpload}
+            color="primary" icon="fas fa-user"
+            onClick={handleImport}
           >
-            Upload file
+            Import account
           </Button>
         )}
-
-        <Button
-          color="primary" icon="fas fa-user"
-          onClick={handleLogin}
-        >
-          Import account
-        </Button>
       </div>
     </div>
 
@@ -81,6 +89,7 @@ const Main = ({
       </Switch>
     </div>
 
+    <AccountList />
     <Import />
   </div>
 );
@@ -95,8 +104,10 @@ export default compose(
     { openModal },
   ),
   withHandlers({
-    handleLogin: ({ openModal }): Function =>
+    handleImport: ({ openModal }): Function =>
       openModal(MAIN_IMPORT_ACCOUNT_MODAL_ID),
+    handleShowAccounts: ({ openModal }): Function =>
+      openModal(MAIN_ACCOUNT_LIST_MODAL_ID),
     handleUpload: ({ openModal }): Function => () =>
       openModal(MEDIA_UPLOAD_MODAL_ID),
   }),

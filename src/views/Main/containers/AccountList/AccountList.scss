@@ -1,0 +1,19 @@
+.Root {
+  width: 440px;
+}
+
+.Actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0 0;
+
+  & > * {
+    width: 100%;
+  }
+}
+
+.List {
+  border-bottom: 1px solid #e1e4e8;
+  border-top: 1px solid #e1e4e8;
+  margin: 0 -24px;
+}

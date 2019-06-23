@@ -20,7 +20,7 @@ const MainImportJson = ({ address, error, handleChange, name }) => (
     <div className={style.Logo}>
       <i className="fas fa-user-lock" />
     </div>
-    {console.log(error)}
+
     <div className={style.Info}>
       <div className={style.Title}>
         {address ? 'Imported account' : 'Attach your JSON'}
