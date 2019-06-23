@@ -105,8 +105,36 @@
 
 .Sidebar {
   background: #fff;
-  // border-left: 1px solid #e9edf0;
   box-shadow: -4px 0 4px rgba(#0a1f44, .1);
-  flex: 0 0 336px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
   width: 336px;
+
+  &Animate {
+    &Enter {
+      transition: all .2s ease-out;
+
+      &:not(&Active) {
+        transform: translateX(100%);
+      }
+
+      &Active {
+        transform: translateX(0%);
+      }
+    }
+
+    &Exit {
+      transition: all .2s ease-in;
+
+      &:not(&Active) {
+        transform: translateX(0%);
+      }
+
+      &Active {
+        transform: translateX(100%);
+      }
+    }
+  }
 }

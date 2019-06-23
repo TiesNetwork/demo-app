@@ -88,6 +88,31 @@
     }
   }
 
+  &Is {
+    &Disabled {
+      pointer-events: none;
+
+      &.RootVariantDefault {
+        background: #0bb07b;
+        color: #fff;
+
+        &:hover {
+          background: #0a9e74;
+        }
+      }
+
+      &.RootVariantOutline {
+        background: #e1e4e8;
+        border-color: #c9ced6;
+        color: #adb5c1;
+      }
+    }
+
+    &Loading {
+      pointer-events: none;
+    }
+  }
+
   &Size {
     &Default {
       font-size: 14px;
@@ -115,4 +140,14 @@
 
 .Icon {
   margin: 0 8px 0 0;
+}
+
+.Loading {
+  animation: loading .8s linear infinite;
+  font-size: 20px;
+}
+
+@keyframes loading {
+  from { transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
 }

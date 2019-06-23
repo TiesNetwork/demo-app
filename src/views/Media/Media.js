@@ -60,11 +60,21 @@ const Media = ({
             )}
           </div>
 
-          {selectedId && preview && (
+          <CSSTransition
+            classNames={{
+              enter: style.SidebarAnimateEnter,
+              enterActive: style.SidebarAnimateEnterActive,
+              exit: style.SidebarAnimateExit,
+              exitActive: style.SidebarAnimateExitActive,
+            }}
+            in={selectedId && !!preview}
+            timeout={400}
+            unmountOnExit
+          >
             <div className={style.Sidebar}>
               <Preview {...preview} />
             </div>
-          )}
+          </CSSTransition>
         </div>
       );
     }}

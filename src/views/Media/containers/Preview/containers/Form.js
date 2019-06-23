@@ -9,7 +9,12 @@ import Form, { Input, Textarea } from '@components/Form';
 // Style
 import style from './Form.scss';
 
-const MediaPreviewForm = ({ extension, handleSubmit, onDelete }) => (
+const MediaPreviewForm = ({
+  extension,
+  handleSubmit,
+  onDelete,
+  submitting,
+}) => (
   <Form onSubmit={handleSubmit}>
     <Input
       format={(value: string): string => value && `${value}.${extension}`}
@@ -25,6 +30,7 @@ const MediaPreviewForm = ({ extension, handleSubmit, onDelete }) => (
     <div className={style.Actions}>
       <Button
         color="danger"
+        disabled={submitting}
         icon="fal fa-trash-alt"
         onClick={onDelete}
         variant="outline"
@@ -32,7 +38,9 @@ const MediaPreviewForm = ({ extension, handleSubmit, onDelete }) => (
         Delete
       </Button>
 
-      <Button type="submit">Save</Button>
+      <Button loading={submitting} type="submit">
+        Save
+      </Button>
     </div>
   </Form>
 );

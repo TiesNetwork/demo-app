@@ -35,5 +35,5 @@ extend type Query {
 extend type Mutation {
   createFile(extension: String!, name: String!, size: Int!): File!
   deleteFile(id: String!): Boolean!
-  updateFile(id: String!, description: String!, name: String!): Boolean!
+  updateFile(id: String!, description: String, name: String!): Boolean!
 }

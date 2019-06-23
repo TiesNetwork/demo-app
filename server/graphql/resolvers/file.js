@@ -27,6 +27,7 @@ export default {
         createdAt: record.getValue('createdAt').toISOString(),
         extension: record.getValue('extension'),
         name: record.getValue('name'),
+        owner: record.signer.toString('hex'),
         size: record.getValue('size'),
       }));
     },

@@ -5,6 +5,7 @@ query {
     description
     extension
     name
+    owner
     size
     tags {
       id

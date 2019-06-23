@@ -24,7 +24,9 @@ const VARIANT = {
 const Button = ({
   children,
   color = COLOR.PRIMARY,
+  disabled,
   icon,
+  loading,
   size = SIZE.DEFAULT,
   type = 'button',
   variant = VARIANT.DEFAULT,
@@ -49,11 +51,22 @@ const Button = ({
         [style.RootVariantDefault]: variant === VARIANT.DEFAULT,
         [style.RootVariantOutline]: variant === VARIANT.OUTLINE,
       },
+      {
+        [style.RootIsDisabled]: !!disabled,
+        [style.RootIsLoading]: !!loading,
+      },
     )}
+    disabled={disabled || loading}
     type={type}
   >
-    {icon && <i className={classNames(style.Icon, icon)} />}
-    {children}
+    {loading ? (
+      <i className={classNames(style.Loading, 'far fa-spinner-third')} />
+    ) : (
+      <React.Fragment>
+        {icon && <i className={classNames(style.Icon, icon)} />}
+        {children}
+      </React.Fragment>
+    )}
   </button>
 );
 
