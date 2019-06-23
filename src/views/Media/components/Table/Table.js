@@ -9,7 +9,6 @@ import Table from 'react-table';
 
 // Components
 import Name from './components/Name';
-import Tags from './components/Tags';
 
 // Entities
 import { getSelectedId, setSelectedId } from '@views/Media/ducks';
@@ -33,10 +32,13 @@ const COLUMNS = [
     sortable: false,
   },
   {
-    accessor: 'tags',
-    Cell: ({ value }) => value && value.length > 0 && <Tags value={value} />,
+    accessor: 'description',
+    Cell: ({ value }) => value,
     Header: (
-      <FormattedMessage defaultMessage="Labels" id="media.table.header.tags" />
+      <FormattedMessage
+        defaultMessage="Description"
+        id="media.table.header.description"
+      />
     ),
     sortable: false,
   },

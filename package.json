@@ -110,7 +110,7 @@
     "start:dev": "yarn start:react && yarn start:server",
     "start:electron": "node app/react.js",
     "start:react": "node scripts/start.js",
-    "start:server": "nodemon --exec \"eslint --fix . && NODE_ENV=development BABEL_ENV=development BABEL_DISABLE_CACHE=1 babel-node server/start.js --config-file ./server/.babelrc\"",
+    "start:server": "nodemon --exec \"eslint --fix . && NODE_ENV=development BABEL_ENV=development BABEL_DISABLE_CACHE=1 babel-node ./server/start.js --config-file ./server/.babelrc\"",
     "build:react": "node scripts/build.js",
     "build:server": "babel server/ --out-dir build/server --config-file ./server/.babelrc",
     "test": "node scripts/test.js",
@@ -199,23 +199,23 @@
   },
   "main": "app/start.js",
   "build": {
-    "appId": "com.ties.filestorage",
+    "appId": "com.oasis.filestorage",
     "directories": {
       "buildResources": "."
     },
     "files": [
       "**/*",
-      "build/icon-ties.*"
+      "build/icon-oasis.*"
     ],
-    "productName": "Ties.DB",
+    "productName": "Oasis",
     "dmg": {
-      "icon": "build/icon-ties.icns"
+      "icon": "build/icon-oasis.icns"
     },
     "mac": {
-      "icon": "build/icon-ties.icns"
+      "icon": "build/icon-oasis.icns"
     },
     "win": {
-      "icon": "build/icon-ties.png"
+      "icon": "build/icon-oasis.png"
     }
   },
   "homepage": "./"

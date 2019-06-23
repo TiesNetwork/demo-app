@@ -1,4 +1,7 @@
 export default {
+  'error.incorrect': 'incorrect value!',
+  'error.required': 'required!',
+
   // Main
   'main.actions.accounts': 'Accounts',
   'main.actions.import': 'Import account',
@@ -26,6 +29,7 @@ export default {
 
   // Media
   'media.count': 'media items',
+  'media.search': 'Search',
   'media.title': 'Media Library',
 
   // Media empty

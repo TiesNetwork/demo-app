@@ -1,4 +1,7 @@
 export default {
+  'error.incorrect': 'неверное значение!',
+  'error.required': 'обязательно',
+
   // Main
   'main.actions.accounts': 'Аккаунты',
   'main.actions.import': 'Добавить аккаунт',
@@ -26,6 +29,7 @@ export default {
 
   // Media
   'media.count': 'файлов',
+  'media.search': 'Поиск',
   'media.title': 'Библиотека',
 
   // Media empty

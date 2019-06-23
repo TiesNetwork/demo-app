@@ -15,7 +15,7 @@ export default {
       const records = await DB.recollect(
         'SELECT id, createdAt, description, extension, name, size  FROM "filestorage"."files"',
       );
-      // console.log(args);
+
       return records.map(record => ({
         id: record.getValue('id'),
         createdAt: record.getValue('createdAt').toISOString(),

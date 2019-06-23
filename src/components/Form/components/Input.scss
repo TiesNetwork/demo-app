@@ -1,3 +1,13 @@
+.Root {
+  &Is {
+    &Erred {
+      .Input {
+        border-color: #F03D3D;
+      }
+    }
+  }
+}
+
 .Input {
   background: transparent;
   border: 1px solid #e1e4e8;
@@ -13,5 +23,12 @@
     border-color: #007fff;
     box-shadow: 0 0 0 1px #007fff;
   }
+}
+
+.Info {
+  color: #a6aebc;
+  font-size: 12px;
+  line-height: 16px;
+  margin: 8px 0 0;
 }
 

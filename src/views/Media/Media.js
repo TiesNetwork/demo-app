@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
-import { compose } from 'recompose';
+import { compose, withHandlers, withState } from 'recompose';
 
 // Containers
 import Empty from './containers/Empty';
@@ -28,14 +28,18 @@ import style from './Media.scss';
 import deepClear from '@utils/deepClear';
 
 type MediaType = {
+  handleChange: Function,
   handleLoad: Function,
   hasSession: boolean,
+  search: string,
   selectedId: string,
 };
 
 const Media = ({
+  handleChange,
   handleLoad,
   hasSession,
+  search,
   selectedId,
 }: MediaType): React.Element<typeof Query> => (
   <Query query={getFileList}>
@@ -44,6 +48,13 @@ const Media = ({
       const list: Array<> = deepClear(get(data, 'getFileList', []), [
         '__typename',
       ]);
+
+      const filteredList = list.filter(
+        ({ description, extension, name }) =>
+          description.toLowerCase().indexOf(search) > -1 ||
+          extension.toLowerCase().indexOf(search) > -1 ||
+          name.toLowerCase().indexOf(search) > -1,
+      );
 
       const preview: Object =
         selectedId && list.find(({ id }): boolean => id === selectedId);
@@ -60,13 +71,16 @@ const Media = ({
               ) : (
                 <React.Fragment>
                   <div className={style.Header}>
-                    <Header count={list.length} />
+                    <Header
+                      count={filteredList.length}
+                      onChange={handleChange}
+                    />
                   </div>
 
                   <div className={style.Content}>
                     {list && list.length > 0 && (
                       <div className={style.List}>
-                        <List data={list} />
+                        <List data={filteredList} />
                       </div>
                     )}
                   </div>
@@ -105,7 +119,7 @@ const Media = ({
             unmountOnExit
           >
             <div className={style.Sidebar}>
-              <Preview {...preview} />
+              <Preview {...preview} key={selectedId} />
             </div>
           </CSSTransition>
 
@@ -121,4 +135,11 @@ const mapStateToProps: Function = (state: Object): Object => ({
   selectedId: getSelectedId(state),
 });
 
-export default compose(connect(mapStateToProps))(Media);
+export default compose(
+  connect(mapStateToProps),
+  withState('search', 'setSearch', ''),
+  withHandlers({
+    handleChange: ({ setSearch }): Function => ({ search = '' }): void =>
+      setSearch(search.toLowerCase()),
+  }),
+)(Media);

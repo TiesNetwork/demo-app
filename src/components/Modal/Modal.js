@@ -28,6 +28,7 @@ const Modal = ({
   classNames: { container: containerClassName } = {},
   handleClose,
   isOpened,
+  logo = false,
   title,
   ...props
 }: ModalPropTypes): React.Element<typeof Portal> => (
@@ -50,6 +51,8 @@ const Modal = ({
           {title && (
             <div className={style.Title}>
               <FormattedMessage defaultMessage={title} id={title} />
+
+              {logo && <div className={style.Logo} />}
             </div>
           )}
 

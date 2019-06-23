@@ -38,9 +38,13 @@ const FormField = (props: FormFieldPropTypes): React.Element<typeof Field> => {
                 </label>
               )}
 
-              {error && <div className={style.Error}>
-                {` - ${error}`}
-              </div>}
+              {error && (
+                <div className={style.Error}>
+                  <FormattedMessage defaultMessage={error} id={error}>
+                    {error => ` - ${error}`}
+                  </FormattedMessage>
+                </div>
+              )}
             </div>
           )}
 
