@@ -7,34 +7,20 @@ import { compose, withHandlers, withState } from 'recompose';
 import { Field } from '@components/Form';
 
 // Style
-import style from './Private.scss';
+import style from './Json.scss';
 
-type MainFormPrivatePropTypes = {
-  id: number,
-  address: string,
-  error: string,
-  handleChange: Function,
-  name: string,
-};
-
-const MainFormPrivate = ({
-  address,
-  id,
-  error,
-  handleChange,
-  name,
-  ...props
-}: MainFormPrivatePropTypes) => (
+const MainImportJson = ({ address, error, handleChange, name }) => (
   <label
     className={classNames(style.Root, {
       [style.RootIsErred]: !!error,
+      [style.RootIsSucceeded]: !!address,
     })}
-    htmlFor={id}
+    htmlFor="json"
   >
     <div className={style.Logo}>
       <i className="fas fa-user-lock" />
     </div>
-
+    {console.log(error)}
     <div className={style.Info}>
       <div className={style.Title}>
         {address ? 'Imported account' : 'Attach your JSON'}
@@ -49,7 +35,7 @@ const MainFormPrivate = ({
 
     <input
       className={style.Input}
-      id={id}
+      id="json"
       name={name}
       onChange={handleChange}
       type="file"
@@ -57,23 +43,26 @@ const MainFormPrivate = ({
   </label>
 );
 
-const ComposedMainFormPrivate = compose(
-  withState('address', 'setAddress', false),
+const ComposedMainImportJson = compose(
+  withState('address', 'setAddress'),
   withHandlers({
-    handleChange: ({ onChange, setAddress }: MainFormPrivatePropTypes) => (
+    handleChange: ({ onChange, setAddress }): Function => (
       event: SyntheticEvent,
     ): void => {
-      const file = get(event, 'target.files.0');
+      const file: File = get(event, 'target.files.0');
 
       if (file) {
-        const reader = new FileReader();
+        const reader: FileReader = new FileReader();
 
         reader.onload = () => {
           try {
             const json = JSON.parse(get(reader, 'result'));
-            setAddress(get(json, 'address'));
+            const address = get(json, 'address');
 
-            onChange && onChange(JSON.stringify(json));
+            if (address) {
+              setAddress(address);
+              onChange && onChange(get(reader, 'result'));
+            }
           } catch (e) {
             // eslint-disable-next-line
             console.error(e);
@@ -84,10 +73,10 @@ const ComposedMainFormPrivate = compose(
       }
     },
   }),
-)(MainFormPrivate);
+)(MainImportJson);
 
 export default props => (
   <Field {...props}>
-    <ComposedMainFormPrivate />
+    <ComposedMainImportJson />
   </Field>
 );

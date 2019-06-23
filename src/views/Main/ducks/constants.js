@@ -1,2 +1,2 @@
-export const MAIN_ACCOUNT_FORM_ID = 'mainAccountForm';
-export const MAIN_ACCOUNT_MODAL_ID = 'mainAccountModal';
+export const MAIN_IMPORT_ACCOUNT_FORM_ID = 'importAccount';
+export const MAIN_IMPORT_ACCOUNT_MODAL_ID = 'importAccount';

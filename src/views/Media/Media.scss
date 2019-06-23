@@ -2,6 +2,7 @@
   background: #f8f9fb;
   display: flex;
   flex: 1 1 auto;
+  position: relative;
 }
 
 .Container {
@@ -136,7 +137,9 @@
 
 .Sidebar {
   background: #fff;
-  box-shadow: -4px 0 4px rgba(#0a1f44, .1);
+  box-shadow:
+    0 0 1px rgba(#0a1f44, .08),
+    -4px 0 4px rgba(#0a1f44, .1);
   height: 100%;
   position: absolute;
   right: 0;

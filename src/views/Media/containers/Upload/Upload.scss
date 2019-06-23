@@ -1,0 +1,40 @@
+.Root {
+  align-items: center;
+  border: 2px dashed #e1e4e8;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  justify-content: center;
+  margin: -16px;
+  width: 400px;
+}
+
+.Browse {
+  color: #8a94a6;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.Input {
+  display: none;
+}
+
+.Label {
+  color: #0d55cf;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.Logo {
+  color: #8a94a6;
+  font-size: 100px;
+}
+
+.Title {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 40px 0 0;
+}

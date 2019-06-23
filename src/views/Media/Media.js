@@ -1,9 +1,9 @@
-import { get, isEmpty, last } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import * as React from 'react';
-import { Query, graphql } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
-import { compose, withHandlers } from 'recompose';
+import { compose } from 'recompose';
 
 // Containers
 import Empty from './containers/Empty';
@@ -16,7 +16,6 @@ import Upload from './containers/Upload';
 import { getSelectedId } from './ducks';
 
 // GraphQL
-import createFile from './graphql/createFile.graphql';
 import getFileList from './graphql/getFileList.graphql';
 
 // Services
@@ -122,56 +121,4 @@ const mapStateToProps: Function = (state: Object): Object => ({
   selectedId: getSelectedId(state),
 });
 
-export default compose(
-  graphql(createFile, { name: 'createFile' }),
-  connect(mapStateToProps),
-  withHandlers({
-    handleLoad: ({ createFile }): Function => (files: Array<Object>): void => {
-      const file = get(files, '0', {});
-
-      if (file) {
-        const splittedFile = file.name.split('.');
-
-        createFile({
-          refetchQueries: [{ query: getFileList }],
-          variables: {
-            extension: last(splittedFile),
-            name: splittedFile.slice(0, -1).join('.'),
-            size: file.size,
-          },
-        });
-      }
-    },
-  }),
-)(Media);
-
-// <Dropzone onDrop={handleLoad}>
-//   {({ getInputProps, getRootProps, isDragActive }) => (
-//  <CSSTransition
-//                 classNames={{
-//                   enter: style.DragAnimateEnter,
-//                   enterActive: style.DragAnimateEnterActive,
-//                   exit: style.DragAnimateExit,
-//                   exitActive: style.DragAnimateExitActive,
-//                 }}
-//                 in={isDragActive}
-//                 timeout={400}
-//                 unmountOnExit
-//               >
-//                 <div className={style.Drag}>
-//                   <div className={style.DragContent}>
-//                     <div className={style.DragIcon}>
-//                       <i className="fas fa-cloud-upload" />
-//                     </div>
-
-//                     <div className={style.DragTitle}>
-//                       {`Drag and drop, or `}
-//                       <label className={style.DragLabel} htmlFor="file">
-//                         browse
-//                         <input {...getInputProps()} id="file" />
-//                       </label>
-//                       {' files!'}
-//                     </div>
-//                   </div>
-//                 </div>
-//               </CSSTransition>
+export default compose(connect(mapStateToProps))(Media);

@@ -4,6 +4,12 @@
   flex-direction: column;
 }
 
+.Actions {
+  & > *:not(:first-child) {
+    margin: 0 0 0 16px;
+  }
+}
+
 .Container {
   display: flex;
   flex: 1 1 auto;
@@ -12,14 +18,24 @@
 }
 
 .Header {
-  background: #feffff;
-  box-shadow: 0 24px 52px rgba(0, 0, 0, .04);
+  align-items: center;
+  background: #fff;
+  box-shadow:
+    0 0 1px rgba(#0a1f44, .08),
+    0 8px 10px rgba(#0a1f44, .1);
   display: flex;
   height: 80px;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 0 24px;
   position: relative;
   z-index: 2;
+}
+
+.Logo {
+  background: transparent url('~@assets/logo.svg') no-repeat center center;
+  background-size: contain;
+  height: 40px;
+  width: 40px;
 }
 
 .Modal {

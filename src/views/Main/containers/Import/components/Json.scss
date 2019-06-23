@@ -1,0 +1,79 @@
+.Root {
+  align-items: center;
+  background: #f8f9fB;
+  border: 1px solid #e1e4e8;
+  border-radius: 4px;
+  display: flex;
+  padding: 16px;
+
+  &:hover {
+    background: #f1f2f4;
+    cursor: pointer;
+  }
+
+  &Is {
+    &Erred {
+      background: #fff8f8;
+      border-color: #ffc2c2;
+
+      .Description,
+      .Logo,
+      .Title {
+        color: #f03d3d;
+      }
+
+      .Logo {
+        color: #ffc2c2;
+      }
+
+      &:hover {
+        background: #ffeaea;
+      }
+    }
+
+    &Succeeded {
+      background: #eafcf7;
+      border-color: #6ddfba;
+
+      .Description,
+      .Logo,
+      .Title {
+        color: #0bb07b;
+      }
+
+      .Logo {
+        color: #6ddfba;
+      }
+
+      &:hover {
+        background: #cff8eb;
+      }
+    }
+  }
+}
+
+.Description {
+  color: #a6aebc;
+  font-size: 12px;
+  line-height: 20px;
+  margin: 4px 0 0;
+  word-break: break-all;
+}
+
+.Info {
+  margin: 0 0 0 16px;
+}
+
+.Input {
+  display: none;
+}
+
+.Logo {
+  color: #a6aebc;
+  font-size: 40px;
+}
+
+.Title {
+  font-size: 16px;
+  font-weight: 500;
+}

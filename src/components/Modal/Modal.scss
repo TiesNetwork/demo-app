@@ -86,17 +86,15 @@
 .Container {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 24px 52px rgba(#000, .04);
+  box-shadow: 0 18px 18px rgba(#0a1f44, .12);
   padding: 24px;
   position: relative;
   z-index: 2;
 }
 
 .Title {
-  color: var(--color-purple);
   font-size: 18px;
   font-weight: 700;
   margin: 0 0 20px;
-  text-align: center;
   text-transform: uppercase;
 }

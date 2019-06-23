@@ -1,0 +1,13 @@
+.Actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 40px 0 0;
+
+  & > * {
+    width: 100%;
+  }
+}
+
+.Modal {
+  width: 320px;
+}

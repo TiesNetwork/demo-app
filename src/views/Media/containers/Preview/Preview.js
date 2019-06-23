@@ -34,6 +34,7 @@ type MediaPreviewPropsType = {
   handleClose: Function,
   handleDelete: Function,
   handleSubmit: Function,
+  isOwner: boolean,
   name: string,
   owner: string,
   size: number,
@@ -50,6 +51,7 @@ const MediaPreview = ({
   createdAt,
   extension = '',
   description,
+  isOwner,
   owner,
   handleClose,
   handleDelete,
@@ -67,7 +69,7 @@ const MediaPreview = ({
         <i className="fal fa-times" />
       </button>
     </div>
-
+    {console.log()}
     <div className={style.Info}>
       <Field label="Type" value={extension.toUpperCase()} />
       <Field label="Size" value={`${prettyBytes(size)} (${size} Bytes)`} />
@@ -75,7 +77,10 @@ const MediaPreview = ({
         label="Created date"
         value={moment(createdAt).format('MMM DD, YYYY')}
       />
-      <Field label="Owner" value={<Owner address={owner} isOwner={isOwner}  />} />
+      <Field
+        label="Owner"
+        value={<Owner address={owner} isOwner={isOwner} />}
+      />
     </div>
 
     {isOwner && (
