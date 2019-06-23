@@ -22,7 +22,7 @@ const MainAccountListItem = ({
   handleDelete,
   name,
   selected,
-}: MainAccountListItemPropTypes) => (
+}: MainAccountListItemPropTypes): React.Element<'div'> => (
   <div
     className={classNames(style.Root, { [style.RootIsSelected]: !!selected })}
     onClick={handleClick}
@@ -69,3 +69,5 @@ export default compose(
       !selected && onClick && onClick(address),
   }),
 )(MainAccountListItem);
+
+export type { MainAccountListItemPropTypes };

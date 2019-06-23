@@ -11,6 +11,7 @@ import Item from './components/Item';
 // Ducks
 import {
   MAIN_ACCOUNT_LIST_MODAL_ID,
+  MAIN_CONFIRM_MODAL_ID,
   MAIN_IMPORT_ACCOUNT_MODAL_ID,
 } from '@views/Main/ducks';
 
@@ -80,10 +81,11 @@ export default compose(
     { deleteAccount, openModal },
   ),
   withHandlers({
-    handleDelete: ({ deleteAccount }): Function => (id: string): void =>
-      deleteAccount(id),
+    handleDelete: ({ deleteAccount }): Function => (address: string): void =>
+      deleteAccount(address),
     handleImport: ({ openModal }): Function => (): void =>
       openModal(MAIN_IMPORT_ACCOUNT_MODAL_ID),
-    handleSelect: ({ openModal }): Function => (): void => console.log(123),
+    handleSelect: ({ openModal }): Function => (address: string): void =>
+      openModal(MAIN_CONFIRM_MODAL_ID, { address }),
   }),
 )(MainAccountList);

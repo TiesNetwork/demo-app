@@ -69,7 +69,7 @@ const MediaPreview = ({
         <i className="fal fa-times" />
       </button>
     </div>
-    {console.log()}
+
     <div className={style.Info}>
       <Field label="Type" value={extension.toUpperCase()} />
       <Field label="Size" value={`${prettyBytes(size)} (${size} Bytes)`} />

@@ -9,6 +9,7 @@ import Button from '@components/Button';
 
 // Containers
 import AccountList from './containers/AccountList';
+import Confirm from './containers/Confirm';
 import Import from './containers/Import';
 
 // Ducks
@@ -90,6 +91,7 @@ const Main = ({
     </div>
 
     <AccountList />
+    <Confirm />
     <Import />
   </div>
 );

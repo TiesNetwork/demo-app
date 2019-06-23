@@ -68,6 +68,7 @@ const mapStateToProps: Function = (
   return {
     isOpened: isOpened || !!modal,
     title: title || get(modal, 'title'),
+    ...modal,
   };
 };
 
