@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { reduxForm } from 'redux-form';
 import { compose } from 'recompose';
 
@@ -17,15 +18,15 @@ const MediaPreviewForm = ({
 }) => (
   <Form onSubmit={handleSubmit}>
     <Input
-      format={(value: string): string => value && `${value}.${extension}`}
-      label="Name"
+      format={(value: string): string => `${value}.${extension}`}
+      label="media.preview.form.name"
       name="name"
       parse={(value: string): string =>
         value && value.substr(0, value.indexOf('.'))
       }
     />
 
-    <Textarea label="Description" name="description" />
+    <Textarea label="media.preview.form.description" name="description" />
 
     <div className={style.Actions}>
       <Button
@@ -35,11 +36,17 @@ const MediaPreviewForm = ({
         onClick={onDelete}
         variant="outline"
       >
-        Delete
+        <FormattedMessage
+          defaultMessage="Delete"
+          id="media.preview.form.action.delete"
+        />
       </Button>
 
       <Button loading={submitting} type="submit">
-        Save
+        <FormattedMessage
+          defaultMessage="Save"
+          id="media.preview.form.action.submit"
+        />
       </Button>
     </div>
   </Form>

@@ -28,7 +28,7 @@ const MainConfirm = ({ handleSubmit }) => (
   <Modal
     classNames={{ container: style.Root }}
     id={MAIN_CONFIRM_MODAL_ID}
-    title="Confirm account"
+    title="main.confirm.title"
   >
     {({ address }) => <Form address={address} onSubmit={handleSubmit} />}
   </Modal>

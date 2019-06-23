@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { compose, withHandlers } from 'recompose';
 
 // Components
@@ -51,7 +52,10 @@ const MainAccountListItem = ({
         size="small"
         variant="outline"
       >
-        Delete
+        <FormattedMessage
+          defaultMessage="Delete"
+          id="main.accountList.action.delete"
+        />
       </Button>
     </div>
   </div>
@@ -65,7 +69,7 @@ export default compose(
       event.stopPropagation();
       onDelete && onDelete(address);
     },
-    handleClick: ({ address, onClick, selected }): Function =>
+    handleClick: ({ address, onClick, selected }): Function => (): void =>
       !selected && onClick && onClick(address),
   }),
 )(MainAccountListItem);

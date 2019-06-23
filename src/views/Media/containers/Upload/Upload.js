@@ -1,6 +1,7 @@
 import { get, last } from 'lodash';
 import * as React from 'react';
 import { graphql } from 'react-apollo';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
@@ -33,20 +34,35 @@ const MediaUpload = ({
         <i className="fas fa-cloud-upload" />
       </div>
 
-      <div className={style.Title}>Drop file to upload</div>
+      <div className={style.Title}>
+        <FormattedMessage
+          defaultMessage="Drop file to upload"
+          id="media.upload.title"
+        />
+      </div>
 
       <div className={style.Browse}>
-        {`or `}
-        <label className={style.Label} htmlFor="upload">
-          browse
-          <input
-            className={style.Input}
-            id="upload"
-            onChange={handleChange}
-            type="file"
-          />
-        </label>
-        {' your files'}
+        <FormattedMessage
+          defaultMessage="or {browse} your files"
+          id="media.upload.description"
+          values={{
+            browse: (
+              <label className={style.Label} htmlFor="upload">
+                <FormattedMessage
+                  defaultMessage="browse"
+                  id="media.upload.browse"
+                />
+
+                <input
+                  className={style.Input}
+                  id="upload"
+                  onChange={handleChange}
+                  type="file"
+                />
+              </label>
+            ),
+          }}
+        />
       </div>
     </div>
   </Modal>

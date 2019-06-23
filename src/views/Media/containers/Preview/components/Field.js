@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 // Style
 import style from './Field.scss';
@@ -10,7 +11,7 @@ const MediaField = ({
 }: MediaFieldType): React.Element<'div'> => (
   <div className={style.Root}>
     <div className={style.Label}>
-      {label}
+      <FormattedMessage defaultMessage={label} id={label} />
     </div>
 
     <div className={style.Value}>

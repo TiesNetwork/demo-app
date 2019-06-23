@@ -2,6 +2,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Table from 'react-table';
 
@@ -25,26 +26,37 @@ const COLUMNS = [
   {
     accessor: 'name',
     Cell: Name,
-    Header: 'Media',
+    Header: (
+      <FormattedMessage defaultMessage="Media" id="media.table.header.name" />
+    ),
     sortable: false,
   },
   {
     accessor: 'tags',
     Cell: ({ value }) => value && value.length > 0 && <Tags value={value} />,
-    Header: 'Labels',
+    Header: (
+      <FormattedMessage defaultMessage="Labels" id="media.table.header.tags" />
+    ),
     sortable: false,
   },
   {
     accessor: 'createdAt',
     Cell: ({ value }) => moment(value).format('MMM DD, YYYY'),
-    Header: 'Upload Date',
+    Header: (
+      <FormattedMessage
+        defaultMessage="Upload Date"
+        id="media.table.header.createdAt"
+      />
+    ),
     sortable: false,
     width: 140,
   },
   {
     accessor: 'size',
     Cell: ({ value }) => prettyBytes(value),
-    Header: 'Size',
+    Header: (
+      <FormattedMessage defaultMessage="Size" id="media.table.header.size" />
+    ),
     sortable: false,
     width: 120,
   },

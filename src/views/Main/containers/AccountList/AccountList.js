@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
@@ -45,7 +46,7 @@ const MainAccountList = ({
   <Modal
     classNames={{ container: style.Root }}
     id={MAIN_ACCOUNT_LIST_MODAL_ID}
-    title="Account list"
+    title="main.accountList.title"
   >
     <div className={style.List}>
       {accounts &&
@@ -64,7 +65,10 @@ const MainAccountList = ({
 
     <div className={style.Actions}>
       <Button icon="far fa-plus" onClick={handleImport}>
-        Import new account
+        <FormattedMessage
+          defaultMessage="Import new account"
+          id="main.accountList.action.import"
+        />
       </Button>
     </div>
   </Modal>

@@ -72,6 +72,7 @@
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.5",
+    "react-intl": "^2.9.0",
     "react-portal": "^4.2.0",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",

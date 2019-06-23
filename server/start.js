@@ -22,7 +22,7 @@ app.listen(process.env.SERVER_PORT, async error => {
   const connection = new Connection();
   await connection.connect('wss://beta.tiesdb.com/websocket');
 
-  DB.setConnection(connection);
+  DB.connect();
 
   // eslint-disable-next-line
   console.log(`🚀 Server ready at http://localhost:3001${server.graphqlPath}`);

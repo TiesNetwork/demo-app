@@ -1,5 +1,6 @@
 import { isEmpty } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { compose, withHandlers } from 'recompose';
@@ -67,7 +68,12 @@ const Main = ({
               onClick={handleShowAccounts}
               variant="outline"
             >
-              {hasSession ? 'Accounts' : 'Select account'}
+              <FormattedMessage
+                defaultMessage={hasSession ? 'Accounts' : 'Select account'}
+                id={
+                  hasSession ? 'main.actions.accounts' : 'main.actions.select'
+                }
+              />
             </Button>
 
             {hasSession && (
@@ -76,7 +82,10 @@ const Main = ({
                 icon="fas fa-cloud-upload"
                 onClick={handleUpload}
               >
-                Upload file
+                <FormattedMessage
+                  defaultMessage="Upload file"
+                  id="main.actions.upload"
+                />
               </Button>
             )}
           </React.Fragment>
@@ -85,7 +94,10 @@ const Main = ({
             color="primary" icon="fas fa-user"
             onClick={handleImport}
           >
-            Import account
+            <FormattedMessage
+              defaultMessage="Import account"
+              id="main.actions.import"
+            />
           </Button>
         )}
       </div>
@@ -114,11 +126,11 @@ export default compose(
     { openModal },
   ),
   withHandlers({
-    handleImport: ({ openModal }): Function =>
+    handleImport: ({ openModal }): Function => (): void =>
       openModal(MAIN_IMPORT_ACCOUNT_MODAL_ID),
-    handleShowAccounts: ({ openModal }): Function =>
+    handleShowAccounts: ({ openModal }): Function => (): void =>
       openModal(MAIN_ACCOUNT_LIST_MODAL_ID),
-    handleUpload: ({ openModal }): Function => () =>
+    handleUpload: ({ openModal }): Function => (): void =>
       openModal(MEDIA_UPLOAD_MODAL_ID),
   }),
 )(Main);

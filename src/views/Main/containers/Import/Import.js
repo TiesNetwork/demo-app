@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import * as React from 'react';
 import { graphql } from 'react-apollo';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { reduxForm, SubmissionError } from 'redux-form';
 import { compose } from 'recompose';
@@ -45,12 +46,13 @@ const MainImport = ({
   <Modal
     classNames={{ container: style.Modal }}
     id={MAIN_IMPORT_ACCOUNT_MODAL_ID}
-    title="Import account"
+    title="main.import.title"
   >
     <Form onSubmit={handleSubmit}>
-      <Input label="Account name" name="name" />
+      <Input label="main.import.form.name" name="name" />
       <Input
-        label="Password" name="password"
+        label="main.import.form.password"
+        name="password"
         type="password"
       />
 
@@ -58,7 +60,10 @@ const MainImport = ({
 
       <div className={style.Actions}>
         <Button loading={submitting} type="submit">
-          Import
+          <FormattedMessage
+            defaultMessage="Import"
+            id="main.import.action.submit"
+          />
         </Button>
       </div>
     </Form>

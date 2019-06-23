@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { get } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { compose, withHandlers, withState } from 'recompose';
 
 // Components
@@ -23,13 +24,21 @@ const MainImportJson = ({ address, error, handleChange, name }) => (
 
     <div className={style.Info}>
       <div className={style.Title}>
-        {address ? 'Imported account' : 'Attach your JSON'}
+        <FormattedMessage
+          defaultMessage={address ? 'Imported account' : 'Attach your JSON'}
+          id={address ? 'main.import.json.imported' : 'main.import.json.title'}
+        />
       </div>
 
       <div className={style.Description}>
-        {address
-          ? `0x${address}`
-          : 'Your private key is needed to sign database records.'}
+        {address ? (
+          `0x${address}`
+        ) : (
+          <FormattedMessage
+            defaultMessage="Your private key is needed to sign database records."
+            id="main.import.json.description"
+          />
+        )}
       </div>
     </div>
 

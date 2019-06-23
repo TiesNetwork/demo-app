@@ -1,5 +1,7 @@
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
@@ -11,6 +13,7 @@ import { MEDIA_UPLOAD_MODAL_ID } from '@views/Media/ducks';
 
 // Services
 import { openModal } from '@services/modals';
+import { getSession } from '@services/session';
 
 // Style
 import style from './Empty.scss';
@@ -23,6 +26,7 @@ type MediaEmptyPropTypes = {
 
 const MediaEmpty = ({
   handleUpload,
+  hasSession,
   loading,
   onUpdate,
 }: MediaEmptyPropTypes): React.Element<'div'> => (
@@ -32,10 +36,21 @@ const MediaEmpty = ({
         <i className={classNames(style.Icon, 'fas fa-file-search')} />
       </div>
 
-      <div className={style.Title}>Media library empty!</div>
-      <div className={style.Description}>
-        but you can be the first to upload a file.
+      <div className={style.Title}>
+        <FormattedMessage
+          defaultMessage="Media library empty!"
+          id="media.empty.title"
+        />
       </div>
+
+      {hasSession && (
+        <div className={style.Description}>
+          <FormattedMessage
+            defaultMessage="but you can be the first to upload a file."
+            id="media.empty.description"
+          />
+        </div>
+      )}
 
       <div className={style.Actions}>
         {onUpdate && (
@@ -45,26 +60,38 @@ const MediaEmpty = ({
             onClick={onUpdate}
             variant="outline"
           >
-            Sync
+            <FormattedMessage
+              defaultMessage="Sync"
+              id="media.empty.actions.sync"
+            />
           </Button>
         )}
 
-        <Button
-          color="success"
-          disabled={loading}
-          icon="fas fa-cloud-upload-alt"
-          onClick={handleUpload}
-        >
-          Upload file
-        </Button>
+        {hasSession && (
+          <Button
+            color="success"
+            disabled={loading}
+            icon="fas fa-cloud-upload-alt"
+            onClick={handleUpload}
+          >
+            <FormattedMessage
+              defaultMessage="Upload file"
+              id="media.empty.actions.upload"
+            />
+          </Button>
+        )}
       </div>
     </div>
   </div>
 );
 
+const mapStateToProps: Function = (state: Object): Object => ({
+  hasSession: !isEmpty(getSession(state)),
+});
+
 export default compose(
   connect(
-    null,
+    mapStateToProps,
     { openModal },
   ),
   withHandlers({

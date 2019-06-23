@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 import uuid from 'uuid/v5';
 
@@ -31,8 +32,9 @@ const FormField = (props: FormFieldPropTypes): React.Element<typeof Field> => {
           {label && (
             <div className={style.Header}>
               {label && (
+                // eslint-disable-next-line
                 <label className={style.Label} htmlFor={id}>
-                  {label}
+                  <FormattedMessage defaultMessage={label} id={label} />
                 </label>
               )}
 

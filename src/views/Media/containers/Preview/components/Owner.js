@@ -1,16 +1,17 @@
 import classNames from 'classnames';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 // Style
 import style from './Owner.scss';
 
-const MediaPreviewOwner = ({ address, isOwner }) => (
+const MediaPreviewOwner = ({ address = '', isOwner }) => (
   <div className={style.Root}>
     <i className={classNames(style.Icon, 'fas fa-user-circle')} />
 
     <div className={style.Address}>
       {isOwner ? (
-        'me'
+        <FormattedMessage defaultMessage="me" id="media.preview.owner" />
       ) : (
         <a
           className={style.Link}

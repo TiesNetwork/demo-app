@@ -2,11 +2,12 @@ import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
 import * as React from 'react';
 import { graphql } from 'react-apollo';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
 // Components
-import Field from '@views/Media/components/Field';
+import Field from './components/Field';
 import Owner from './components/Owner';
 
 // Containers
@@ -61,7 +62,11 @@ const MediaPreview = ({
 }: MediaPreviewPropsType): React.Element<'div'> => (
   <div className={style.Root}>
     <div className={style.Header}>
-      File Preview
+      <FormattedMessage
+        defaultMessage="File Preview"
+        id="media.preview.title"
+      />
+
       <button
         className={style.Close} onClick={handleClose}
         type="button"
@@ -71,14 +76,17 @@ const MediaPreview = ({
     </div>
 
     <div className={style.Info}>
-      <Field label="Type" value={extension.toUpperCase()} />
-      <Field label="Size" value={`${prettyBytes(size)} (${size} Bytes)`} />
+      <Field label="media.preview.field.type" value={extension.toUpperCase()} />
       <Field
-        label="Created date"
+        label="media.preview.field.size"
+        value={`${prettyBytes(size)} (${size} Bytes)`}
+      />
+      <Field
+        label="media.preview.field.createdAt"
         value={moment(createdAt).format('MMM DD, YYYY')}
       />
       <Field
-        label="Owner"
+        label="media.preview.field.owner"
         value={<Owner address={owner} isOwner={isOwner} />}
       />
     </div>

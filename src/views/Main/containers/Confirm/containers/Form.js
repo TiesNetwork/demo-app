@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { compose } from 'recompose';
@@ -22,7 +23,7 @@ import { validate, required } from '@components/Form/utils';
 const MainConfirm = ({ handleSubmit, submitting }) => (
   <Form onSubmit={handleSubmit}>
     <Input
-      label="Password" name="password"
+      label="main.confirm.form.password" name="password"
       type="password"
     />
 
@@ -31,7 +32,10 @@ const MainConfirm = ({ handleSubmit, submitting }) => (
         icon="fas fa-check" loading={submitting}
         type="submit"
       >
-        Confirm account
+        <FormattedMessage
+          defaultMessage="Confirm account"
+          id="main.confirm.action.submit"
+        />
       </Button>
     </div>
   </Form>

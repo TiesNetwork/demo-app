@@ -1,5 +1,4 @@
 import { ApolloError } from 'apollo-server-express';
-import { omit, set } from 'lodash';
 import { Record } from 'tiesdb-client';
 import uuid from 'uuid/v4';
 import { number, object, string } from 'yup';
@@ -14,12 +13,13 @@ export default {
   Query: {
     getFileList: async (...args) => {
       const records = await DB.recollect(
-        'SELECT id, createdAt, extension, name, size  FROM "filestorage"."files"',
+        'SELECT id, createdAt, description, extension, name, size  FROM "filestorage"."files"',
       );
       // console.log(args);
       return records.map(record => ({
         id: record.getValue('id'),
         createdAt: record.getValue('createdAt').toISOString(),
+        description: record.getValue('description'),
         extension: record.getValue('extension'),
         name: record.getValue('name'),
         owner: record.signer.toString('hex').toLowerCase(),
@@ -98,7 +98,6 @@ export default {
           .required('File name is required!'),
       }),
       resolve: async (root, { id, description, name }, { privateKey }) => {
-        console.log(privateKey);
         // Find the file in DB
         const records = await DB.recollect(
           `SELECT id, description, name FROM "filestorage"."files" WHERE id IN (${id})`,
