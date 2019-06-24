@@ -51,9 +51,9 @@ const Media = ({
 
       const filteredList = list.filter(
         ({ description, extension, name }) =>
-          description.toLowerCase().indexOf(search) > -1 ||
-          extension.toLowerCase().indexOf(search) > -1 ||
-          name.toLowerCase().indexOf(search) > -1,
+          (description || '').toLowerCase().indexOf(search) > -1 ||
+          (extension || '').toLowerCase().indexOf(search) > -1 ||
+          (name || '').toLowerCase().indexOf(search) > -1,
       );
 
       const preview: Object =
