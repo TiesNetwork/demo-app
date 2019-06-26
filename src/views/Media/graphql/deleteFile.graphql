@@ -1,3 +1,5 @@
 mutation deleteFile($id: String!) {
-  deleteFile(id: $id)
+  deleteFile(id: $id) {
+    id
+  }
 }

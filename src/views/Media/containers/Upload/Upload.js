@@ -157,7 +157,16 @@ export default compose(
       { closeModal, createFile, reset, setCustomError },
     ): void =>
       createFile({
-        refetchQueries: [{ query: getFileList }],
+        refetchQueries: [{ query: getFileList, variables: { contains: '' } }],
+        updateQueries: {
+          getFileList: (prev, { mutationResult }): Array<Object> => {
+            const newFile: Object = get(mutationResult, 'data.createFile');
+
+            return newFile
+              ? { ...prev, getFileList: [...prev.getFileList, newFile] }
+              : prev;
+          },
+        },
         variables: { file: get(files, '0') },
       })
         .then(() => {

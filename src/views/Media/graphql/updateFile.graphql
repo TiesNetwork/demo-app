@@ -1,3 +1,7 @@
 mutation updateFile($id: String!, $description: String, $name: String!) {
-  updateFile(id: $id, description: $description, name: $name)
+  updateFile(id: $id, description: $description, name: $name) {
+    id
+    description
+    name
+  }
 }

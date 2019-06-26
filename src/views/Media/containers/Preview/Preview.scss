@@ -24,28 +24,40 @@
   }
 }
 
+.Download {
+  border-bottom: 1px solid #e9edf0;
+  padding: 20px 0;
+
+  &Button {
+    width: 100%;
+  }
+}
+
+.Form {
+  padding: 20px 0;
+}
+
 .Header {
   display: flex;
   font-size: 20px;
   font-weight: 500;
   justify-content: space-between;
+  margin: 0 0 20px;
 }
 
 .Image {
-  width: 100%;
+  border-radius: 4px;
+  max-width: 100%;
 }
 
 .Info {
   border-bottom: 1px solid #e9edf0;
   border-top: 1px solid #e9edf0;
-  margin: 20px 0;
   padding: 20px 0;
 }
 
 .Thumbnail {
-  border-radius: 4px;
-  height: 288px;
-  margin: 20px 0 0;
+  margin: 20px 0;
   overflow: hidden;
   width: 288px;
 }

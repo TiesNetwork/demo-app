@@ -27,6 +27,7 @@ const Button = ({
   className,
   color = COLOR.PRIMARY,
   disabled,
+  fullWidth,
   icon,
   loading,
   size = SIZE.DEFAULT,
@@ -57,6 +58,7 @@ const Button = ({
       },
       {
         [style.RootIsDisabled]: !!disabled,
+        [style.RootIsFull]: !!fullWidth,
         [style.RootIsLoading]: !!loading,
       },
     )}

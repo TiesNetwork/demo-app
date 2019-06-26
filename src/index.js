@@ -27,12 +27,14 @@ const { persistor, store } = createStore();
 const authLink = setContext((_, { headers }) => {
   try {
     const session: Object = JSON.parse(localStorage.getItem('session'));
+
+    const address: string = get(session, 'address');
     const privateKey: string = get(session, 'privateKey');
 
     return {
       headers: {
         ...headers,
-        authorization: privateKey,
+        authorization: `${address}.${privateKey}`,
       },
     };
   } catch (error) {

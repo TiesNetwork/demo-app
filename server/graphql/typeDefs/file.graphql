@@ -13,11 +13,11 @@ type File {
   createdAt: String!
   description: String
   extension: String!
+  hasContent: Boolean
   mimetype: String
   name: String!
   owner: String
   size: Int!
-  test: Upload
   thumbnail: String
   updatedAt: String!
 }
@@ -36,6 +36,7 @@ extend type Query {
 
 extend type Mutation {
   createFile(file: Upload): File!
-  deleteFile(id: String!): Boolean!
-  updateFile(id: String!, description: String, name: String!): Boolean!
+  deleteFile(id: String!): File!
+  downloadFile(id: ID!): Upload!
+  updateFile(id: String!, description: String, name: String!): File!
 }

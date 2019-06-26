@@ -31,7 +31,8 @@ export default {
 
   // Media
   'media.count': 'media items',
-  'media.search': 'Search',
+  'media.search.action': 'Search',
+  'media.search.placeholder': 'Just start typing...',
   'media.title': 'Media Library',
 
   // Media empty
@@ -49,6 +50,9 @@ export default {
   // Media preview
   'media.preview.owner': 'Me',
   'media.preview.title': 'File Preview',
+  // Media preview download
+  'media.preview.download.action': 'Download',
+  'media.preview.download.error': 'File content not found!',
   // Media preview fields
   'media.preview.field.createdAt': 'Created date',
   'media.preview.field.name': 'Name',

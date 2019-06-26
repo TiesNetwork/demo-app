@@ -4,11 +4,11 @@ query getFileList($contains: String) {
     createdAt
     description
     extension
+    hasContent
     mimetype
     name
     owner
     size
-    test
     thumbnail
   }
 }

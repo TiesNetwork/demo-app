@@ -31,7 +31,8 @@ export default {
 
   // Media
   'media.count': 'файлов',
-  'media.search': 'Поиск',
+  'media.search.action': 'Поиск',
+  'media.search.placeholder': 'Просто начните печатать...',
   'media.title': 'Библиотека',
 
   // Media empty
@@ -49,6 +50,9 @@ export default {
   // Media preview
   'media.preview.owner': 'Я',
   'media.preview.title': 'Просмотр файла',
+  // Media preview download
+  'media.preview.download.action': 'Скачать',
+  'media.preview.download.error': 'Содержимое файла не найдено!',
   // Media preview fields
   'media.preview.field.createdAt': 'Дата создания',
   'media.preview.field.name': 'Название',

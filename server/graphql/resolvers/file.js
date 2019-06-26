@@ -43,11 +43,11 @@ export default {
             createdAt: record.getValue('createdAt').toISOString(),
             description: record.getValue('description'),
             extension: record.getValue('extension'),
+            hasContent: !!record.getValue('content'),
             mimetype: record.getValue('mimetype') || 'text/plain',
             name: record.getValue('name'),
             owner: record.signer.toString('hex').toLowerCase(),
             size: record.getValue('size'),
-            test: record.getValue('content'),
             thumbnail: thumbnail ? thumbnail.toString('base64') : null,
           };
         });
@@ -55,7 +55,7 @@ export default {
   },
   Mutation: {
     createFile: {
-      resolve: async (root, { file }, { privateKey }) => {
+      resolve: async (root, { file }, { address, privateKey }) => {
         // Create a ties.db record
         const record: Record = new Record('filestorage', 'files');
 
@@ -124,7 +124,14 @@ export default {
           // Push to DB
           await DB.modify([record], Buffer.from(privateKey, 'hex'));
 
-          return newFile;
+          // Client mock
+          return {
+            ...newFile,
+            createdAt: new Date().toISOString(),
+            hasContent: !!content,
+            owner: address,
+            thumbnail: thumbnail.toString('base64'),
+          };
         } catch (error) {
           throw new ApolloError('error.file_save_error', 'FILE_SAVE_ERROR');
         }
@@ -151,7 +158,31 @@ export default {
         // Push to DB
         await DB.modify(records, Buffer.from(privateKey, 'hex'));
 
-        return true;
+        return { id };
+      },
+    },
+    downloadFile: {
+      validation: object().shape({
+        id: string().required('ID is required!'),
+      }),
+      resolve: async (root, { id }) => {
+        // Find the file in DB
+        const records = await DB.recollect(
+          `SELECT id, content FROM "filestorage"."files" WHERE id IN (${id})`,
+        );
+        // Check file
+        if (!records || records.length === 0) {
+          throw new ApolloError('error.file_not_exist', 'FILE_NOT_EXIST');
+        }
+
+        // Get file content
+        const content = records[0].getValue('content');
+        // Check content
+        if (!content) {
+          throw new ApolloError('error.file_not_found', 'FILE_NOT_FOUND');
+        }
+
+        return content;
       },
     },
     updateFile: {
@@ -177,7 +208,7 @@ export default {
         // Push to DB
         await DB.modify(records, Buffer.from(privateKey, 'hex'));
 
-        return true;
+        return { id, description, name };
       },
     },
   },

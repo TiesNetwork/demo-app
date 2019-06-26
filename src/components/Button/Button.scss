@@ -115,12 +115,8 @@
       pointer-events: none;
 
       &.RootVariantDefault {
-        background: #0bb07b;
-        color: #fff;
-
-        &:hover {
-          background: #0a9e74;
-        }
+        background: #e1e4e8;
+        color: #a6aebc;
       }
 
       &.RootVariantOutline {
@@ -128,6 +124,11 @@
         border-color: #c9ced6;
         color: #adb5c1;
       }
+    }
+
+    &Full {
+      display: block;
+      width: 100%;
     }
 
     &Loading {

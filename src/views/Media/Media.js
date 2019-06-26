@@ -42,7 +42,11 @@ const Media = ({
   search,
   selectedId,
 }: MediaType): React.Element<typeof Query> => (
-  <Query query={getFileList} variables={{ contains: search }}>
+  <Query
+    fetchPolicy="network-only"
+    query={getFileList}
+    variables={{ contains: search }}
+  >
     {({ data, error, loading, networkStatus, refetch }) => {
       const hasData = !isEmpty(data);
       const list: Array<> = deepClear(get(data, 'getFileList', []), [
