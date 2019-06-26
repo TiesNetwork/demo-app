@@ -11,7 +11,7 @@ import Form, { Input, Textarea } from '@components/Form';
 import style from './Form.scss';
 
 // Utils
-import { validate, matches, required } from '@components/Form/utils';
+import { validate, required } from '@components/Form/utils';
 
 const MediaPreviewForm = ({
   extension,
@@ -21,13 +21,9 @@ const MediaPreviewForm = ({
 }) => (
   <Form onSubmit={handleSubmit}>
     <Input
-      format={(value: string): string => `${value}.${extension}`}
       info="Разрешены буквы английского алфавита, цифры, тире и подчёркивание"
       label="media.preview.form.name"
       name="name"
-      parse={(value: string): string =>
-        value && value.substr(0, value.indexOf('.'))
-      }
     />
 
     <Textarea label="media.preview.form.description" name="description" />
@@ -59,12 +55,9 @@ const MediaPreviewForm = ({
 export default compose(
   reduxForm({
     form: 'fileForm',
-    enableReinitialize: true,
+    // enableReinitialize: true,
     validate: validate({
-      name: [
-        required('error.required'),
-        matches(/^[A-z0-9-_]+$/, 'error.incorrect'),
-      ],
+      name: [required('error.required')],
     }),
   }),
 )(MediaPreviewForm);

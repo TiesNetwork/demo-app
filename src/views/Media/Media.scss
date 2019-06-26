@@ -12,6 +12,11 @@
   max-height: calc(100% - 100px);
 }
 
+.Content {
+  display: flex;
+  flex: 1 1 auto;
+}
+
 .Drag {
   background: rgba(255, 255, 255, .6);
   height: 100%;

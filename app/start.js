@@ -37,8 +37,7 @@ app.on('activate', () => mainWindow === null && createWindow());
 app.on('ready', async () => {
   createWindow();
   // eslint-disable-next-line
-  require(path.join(__dirname, './../build/server/start.js'));
-  // childProcess.exec('yarn start:server');
+  !isDev && require(path.join(__dirname, './../build/server/start.js'));
 });
 app.on('window-all-closed', () => process.platform !== 'darwin' && app.quit());
 

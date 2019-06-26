@@ -7,5 +7,6 @@ export default {
   mimetype: 'string',
   name: 'string',
   size: 'integer',
+  thumbnail: 'binary',
   updatedAt: 'time',
 };

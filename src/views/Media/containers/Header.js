@@ -9,12 +9,12 @@ import style from './Header.scss';
 
 type MediaHeaderPropTypes = {
   count: number,
-  onChange: Function,
+  onSearch: Function,
 };
 
 const MediaHeader = ({
   count = 0,
-  onChange,
+  onSearch,
 }: MediaHeaderPropTypes): React.Element<'div'> => (
   <div className={style.Root}>
     <div className={style.Left}>
@@ -30,7 +30,7 @@ const MediaHeader = ({
     </div>
 
     <div className={style.Right}>
-      <Search onChange={onChange} />
+      <Search onSubmit={onSearch} />
     </div>
   </div>
 );

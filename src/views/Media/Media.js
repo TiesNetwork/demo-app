@@ -36,25 +36,18 @@ type MediaType = {
 };
 
 const Media = ({
-  handleChange,
   handleLoad,
+  handleSearch,
   hasSession,
   search,
   selectedId,
 }: MediaType): React.Element<typeof Query> => (
-  <Query query={getFileList}>
+  <Query query={getFileList} variables={{ contains: search }}>
     {({ data, error, loading, networkStatus, refetch }) => {
       const hasData = !isEmpty(data);
       const list: Array<> = deepClear(get(data, 'getFileList', []), [
         '__typename',
       ]);
-
-      const filteredList = list.filter(
-        ({ description, extension, name }) =>
-          (description || '').toLowerCase().indexOf(search) > -1 ||
-          (extension || '').toLowerCase().indexOf(search) > -1 ||
-          (name || '').toLowerCase().indexOf(search) > -1,
-      );
 
       const preview: Object =
         selectedId && list.find(({ id }): boolean => id === selectedId);
@@ -63,29 +56,25 @@ const Media = ({
         <div className={style.Root}>
           {hasData && (
             <div className={style.Container}>
-              {list.length === 0 ? (
-                <Empty
-                  loading={loading}
-                  onUpdate={networkStatus !== 7 ? () => refetch() : null}
-                />
-              ) : (
-                <React.Fragment>
-                  <div className={style.Header}>
-                    <Header
-                      count={filteredList.length}
-                      onChange={handleChange}
-                    />
-                  </div>
+              <React.Fragment>
+                <div className={style.Header}>
+                  <Header count={list.length} onSearch={handleSearch} />
+                </div>
 
-                  <div className={style.Content}>
-                    {list && list.length > 0 && (
-                      <div className={style.List}>
-                        <List data={filteredList} />
-                      </div>
-                    )}
-                  </div>
-                </React.Fragment>
-              )}
+                <div className={style.Content}>
+                  {list.length === 0 ? (
+                    <Empty
+                      loading={loading}
+                      onUpdate={networkStatus !== 7 ? () => refetch() : null}
+                      searching={!!search}
+                    />
+                  ) : (
+                    <div className={style.List}>
+                      <List data={list} />
+                    </div>
+                  )}
+                </div>
+              </React.Fragment>
             </div>
           )}
 
@@ -139,7 +128,7 @@ export default compose(
   connect(mapStateToProps),
   withState('search', 'setSearch', ''),
   withHandlers({
-    handleChange: ({ setSearch }): Function => ({ search = '' }): void =>
+    handleSearch: ({ setSearch }): Function => ({ search = '' }): void =>
       setSearch(search.toLowerCase()),
   }),
 )(Media);

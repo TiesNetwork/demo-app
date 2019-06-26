@@ -4,7 +4,7 @@ import * as React from 'react';
 import { graphql } from 'react-apollo';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { compose, withHandlers } from 'recompose';
+import { compose, lifecycle, withHandlers } from 'recompose';
 
 // Components
 import Field from './components/Field';
@@ -37,6 +37,7 @@ type MediaPreviewPropsType = {
   handleSubmit: Function,
   isOwner: boolean,
   name: string,
+  mimetype: string,
   owner: string,
   size: number,
 };
@@ -52,13 +53,16 @@ const MediaPreview = ({
   createdAt,
   extension = '',
   description,
-  isOwner,
-  owner,
   handleClose,
   handleDelete,
   handleSubmit,
+  isOwner,
+  mimetype,
   name,
+  owner,
   size = 0,
+  test,
+  thumbnail,
 }: MediaPreviewPropsType): React.Element<'div'> => (
   <div className={style.Root}>
     <div className={style.Header}>
@@ -75,6 +79,16 @@ const MediaPreview = ({
       </button>
     </div>
 
+    {thumbnail && (
+      <div className={style.Thumbnail}>
+        <img
+          alt={name}
+          className={style.Image}
+          src={`data:${mimetype};base64,${thumbnail}`}
+        />
+      </div>
+    )}
+
     <div className={style.Info}>
       {!isOwner && (
         <Field
@@ -83,7 +97,7 @@ const MediaPreview = ({
         />
       )}
 
-      <Field label="media.preview.field.type" value={extension.toUpperCase()} />
+      <Field label="media.preview.field.type" value={mimetype} />
       <Field
         label="media.preview.field.size"
         value={`${prettyBytes(size)} (${size} Bytes)`}
@@ -142,6 +156,25 @@ export default compose(
         refetchQueries: [{ query: getFileList }],
         variables: { id, description, name },
       }),
+  }),
+  lifecycle({
+    componentDidMount() {
+      const { extension, mimetype, name, test } = this.props;
+
+      if (test) {
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.style.display = 'none';
+        const blob = new Blob([new Uint8Array(test.data)], { type: mimetype });
+        const url = window.URL.createObjectURL(blob);
+        console.log(blob);
+        a.href = url;
+        a.download = `${name}.${extension}`;
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+      }
+    },
   }),
 )(MediaPreview);
 

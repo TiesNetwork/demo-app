@@ -67,6 +67,27 @@
       }
     }
 
+    &Secondary {
+      &.RootVariantDefault {
+        background: #758196;
+        color: #fff;
+
+        &:hover {
+          background: #758196;
+        }
+      }
+
+      &.RootVariantOutline {
+        background: transparent;
+        border-color: #e1e4e8;
+        color: #0a1f44;
+
+        &:hover {
+          background: #f5f6f8;
+        }
+      }
+    }
+
     &Success {
       &.RootVariantDefault {
         background: #0bb07b;

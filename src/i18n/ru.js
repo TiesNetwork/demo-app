@@ -1,5 +1,7 @@
 export default {
   'error.incorrect': 'неверное значение!',
+  'error.file_save_error': 'Произошла ошибка при сохранение файла!',
+  'error.file_size_limit': 'Размер файла превышает 8 MB!',
   'error.required': 'обязательно',
 
   // Main
@@ -60,6 +62,8 @@ export default {
   'media.preview.form.action.submit': 'Сохранить',
 
   // Media upload
+  'media.upload.action.reset': 'Сбросить',
+  'media.upload.action.submit': 'Отправить',
   'media.upload.browse': 'выберите',
   'media.upload.description': 'или {browse} ваш файл',
   'media.upload.title': 'Перетащите файл для загрузки',

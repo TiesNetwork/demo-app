@@ -8,6 +8,7 @@ const COLOR = {
   ALERT: 'alert',
   DANGER: 'danger',
   PRIMARY: 'primary',
+  SECONDARY: 'secondary',
   SUCCESS: 'success',
 };
 
@@ -23,6 +24,7 @@ const VARIANT = {
 
 const Button = ({
   children,
+  className,
   color = COLOR.PRIMARY,
   disabled,
   icon,
@@ -36,11 +38,13 @@ const Button = ({
   <button
     {...props}
     className={classNames(
+      className,
       style.Root,
       {
         [style.RootColorAlert]: color === COLOR.ALERT,
         [style.RootColorDanger]: color === COLOR.DANGER,
         [style.RootColorPrimary]: color === COLOR.PRIMARY,
+        [style.RootColorSecondary]: color === COLOR.SECONDARY,
         [style.RootColorSuccess]: color === COLOR.SUCCESS,
       },
       {

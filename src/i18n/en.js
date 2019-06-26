@@ -1,5 +1,7 @@
 export default {
   'error.incorrect': 'incorrect value!',
+  'error.file_save_error': 'An error occurred while saving the file!',
+  'error.file_size_limit': 'File size is greater than 8 MB!',
   'error.required': 'required!',
 
   // Main
@@ -60,6 +62,8 @@ export default {
   'media.preview.form.action.submit': 'Save',
 
   // Media upload
+  'media.upload.action.reset': 'Reset',
+  'media.upload.action.submit': 'Upload',
   'media.upload.browse': 'browse',
   'media.upload.description': 'or {browse} your files',
   'media.upload.title': 'Drop file to upload',

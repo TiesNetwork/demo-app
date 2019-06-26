@@ -1,11 +1,16 @@
-import { get, last } from 'lodash';
+import classNames from 'classnames';
+import { get } from 'lodash';
+import prettyBytes from 'pretty-bytes';
 import * as React from 'react';
 import { graphql } from 'react-apollo';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { compose, withHandlers } from 'recompose';
+import { compose, withState } from 'recompose';
+import { reduxForm, SubmissionError } from 'redux-form';
 
 // Components
+import Button from '@components/Button';
+import Form, { File } from '@components/Form';
 import Modal from '@components/Modal';
 
 // Ducks
@@ -21,50 +26,112 @@ import { closeModal } from '@services/modals';
 // Style
 import style from './Upload.scss';
 
+// Utils
+import { getFileIcon } from '@utils';
+
 type MediaUploadPropTypes = {
-  handleChange: Function,
+  error: string,
+  file: {
+    name: string,
+    size: number,
+    type: string,
+  },
+  handleSubmit: Function,
+  reset: Function,
+  submitting: boolean,
 };
 
 const MediaUpload = ({
-  handleChange,
+  error,
+  file: { name, size, type } = {},
+  handleSubmit,
+  reset,
+  submitting,
 }: MediaUploadPropTypes): React.Element<typeof Modal> => (
   <Modal id={MEDIA_UPLOAD_MODAL_ID}>
-    <div className={style.Root}>
-      <div className={style.Logo}>
-        <i className="fas fa-cloud-upload" />
-      </div>
+    <Form onSubmit={handleSubmit}>
+      <div className={style.Root}>
+        {!!error && (
+          <div className={style.Error}>
+            <FormattedMessage defaultMessage="Untitled error!" id={error} />
+          </div>
+        )}
 
-      <div className={style.Title}>
-        <FormattedMessage
-          defaultMessage="Drop file to upload"
-          id="media.upload.title"
-        />
-      </div>
+        <div className={style.Logo}>
+          <i
+            className={classNames('fas', {
+              [getFileIcon(type)]: !!name,
+              'fa-cloud-upload': !name,
+            })}
+          />
+        </div>
 
-      <div className={style.Browse}>
-        <FormattedMessage
-          defaultMessage="or {browse} your files"
-          id="media.upload.description"
-          values={{
-            browse: (
-              <label className={style.Label} htmlFor="upload">
-                <FormattedMessage
-                  defaultMessage="browse"
-                  id="media.upload.browse"
-                />
+        <div className={style.Title}>
+          {name || (
+            <FormattedMessage
+              defaultMessage="Drop file to upload"
+              id="media.upload.title"
+            />
+          )}
+        </div>
 
-                <input
-                  className={style.Input}
-                  id="upload"
-                  onChange={handleChange}
-                  type="file"
-                />
-              </label>
-            ),
-          }}
-        />
+        {!!size && <div className={style.Size}>
+          {prettyBytes(size)}
+        </div>}
+
+        {name ? (
+          <div className={style.Actions}>
+            <Button
+              color="secondary"
+              disabled={submitting}
+              onClick={reset}
+              variant="outline"
+            >
+              <FormattedMessage
+                defaultMessage="Reset"
+                id="media.upload.action.reset"
+              />
+            </Button>
+
+            <Button
+              icon="fas fa-cloud-upload"
+              loading={submitting}
+              type="submit"
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="media.upload.action.submit"
+              />
+            </Button>
+          </div>
+        ) : (
+          <div className={style.Browse}>
+            <FormattedMessage
+              defaultMessage="or {browse} your files"
+              id="media.upload.description"
+              values={{
+                browse: (
+                  // eslint-disable-next-line
+                  <label className={style.Label} htmlFor="upload">
+                    <FormattedMessage
+                      defaultMessage="browse"
+                      id="media.upload.browse"
+                    />
+
+                    <File
+                      className={style.Input}
+                      hidden
+                      id="upload"
+                      name="files"
+                    />
+                  </label>
+                ),
+              }}
+            />
+          </div>
+        )}
       </div>
-    </div>
+    </Form>
   </Modal>
 );
 
@@ -74,59 +141,33 @@ export default compose(
     { closeModal },
   ),
   graphql(createFile, { name: 'createFile' }),
-  withHandlers({
-    handleChange: ({ closeModal, createFile }): Function => (
-      event: FileList | SyntheticEvent,
-    ) => {
-      const file: File = Array.isArray(event)
-        ? get(event, '0', {})
-        : get(event, 'target.files.0', {});
-
-      if (file) {
-        const splittedFileName = file.name.split('.');
-
-        createFile({
-          refetchQueries: [{ query: getFileList }],
-          variables: {
-            extension: last(splittedFileName),
-            name: splittedFileName.slice(0, -1).join('.'),
-            size: file.size,
-          },
-        });
-
-        closeModal(MEDIA_UPLOAD_MODAL_ID);
-      }
-    },
+  withState('customError', 'setCustomError'),
+  withState('file', 'setFile'),
+  reduxForm({
+    form: 'uploadForm',
+    onChange: ({ files }, dispatch, { setFile }): void =>
+      setFile({
+        name: get(files, '0.name'),
+        size: get(files, '0.size', 0),
+        type: get(files, '0.type'),
+      }),
+    onSubmit: (
+      { files },
+      dispatch,
+      { closeModal, createFile, reset, setCustomError },
+    ): void =>
+      createFile({
+        refetchQueries: [{ query: getFileList }],
+        variables: { file: get(files, '0') },
+      })
+        .then(() => {
+          closeModal(MEDIA_UPLOAD_MODAL_ID);
+          reset();
+        })
+        .catch(({ graphQLErrors }) => {
+          throw new SubmissionError({
+            _error: get(graphQLErrors, '0.message'),
+          });
+        }),
   }),
 )(MediaUpload);
-
-// <Dropzone onDrop={handleLoad}>
-//   {({ getInputProps, getRootProps, isDragActive }) => (
-//  <CSSTransition
-//                 classNames={{
-//                   enter: style.DragAnimateEnter,
-//                   enterActive: style.DragAnimateEnterActive,
-//                   exit: style.DragAnimateExit,
-//                   exitActive: style.DragAnimateExitActive,
-//                 }}
-//                 in={isDragActive}
-//                 timeout={400}
-//                 unmountOnExit
-//               >
-//                 <div className={style.Drag}>
-//                   <div className={style.DragContent}>
-//                     <div className={style.DragIcon}>
-//                       <i className="fas fa-cloud-upload" />
-//                     </div>
-
-//                     <div className={style.DragTitle}>
-//                       {`Drag and drop, or `}
-//                       <label className={style.DragLabel} htmlFor="file">
-//                         browse
-//                         <input {...getInputProps()} id="file" />
-//                       </label>
-//                       {' files!'}
-//                     </div>
-//                   </div>
-//                 </div>
-//               </CSSTransition>
