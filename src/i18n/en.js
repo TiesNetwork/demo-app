@@ -32,7 +32,7 @@ export default {
   // Media
   'media.count': 'media items',
   'media.search.action': 'Search',
-  'media.search.placeholder': 'Just start typing...',
+  'media.search.placeholder': 'Type something...',
   'media.title': 'Media Library',
 
   // Media empty

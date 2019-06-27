@@ -32,7 +32,7 @@ export default {
   // Media
   'media.count': 'файлов',
   'media.search.action': 'Поиск',
-  'media.search.placeholder': 'Просто начните печатать...',
+  'media.search.placeholder': 'Напечатайте что-нибудь...',
   'media.title': 'Библиотека',
 
   // Media empty

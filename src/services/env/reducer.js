@@ -2,7 +2,7 @@
 import { SET_LOCALE } from './types';
 
 const initialState = {
-  locale: localStorage.getItem('locale') || 'ru',
+  locale: localStorage.getItem('locale') || 'en',
 };
 
 export default (state = initialState, action) => {
