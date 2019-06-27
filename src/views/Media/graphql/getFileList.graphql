@@ -1,16 +1,14 @@
-query {
-  getFileList {
+query getFileList($contains: String) {
+  getFileList(contains: $contains) {
     id
     createdAt
     description
     extension
+    hasContent
+    mimetype
     name
     owner
     size
-    tags {
-      id
-      color
-      title
-    }
+    thumbnail
   }
 }

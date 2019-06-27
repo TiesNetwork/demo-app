@@ -11,6 +11,10 @@
         color: var(--color-red);
       }
     }
+
+    &Hidden {
+      display: none;
+    }
   }
 }
 

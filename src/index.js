@@ -1,4 +1,8 @@
-import ApolloClient from 'apollo-boost';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { setContext } from 'apollo-link-context';
+import { createUploadLink } from 'apollo-upload-client';
+import { get } from 'lodash';
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import ReactDOM from 'react-dom';
@@ -19,7 +23,35 @@ import * as serviceWorker from '@utils/serviceWorker';
 import App from './App';
 
 const { persistor, store } = createStore();
-const client = new ApolloClient({
+
+const authLink = setContext((_, { headers }) => {
+  try {
+    const session: Object = JSON.parse(localStorage.getItem('session'));
+
+    const address: string = get(session, 'address');
+    const privateKey: string = get(session, 'privateKey');
+
+    return {
+      headers: {
+        ...headers,
+        authorization: `${address}.${privateKey}`,
+      },
+    };
+  } catch (error) {
+    // eslint-disable-next-line
+    console.error(error);
+  }
+
+  return { headers };
+});
+
+const client: ApolloClient = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: authLink.concat(
+    createUploadLink({
+      uri: 'http://localhost:3001/graphql',
+    }),
+  ),
   request: (operation: Object): void => {
     const state: Object = store.getState();
 
@@ -29,7 +61,6 @@ const client = new ApolloClient({
       },
     });
   },
-  uri: 'http://localhost:3001/graphql',
 });
 
 ReactDOM.render(

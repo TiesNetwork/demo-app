@@ -22,9 +22,16 @@ const createServer: Function = (app: Express): ApolloServer => {
 
   // Create Apollo Server 2.0
   const server = new ApolloServer({
-    context: ({ req }) => ({
-      privateKey: get(req, 'headers.authorization'),
-    }),
+    context: ({ req }) => {
+      const authorization = get(req, 'headers.authorization', '').split('.');
+
+      return authorization && authorization.length > 0
+        ? {
+          address: authorization[0],
+          privateKey: authorization[1],
+        }
+        : {};
+    },
     introspection: true,
     playground: true,
     schema: schemaWithMiddleware,

@@ -53,7 +53,7 @@ export default compose(
   reduxForm({
     form: MAIN_CONFIRM_FORM_ID,
     validate: validate({
-      password: [required()],
+      password: [required('error.required')],
     }),
   }),
 )(MainConfirm);

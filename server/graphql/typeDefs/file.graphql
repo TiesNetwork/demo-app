@@ -13,10 +13,12 @@ type File {
   createdAt: String!
   description: String
   extension: String!
+  hasContent: Boolean
+  mimetype: String
   name: String!
   owner: String
   size: Int!
-  tags: [Tag!]
+  thumbnail: String
   updatedAt: String!
 }
 
@@ -29,11 +31,12 @@ type Tag {
 }
 
 extend type Query {
-  getFileList: [File!]!
+  getFileList(contains: String): [File!]!
 }
 
 extend type Mutation {
-  createFile(extension: String!, name: String!, size: Int!): File!
-  deleteFile(id: String!): Boolean!
-  updateFile(id: String!, description: String, name: String!): Boolean!
+  createFile(file: Upload): File!
+  deleteFile(id: String!): File!
+  downloadFile(id: ID!): Upload!
+  updateFile(id: String!, description: String, name: String!): File!
 }

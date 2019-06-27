@@ -4,16 +4,34 @@
   border-radius: 12px;
   display: flex;
   flex-direction: column;
-  height: 400px;
   justify-content: center;
   margin: -16px;
+  min-height: 400px;
+  padding: 24px;
   width: 400px;
+}
+
+
+.Actions {
+  display: flex;
+  margin: 40px 0 0;
+
+  & > *:not(:first-child) {
+    margin: 0 0 0 16px;
+  }
 }
 
 .Browse {
   color: #8a94a6;
   font-size: 16px;
-  font-weight: 500;
+}
+
+.Error {
+  background: #ffeaea;
+  border-radius: 20px;
+  color: #dd2727;
+  margin: 0 0 32px;
+  padding: 8px 20px;
 }
 
 .Input {
@@ -33,8 +51,14 @@
   font-size: 100px;
 }
 
+.Size {
+  color: #8a94a6;
+  font-size: 14px;
+}
+
 .Title {
   font-size: 20px;
   font-weight: 500;
   margin: 40px 0 0;
+  text-align: center;
 }

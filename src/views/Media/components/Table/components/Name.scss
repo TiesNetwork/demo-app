@@ -19,6 +19,24 @@
 .Icon {
   color: var(--color-purple);
   font-size: 24px;
+
+  &Color {
+    &Blue {
+      color: #0c66ff;
+    }
+
+    &Green {
+      color: #22c993;
+    }
+
+    &Red {
+      color: #f03d3d;
+    }
+
+    &Yellow {
+      color: #ffad0d;
+    }
+  }
 }
 
 .Name {

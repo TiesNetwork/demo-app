@@ -46,6 +46,7 @@ const MainImport = ({
   <Modal
     classNames={{ container: style.Modal }}
     id={MAIN_IMPORT_ACCOUNT_MODAL_ID}
+    logo
     title="main.import.title"
   >
     <Form onSubmit={handleSubmit}>
@@ -112,8 +113,8 @@ export default compose(
         }),
     validate: validate({
       json: [required()],
-      name: [required()],
-      password: [required()],
+      name: [required('error.required')],
+      password: [required('error.required')],
     }),
   }),
 )(MainImport);

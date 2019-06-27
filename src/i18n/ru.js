@@ -1,4 +1,9 @@
 export default {
+  'error.incorrect': 'неверное значение!',
+  'error.file_save_error': 'Произошла ошибка при сохранение файла!',
+  'error.file_size_limit': 'Размер файла превышает 8 MB!',
+  'error.required': 'обязательно',
+
   // Main
   'main.actions.accounts': 'Аккаунты',
   'main.actions.import': 'Добавить аккаунт',
@@ -26,6 +31,8 @@ export default {
 
   // Media
   'media.count': 'файлов',
+  'media.search.action': 'Поиск',
+  'media.search.placeholder': 'Просто начните печатать...',
   'media.title': 'Библиотека',
 
   // Media empty
@@ -43,6 +50,9 @@ export default {
   // Media preview
   'media.preview.owner': 'Я',
   'media.preview.title': 'Просмотр файла',
+  // Media preview download
+  'media.preview.download.action': 'Скачать',
+  'media.preview.download.error': 'Содержимое файла не найдено!',
   // Media preview fields
   'media.preview.field.createdAt': 'Дата создания',
   'media.preview.field.name': 'Название',
@@ -56,6 +66,8 @@ export default {
   'media.preview.form.action.submit': 'Сохранить',
 
   // Media upload
+  'media.upload.action.reset': 'Сбросить',
+  'media.upload.action.submit': 'Отправить',
   'media.upload.browse': 'выберите',
   'media.upload.description': 'или {browse} ваш файл',
   'media.upload.title': 'Перетащите файл для загрузки',

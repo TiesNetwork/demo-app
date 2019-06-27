@@ -18,8 +18,8 @@ type FormFieldPropTypes = {
 };
 
 const FormField = (props: FormFieldPropTypes): React.Element<typeof Field> => {
-  const { children, name } = props;
-  const id = uuid(name, uuid.URL);
+  const { children, id: propId, hidden, name } = props;
+  const id = propId || uuid(name, uuid.URL);
 
   return (
     <Field {...props} component={reduxFieldAdapter}>
@@ -27,6 +27,7 @@ const FormField = (props: FormFieldPropTypes): React.Element<typeof Field> => {
         <div
           className={classNames(style.Root, {
             [style.RootIsErred]: !!error,
+            [style.RootIsHidden]: !!hidden,
           })}
         >
           {label && (
@@ -38,9 +39,13 @@ const FormField = (props: FormFieldPropTypes): React.Element<typeof Field> => {
                 </label>
               )}
 
-              {error && <div className={style.Error}>
-                {` - ${error}`}
-              </div>}
+              {error && (
+                <div className={style.Error}>
+                  <FormattedMessage defaultMessage={error} id={error}>
+                    {error => ` - ${error}`}
+                  </FormattedMessage>
+                </div>
+              )}
             </div>
           )}
 

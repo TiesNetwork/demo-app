@@ -12,6 +12,11 @@
   max-height: calc(100% - 100px);
 }
 
+.Content {
+  display: flex;
+  flex: 1 1 auto;
+}
+
 .Drag {
   background: rgba(255, 255, 255, .6);
   height: 100%;
@@ -141,10 +146,28 @@
     0 0 1px rgba(#0a1f44, .08),
     -4px 0 4px rgba(#0a1f44, .1);
   height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
   position: absolute;
   right: 0;
   top: 0;
   width: 336px;
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: #bfbfc7;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    background: transparent;
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px 0 0 4px;
+  }
 
   &Animate {
     &Enter {

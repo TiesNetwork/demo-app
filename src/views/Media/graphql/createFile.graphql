@@ -1,5 +1,14 @@
-mutation createFile($extension: String!, $name: String!, $size: Int!) {
-  createFile(extension: $extension, name: $name, size: $size) {
+mutation createFile($file: Upload!) {
+  createFile(file: $file) {
     id
+    createdAt
+    description
+    extension
+    hasContent
+    mimetype
+    name
+    owner
+    size
+    thumbnail
   }
 }

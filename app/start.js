@@ -10,8 +10,8 @@ let mainWindow;
 const createWindow = () => {
   mainWindow = new BrowserWindow({
     height: 720,
-    icon: path.join(__dirname, './../build/icon-ties.icns'),
-    title: 'Ties.DB',
+    icon: path.join(__dirname, './../build/icon-oasis.icns'),
+    title: 'Oasis',
     width: 1280,
   });
 
@@ -30,15 +30,14 @@ const createWindow = () => {
     mainWindow = null;
   });
 
-  !isDev && Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
 };
 
 app.on('activate', () => mainWindow === null && createWindow());
 app.on('ready', async () => {
   createWindow();
   // eslint-disable-next-line
-  require(path.join(__dirname, './../build/server/start.js'));
-  // childProcess.exec('yarn start:server');
+  !isDev && require(path.join(__dirname, './../build/server/start.js'));
 });
 app.on('window-all-closed', () => process.platform !== 'darwin' && app.quit());
 

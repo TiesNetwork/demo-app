@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
-import { compose } from 'recompose';
+import { compose, withHandlers, withState } from 'recompose';
 
 // Containers
 import Empty from './containers/Empty';
@@ -28,17 +28,25 @@ import style from './Media.scss';
 import deepClear from '@utils/deepClear';
 
 type MediaType = {
+  handleChange: Function,
   handleLoad: Function,
   hasSession: boolean,
+  search: string,
   selectedId: string,
 };
 
 const Media = ({
   handleLoad,
+  handleSearch,
   hasSession,
+  search,
   selectedId,
 }: MediaType): React.Element<typeof Query> => (
-  <Query query={getFileList}>
+  <Query
+    fetchPolicy="network-only"
+    query={getFileList}
+    variables={{ contains: search }}
+  >
     {({ data, error, loading, networkStatus, refetch }) => {
       const hasData = !isEmpty(data);
       const list: Array<> = deepClear(get(data, 'getFileList', []), [
@@ -52,26 +60,25 @@ const Media = ({
         <div className={style.Root}>
           {hasData && (
             <div className={style.Container}>
-              {list.length === 0 ? (
-                <Empty
-                  loading={loading}
-                  onUpdate={networkStatus !== 7 ? () => refetch() : null}
-                />
-              ) : (
-                <React.Fragment>
-                  <div className={style.Header}>
-                    <Header count={list.length} />
-                  </div>
+              <React.Fragment>
+                <div className={style.Header}>
+                  <Header count={list.length} onSearch={handleSearch} />
+                </div>
 
-                  <div className={style.Content}>
-                    {list && list.length > 0 && (
-                      <div className={style.List}>
-                        <List data={list} />
-                      </div>
-                    )}
-                  </div>
-                </React.Fragment>
-              )}
+                <div className={style.Content}>
+                  {list.length === 0 ? (
+                    <Empty
+                      loading={loading}
+                      onUpdate={networkStatus !== 7 ? () => refetch() : null}
+                      searching={!!search}
+                    />
+                  ) : (
+                    <div className={style.List}>
+                      <List data={list} />
+                    </div>
+                  )}
+                </div>
+              </React.Fragment>
             </div>
           )}
 
@@ -105,7 +112,7 @@ const Media = ({
             unmountOnExit
           >
             <div className={style.Sidebar}>
-              <Preview {...preview} />
+              <Preview {...preview} key={selectedId} />
             </div>
           </CSSTransition>
 
@@ -121,4 +128,11 @@ const mapStateToProps: Function = (state: Object): Object => ({
   selectedId: getSelectedId(state),
 });
 
-export default compose(connect(mapStateToProps))(Media);
+export default compose(
+  connect(mapStateToProps),
+  withState('search', 'setSearch', ''),
+  withHandlers({
+    handleSearch: ({ setSearch }): Function => ({ search = '' }): void =>
+      setSearch(search.toLowerCase()),
+  }),
+)(Media);

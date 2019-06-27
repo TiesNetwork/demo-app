@@ -1,4 +1,9 @@
 export default {
+  'error.incorrect': 'incorrect value!',
+  'error.file_save_error': 'An error occurred while saving the file!',
+  'error.file_size_limit': 'File size is greater than 8 MB!',
+  'error.required': 'required!',
+
   // Main
   'main.actions.accounts': 'Accounts',
   'main.actions.import': 'Import account',
@@ -26,6 +31,8 @@ export default {
 
   // Media
   'media.count': 'media items',
+  'media.search.action': 'Search',
+  'media.search.placeholder': 'Just start typing...',
   'media.title': 'Media Library',
 
   // Media empty
@@ -43,6 +50,9 @@ export default {
   // Media preview
   'media.preview.owner': 'Me',
   'media.preview.title': 'File Preview',
+  // Media preview download
+  'media.preview.download.action': 'Download',
+  'media.preview.download.error': 'File content not found!',
   // Media preview fields
   'media.preview.field.createdAt': 'Created date',
   'media.preview.field.name': 'Name',
@@ -56,6 +66,8 @@ export default {
   'media.preview.form.action.submit': 'Save',
 
   // Media upload
+  'media.upload.action.reset': 'Reset',
+  'media.upload.action.submit': 'Upload',
   'media.upload.browse': 'browse',
   'media.upload.description': 'or {browse} your files',
   'media.upload.title': 'Drop file to upload',

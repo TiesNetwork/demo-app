@@ -92,9 +92,19 @@
   z-index: 2;
 }
 
+.Logo {
+  background: transparent url('~@assets/logo-oasis.png') no-repeat center center;
+  background-size: contain;
+  height: 28px;
+  width: 28px;
+}
+
 .Title {
+  align-items: center;
+  display: flex;
   font-size: 18px;
   font-weight: 700;
+  justify-content: space-between;
   margin: 0 0 20px;
   text-transform: uppercase;
 }

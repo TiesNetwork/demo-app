@@ -1,7 +1,10 @@
+/* eslint-disable no-undef */
 import { ApolloError } from 'apollo-server-express';
+import imageThumbnail from 'image-thumbnail';
+import { last } from 'lodash';
 import { Record } from 'tiesdb-client';
 import uuid from 'uuid/v4';
-import { number, object, string } from 'yup';
+import { object, string } from 'yup';
 
 // Database
 import DB from '../../database';
@@ -11,58 +14,127 @@ import File from '../../models/file';
 
 export default {
   Query: {
-    getFileList: async (...args) => {
-      const records = await DB.recollect(
-        'SELECT id, createdAt, description, extension, name, size  FROM "filestorage"."files"',
+    getFileList: async (root, { contains = '' }) => {
+      const records: [Record] = await DB.recollect(
+        'SELECT id, content, createdAt, description, extension, mimetype, name, size, thumbnail  FROM "filestorage"."files"',
       );
-      // console.log(args);
-      return records.map(record => ({
-        id: record.getValue('id'),
-        createdAt: record.getValue('createdAt').toISOString(),
-        description: record.getValue('description'),
-        extension: record.getValue('extension'),
-        name: record.getValue('name'),
-        owner: record.signer.toString('hex').toLowerCase(),
-        size: record.getValue('size'),
-      }));
+
+      return records
+        .filter((record: Record): boolean => {
+          const content: Buffer = record.getValue('content');
+          const description: string = record.getValue('description') || '';
+          const extension: string = record.getValue('extension') || '';
+          const mimetype: string = record.getValue('mimetype') || '';
+          const name: string = record.getValue('name') || '';
+
+          let summary: string = (description + extension + name).toLowerCase();
+
+          if (content && mimetype === 'text/plain') {
+            summary += content.toString('utf8').toLowerCase();
+          }
+
+          return summary.indexOf(contains) > -1;
+        })
+        .map((record: Record): Object => {
+          const thumbnail = record.getValue('thumbnail');
+
+          return {
+            id: record.getValue('id'),
+            createdAt: record.getValue('createdAt').toISOString(),
+            description: record.getValue('description'),
+            extension: record.getValue('extension'),
+            hasContent: !!record.getValue('content'),
+            mimetype: record.getValue('mimetype') || 'text/plain',
+            name: record.getValue('name'),
+            owner: record.signer.toString('hex').toLowerCase(),
+            size: record.getValue('size'),
+            thumbnail: thumbnail ? thumbnail.toString('base64') : null,
+          };
+        });
     },
   },
   Mutation: {
     createFile: {
-      validation: object().shape({
-        extension: string()
-          // eslint-disable-next-line
-          .matches(/^(jpg|png|pdf)+$/, 'File extension is not correct!')
-          .required('File name is required!'),
-        name: string()
-          // eslint-disable-next-line
-          .matches(/^[A-я0-9-_]+$/, 'File name is not correct!')
-          .required('File name is required!'),
-        size: number()
-          .lessThan(8388608, 'File size must be less than 8mb!')
-          .required('File size is required!'),
-      }),
-      resolve: async (root, { extension, name, size }, { privateKey }) => {
+      resolve: async (root, { file }, { address, privateKey }) => {
         // Create a ties.db record
-        const record = new Record('filestorage', 'files');
+        const record: Record = new Record('filestorage', 'files');
+
+        // Get file meta and read file
+        const { createReadStream, filename, mimetype } = await file;
+        const { content, size } = await new Promise((resolve, reject) => {
+          // Body
+          let buffer;
+          // Create read stream
+          const stream = createReadStream();
+
+          // Build body from chunks
+          stream.on('data', chunk => {
+            buffer = !buffer
+              ? Buffer.from(chunk)
+              : Buffer.concat([buffer, chunk]);
+          });
+
+          // Handle end stream
+          stream.on('end', () =>
+            resolve({
+              content: buffer,
+              size: Buffer.byteLength(buffer),
+            }),
+          );
+        });
+
+        // Check file size
+        if (size > 8388608) {
+          throw new ApolloError('error.file_size_limit', 'FILE_SIZE_LIMIT');
+        }
+
+        // Create thumbnail
+        let thumbnail = Buffer.from('');
+
+        if (mimetype.split('/')[0] === 'image') {
+          try {
+            thumbnail = await imageThumbnail(content, {
+              height: 576,
+              width: 576,
+            });
+          } catch (error) {
+            throw new ApolloError(
+              'error.file_thubmnail_fail',
+              'FILE_THUBMNAIL_FAIL',
+            );
+          }
+        }
 
         // Generate id and file object
         const id = uuid();
+        const splittedFilename = filename.split('.');
         const newFile = {
           id,
-          extension,
+          mimetype,
           size,
-          name,
+          extension: last(splittedFilename),
+          name: splittedFilename.slice(0, -1).join('.'),
           createdAt: new Date(),
           updatedAt: new Date(),
         };
 
-        // Update record
-        record.putFields(newFile, File);
-        // Push to DB
-        await DB.modify([record], Buffer.from(privateKey, 'hex'));
+        try {
+          // Update record
+          record.putFields({ ...newFile, content, thumbnail }, File);
+          // Push to DB
+          await DB.modify([record], Buffer.from(privateKey, 'hex'));
 
-        return newFile;
+          // Client mock
+          return {
+            ...newFile,
+            createdAt: new Date().toISOString(),
+            hasContent: !!content,
+            owner: address,
+            thumbnail: thumbnail.toString('base64'),
+          };
+        } catch (error) {
+          throw new ApolloError('error.file_save_error', 'FILE_SAVE_ERROR');
+        }
       },
     },
     deleteFile: {
@@ -86,16 +158,37 @@ export default {
         // Push to DB
         await DB.modify(records, Buffer.from(privateKey, 'hex'));
 
-        return true;
+        return { id };
+      },
+    },
+    downloadFile: {
+      validation: object().shape({
+        id: string().required('ID is required!'),
+      }),
+      resolve: async (root, { id }) => {
+        // Find the file in DB
+        const records = await DB.recollect(
+          `SELECT id, content FROM "filestorage"."files" WHERE id IN (${id})`,
+        );
+        // Check file
+        if (!records || records.length === 0) {
+          throw new ApolloError('error.file_not_exist', 'FILE_NOT_EXIST');
+        }
+
+        // Get file content
+        const content = records[0].getValue('content');
+        // Check content
+        if (!content) {
+          throw new ApolloError('error.file_not_found', 'FILE_NOT_FOUND');
+        }
+
+        return content;
       },
     },
     updateFile: {
       validation: object().shape({
         id: string().required('ID is required!'),
-        name: string()
-          // eslint-disable-next-line
-          .matches(/^[A-z0-9-_]+$/, 'File name is not correct!')
-          .required('File name is required!'),
+        name: string().required('File name is required!'),
       }),
       resolve: async (root, { id, description, name }, { privateKey }) => {
         // Find the file in DB
@@ -115,7 +208,7 @@ export default {
         // Push to DB
         await DB.modify(records, Buffer.from(privateKey, 'hex'));
 
-        return true;
+        return { id, description, name };
       },
     },
   },

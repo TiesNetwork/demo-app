@@ -1,3 +1,4 @@
+import { get, isEmpty } from 'lodash';
 import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
 import * as React from 'react';
@@ -11,6 +12,7 @@ import Field from './components/Field';
 import Owner from './components/Owner';
 
 // Containers
+import Download from './containers/Download';
 import Form from './containers/Form';
 
 // Ducks
@@ -18,6 +20,7 @@ import { setSelectedId } from '@views/Media/ducks';
 
 // GraphQL
 import deleteFile from '@views/Media/graphql/deleteFile.graphql';
+import downloadFile from '@views/Media/graphql/downloadFile.graphql';
 import getFileList from '@views/Media/graphql/getFileList.graphql';
 import updateFile from '@views/Media/graphql/updateFile.graphql';
 
@@ -35,8 +38,10 @@ type MediaPreviewPropsType = {
   handleClose: Function,
   handleDelete: Function,
   handleSubmit: Function,
+  hasContent: boolean,
   isOwner: boolean,
   name: string,
+  mimetype: string,
   owner: string,
   size: number,
 };
@@ -52,13 +57,17 @@ const MediaPreview = ({
   createdAt,
   extension = '',
   description,
-  isOwner,
-  owner,
   handleClose,
   handleDelete,
+  handleDownload,
   handleSubmit,
+  hasContent,
+  isOwner,
+  mimetype,
   name,
+  owner,
   size = 0,
+  thumbnail,
 }: MediaPreviewPropsType): React.Element<'div'> => (
   <div className={style.Root}>
     <div className={style.Header}>
@@ -75,6 +84,16 @@ const MediaPreview = ({
       </button>
     </div>
 
+    {thumbnail && (
+      <div className={style.Thumbnail}>
+        <img
+          alt={name}
+          className={style.Image}
+          src={`data:${mimetype};base64,${thumbnail}`}
+        />
+      </div>
+    )}
+
     <div className={style.Info}>
       {!isOwner && (
         <Field
@@ -83,7 +102,7 @@ const MediaPreview = ({
         />
       )}
 
-      <Field label="media.preview.field.type" value={extension.toUpperCase()} />
+      <Field label="media.preview.field.type" value={mimetype} />
       <Field
         label="media.preview.field.size"
         value={`${prettyBytes(size)} (${size} Bytes)`}
@@ -96,6 +115,10 @@ const MediaPreview = ({
         label="media.preview.field.owner"
         value={<Owner address={owner} isOwner={isOwner} />}
       />
+    </div>
+
+    <div className={style.Download}>
+      <Download disabled={!hasContent} onSubmit={handleDownload} />
     </div>
 
     {isOwner && (
@@ -125,6 +148,7 @@ export default compose(
     { setSelectedId },
   ),
   graphql(deleteFile, { name: 'deleteFile' }),
+  graphql(downloadFile, { name: 'downloadFile' }),
   graphql(updateFile, { name: 'updateFile' }),
   withHandlers({
     handleClose: ({ setSelectedId }): Function => (): void =>
@@ -135,7 +159,50 @@ export default compose(
     }: MediaPreviewPropsType): Function => (): Promise =>
       deleteFile({
         refetchQueries: [{ query: getFileList }],
+        updateQueries: {
+          getFileList: (prev, { mutationResult }) => {
+            const id = get(mutationResult, 'data.deleteFile.id');
+
+            return id
+              ? {
+                ...prev,
+                getFileList: prev.getFileList.filter(item => item.id !== id),
+              }
+              : prev;
+          },
+        },
         variables: { id },
+      }),
+    handleDownload: ({
+      id,
+      downloadFile,
+      extension,
+      mimetype,
+      name,
+    }): Function => (): Promise =>
+      downloadFile({
+        variables: { id },
+      }).then(({ data }) => {
+        const content: Object = get(data, 'downloadFile');
+
+        if (!isEmpty(content)) {
+          const a = document.createElement('a');
+          const blob = new Blob([new Uint8Array(content.data)], {
+            type: mimetype,
+          });
+          const url = window.URL.createObjectURL(blob);
+
+          document.body.appendChild(a);
+
+          a.download = `${name}.${extension}`;
+          a.href = url;
+          a.style.display = 'none';
+
+          a.click();
+          a.remove();
+
+          window.URL.revokeObjectURL(url);
+        }
       }),
     handleSubmit: ({ updateFile }) => ({ id, description, name }) =>
       updateFile({

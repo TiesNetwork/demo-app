@@ -5,31 +5,33 @@ import * as React from 'react';
 // Style
 import style from './Name.scss';
 
-const VARIANT = {
-  IMAGE: {
-    className: style.RootVariantImage,
-    icon: 'fas fa-file-image',
-  },
-  PDF: {
-    className: style.RootVariantPdf,
-    icon: 'fas fa-file-pdf',
-  },
-};
+// Utils
+import { getFileIcon } from '@utils';
 
 const MediaTableName = ({
   original,
 }: MediaTableNameType): React.Element<'div'> => {
-  const ext = get(original, 'extension', 'jpg');
-  const variant = ext === 'pdf' ? VARIANT.PDF : VARIANT.IMAGE;
+  const extension = get(original, 'extension');
+  const mimetype = get(original, 'mimetype');
+  const fileIcon = getFileIcon(mimetype);
 
   return (
-    <div className={classNames(style.Root, variant.className)}>
+    <div className={style.Root}>
       <div className={style.Icon}>
-        <i className={variant.icon} />
+        <i
+          className={classNames('fas', fileIcon, {
+            [style.IconColorBlue]: ['fa-file-word'].indexOf(fileIcon) > -1,
+            [style.IconColorGreen]:
+              ['fa-file-excel', 'fa-file-image'].indexOf(fileIcon) > -1,
+            [style.IconColorYellow]: ['fa-file-audio'].indexOf(fileIcon) > -1,
+            [style.IconColorRed]:
+              ['fa-file-pdf', 'fa-file-video'].indexOf(fileIcon) > -1,
+          })}
+        />
       </div>
 
       <div className={style.Name}>
-        {`${get(original, 'name', 'untitled')}.${ext}`}
+        {`${get(original, 'name', 'untitled')}.${extension}`}
       </div>
     </div>
   );

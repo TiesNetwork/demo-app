@@ -12,7 +12,9 @@
     "@typescript-eslint/eslint-plugin": "1.6.0",
     "@typescript-eslint/parser": "1.6.0",
     "apollo-boost": "^0.4.2",
+    "apollo-link-context": "^1.0.18",
     "apollo-server-express": "^2.6.3",
+    "apollo-upload-client": "^10.0.1",
     "babel-eslint": "10.0.1",
     "babel-jest": "^24.8.0",
     "babel-loader": "8.0.5",
@@ -48,6 +50,7 @@
     "graphql-tag": "^2.10.1",
     "html-webpack-plugin": "4.0.0-beta.5",
     "identity-obj-proxy": "3.0.0",
+    "image-thumbnail": "^1.0.4",
     "is-wsl": "^1.1.0",
     "jest": "24.7.1",
     "jest-environment-jsdom-fourteen": "0.1.0",
@@ -110,7 +113,7 @@
     "start:dev": "yarn start:react && yarn start:server",
     "start:electron": "node app/react.js",
     "start:react": "node scripts/start.js",
-    "start:server": "nodemon --exec \"eslint --fix . && NODE_ENV=development BABEL_ENV=development BABEL_DISABLE_CACHE=1 babel-node server/start.js --config-file ./server/.babelrc\"",
+    "start:server": "nodemon --exec \"eslint --fix . && NODE_ENV=development BABEL_ENV=development BABEL_DISABLE_CACHE=1 babel-node ./server/start.js --config-file ./server/.babelrc\"",
     "build:react": "node scripts/build.js",
     "build:server": "babel server/ --out-dir build/server --config-file ./server/.babelrc",
     "test": "node scripts/test.js",
@@ -199,23 +202,23 @@
   },
   "main": "app/start.js",
   "build": {
-    "appId": "com.ties.filestorage",
+    "appId": "com.oasis.filestorage",
     "directories": {
       "buildResources": "."
     },
     "files": [
       "**/*",
-      "build/icon-ties.*"
+      "build/icon-oasis.*"
     ],
-    "productName": "Ties.DB",
+    "productName": "Oasis",
     "dmg": {
-      "icon": "build/icon-ties.icns"
+      "icon": "build/icon-oasis.icns"
     },
     "mac": {
-      "icon": "build/icon-ties.icns"
+      "icon": "build/icon-oasis.icns"
     },
     "win": {
-      "icon": "build/icon-ties.png"
+      "icon": "build/icon-oasis.png"
     }
   },
   "homepage": "./"
