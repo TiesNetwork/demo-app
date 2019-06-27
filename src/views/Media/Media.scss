@@ -9,12 +9,13 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  max-height: calc(100% - 100px);
+  max-height: 100%;
 }
 
 .Content {
   display: flex;
   flex: 1 1 auto;
+  max-height: calc(100% - 100px);
 }
 
 .Drag {

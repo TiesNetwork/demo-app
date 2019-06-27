@@ -10,8 +10,8 @@ let mainWindow;
 const createWindow = () => {
   mainWindow = new BrowserWindow({
     height: 720,
-    icon: path.join(__dirname, './../build/icon-oasis.icns'),
-    title: 'Oasis',
+    icon: path.join(__dirname, './../build/icon-ties.icns'),
+    title: 'Ties.DB',
     width: 1280,
   });
 

@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+// import 'babel-polyfill';
 import { Connection } from 'tiesdb-client';
 import express from 'express';
 

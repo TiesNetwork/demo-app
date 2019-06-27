@@ -1,6 +1,10 @@
 .Root {
+  display: flex;
+  max-height: 100%;
+
   :global .ReactTable {
     border: 0;
+    width: 100%;
 
     .rt-td {
       align-items: center;
@@ -33,12 +37,33 @@
       }
     }
 
+    .rt-tbody {
+      overflow-x: hidden;
+      overflow-y: scroll;
+
+      &:hover {
+        &::-webkit-scrollbar-thumb {
+          background: #bfbfc7;
+        }
+      }
+
+      &::-webkit-scrollbar {
+        background: transparent;
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 4px 0 0 4px;
+      }
+    }
+
     .rt-thead {
-      border-bottom: 2px solid #e9edf0;
+      // border-bottom: 2px solid #e9edf0;
       height: 48px;
 
       &.-header {
-        box-shadow: none;
+        box-shadow: 0 0 1px rgba(#0a1f44, .08), 0 3px 4px rgba(#0a1f44, .1);
       }
     }
   }

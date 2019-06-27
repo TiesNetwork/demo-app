@@ -26,6 +26,7 @@
     "camelcase": "^5.2.0",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "classnames": "^2.2.6",
+    "cross-env": "^5.2.0",
     "css-loader": "2.1.1",
     "dotenv": "^8.0.0",
     "dotenv-expand": "4.2.0",
@@ -202,23 +203,23 @@
   },
   "main": "app/start.js",
   "build": {
-    "appId": "com.oasis.filestorage",
+    "appId": "com.ties.filestorage",
     "directories": {
       "buildResources": "."
     },
     "files": [
       "**/*",
-      "build/icon-oasis.*"
+      "build/icon-ties.*"
     ],
-    "productName": "Oasis",
+    "productName": "Ties",
     "dmg": {
-      "icon": "build/icon-oasis.icns"
+      "icon": "build/icon-ties.icns"
     },
     "mac": {
-      "icon": "build/icon-oasis.icns"
+      "icon": "build/icon-ties.icns"
     },
     "win": {
-      "icon": "build/icon-oasis.png"
+      "icon": "build/icon-ties.png"
     }
   },
   "homepage": "./"
