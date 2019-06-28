@@ -9,11 +9,17 @@ import style from './Header.scss';
 
 type MediaHeaderPropTypes = {
   count: number,
+  initialValues: {
+    search: string,
+  },
+  onReset: Function,
   onSearch: Function,
 };
 
 const MediaHeader = ({
   count = 0,
+  initialValues,
+  onReset,
   onSearch,
 }: MediaHeaderPropTypes): React.Element<'div'> => (
   <div className={style.Root}>
@@ -30,7 +36,11 @@ const MediaHeader = ({
     </div>
 
     <div className={style.Right}>
-      <Search onSubmit={onSearch} />
+      <Search
+        initialValues={initialValues}
+        onReset={onReset}
+        onSubmit={onSearch}
+      />
     </div>
   </div>
 );

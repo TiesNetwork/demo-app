@@ -2,6 +2,7 @@
 import { ApolloError } from 'apollo-server-express';
 import imageThumbnail from 'image-thumbnail';
 import { last } from 'lodash';
+import filterAsync from 'node-filter-async';
 import { Record } from 'tiesdb-client';
 import uuid from 'uuid/v4';
 import { object, string } from 'yup';
@@ -16,41 +17,56 @@ export default {
   Query: {
     getFileList: async (root, { contains = '' }) => {
       const records: [Record] = await DB.recollect(
-        'SELECT id, content, createdAt, description, extension, mimetype, name, size, thumbnail  FROM "filestorage"."files"',
+        'SELECT id, createdAt, description, extension, mimetype, name, size, thumbnail  FROM "filestorage"."files"',
       );
 
-      return records
-        .filter((record: Record): boolean => {
-          const content: Buffer = record.getValue('content');
+      const filteredRecords = contains.trim()
+        ? await filterAsync(records, async record => {
+          const id: string = record.getValue('id');
           const description: string = record.getValue('description') || '';
           const extension: string = record.getValue('extension') || '';
           const mimetype: string = record.getValue('mimetype') || '';
           const name: string = record.getValue('name') || '';
 
-          let summary: string = (description + extension + name).toLowerCase();
+          let summary: string = (
+            description +
+              extension +
+              name
+          ).toLowerCase();
 
-          if (content && mimetype === 'text/plain') {
-            summary += content.toString('utf8').toLowerCase();
+          if (mimetype === 'text/plain') {
+            const records: [Record] = await DB.recollect(
+              `SELECT id, content FROM "filestorage"."files" WHERE id IN (${id})`,
+            );
+
+            if (records && records.length > 0) {
+              const content: Buffer = records[0].getValue('content');
+
+              if (content) {
+                summary += content.toString('utf8').toLowerCase();
+              }
+            }
           }
 
-          return summary.indexOf(contains) > -1;
+          return summary.indexOf(contains.toLowerCase()) > -1;
         })
-        .map((record: Record): Object => {
-          const thumbnail = record.getValue('thumbnail');
+        : records;
 
-          return {
-            id: record.getValue('id'),
-            createdAt: record.getValue('createdAt').toISOString(),
-            description: record.getValue('description'),
-            extension: record.getValue('extension'),
-            hasContent: !!record.getValue('content'),
-            mimetype: record.getValue('mimetype') || 'text/plain',
-            name: record.getValue('name'),
-            owner: record.signer.toString('hex').toLowerCase(),
-            size: record.getValue('size'),
-            thumbnail: thumbnail ? thumbnail.toString('base64') : null,
-          };
-        });
+      return filteredRecords.map((record: Record): Object => {
+        const thumbnail = record.getValue('thumbnail');
+
+        return {
+          id: record.getValue('id'),
+          createdAt: record.getValue('createdAt').toISOString(),
+          description: record.getValue('description'),
+          extension: record.getValue('extension'),
+          mimetype: record.getValue('mimetype') || 'text/plain',
+          name: record.getValue('name'),
+          owner: record.signer.toString('hex').toLowerCase(),
+          size: record.getValue('size'),
+          thumbnail: thumbnail ? thumbnail.toString('base64') : null,
+        };
+      });
     },
   },
   Mutation: {

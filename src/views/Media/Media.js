@@ -28,8 +28,9 @@ import style from './Media.scss';
 import deepClear from '@utils/deepClear';
 
 type MediaType = {
-  handleChange: Function,
   handleLoad: Function,
+  handleReset: Function,
+  handleSearch: Function,
   hasSession: boolean,
   search: string,
   selectedId: string,
@@ -37,6 +38,7 @@ type MediaType = {
 
 const Media = ({
   handleLoad,
+  handleReset,
   handleSearch,
   hasSession,
   search,
@@ -62,7 +64,12 @@ const Media = ({
             <div className={style.Container}>
               <React.Fragment>
                 <div className={style.Header}>
-                  <Header count={list.length} onSearch={handleSearch} />
+                  <Header
+                    count={list.length}
+                    initialValues={{ search }}
+                    onReset={handleReset}
+                    onSearch={handleSearch}
+                  />
                 </div>
 
                 <div className={style.Content}>
@@ -132,6 +139,7 @@ export default compose(
   connect(mapStateToProps),
   withState('search', 'setSearch', ''),
   withHandlers({
+    handleReset: ({ setSearch }): Function => (): void => setSearch(''),
     handleSearch: ({ setSearch }): Function => ({ search = '' }): void =>
       setSearch(search.toLowerCase()),
   }),

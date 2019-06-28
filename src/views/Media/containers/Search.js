@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { reduxForm } from 'redux-form';
@@ -9,15 +10,37 @@ import Form, { Input } from '@components/Form';
 // Style
 import style from './Search.scss';
 
-const MediaSearch = ({ handleSubmit, submitting }) => (
-  <Form className={style.Root} onSubmit={handleSubmit}>
+const MediaSearch = ({
+  handleSubmit,
+  initialValues: { search },
+  onReset,
+  submitting,
+}) => (
+  <Form
+    className={classNames(style.Root, { [style.RootWithValue]: !!search })}
+    onSubmit={handleSubmit}
+  >
     <div className={style.Group}>
-      <FormattedMessage
-        defaultMessage="Just start typing..."
-        id="media.search.placeholder"
+      <button
+        className={style.Back} onClick={onReset}
+        type="button"
       >
-        {placeholder => <Input name="search" placeholder={placeholder} />}
-      </FormattedMessage>
+        <i className="far fa-long-arrow-left" />
+      </button>
+
+      <div>
+        <FormattedMessage
+          defaultMessage="Just start typing..."
+          id="media.search.placeholder"
+        >
+          {placeholder => (
+            <Input
+              name="search" placeholder={placeholder}
+              type="search"
+            />
+          )}
+        </FormattedMessage>
+      </div>
 
       <Button
         className={style.Button} loading={submitting}
@@ -29,4 +52,6 @@ const MediaSearch = ({ handleSubmit, submitting }) => (
   </Form>
 );
 
-export default reduxForm({ form: 'search' })(MediaSearch);
+export default reduxForm({ form: 'search', enableReinitialize: true })(
+  MediaSearch,
+);

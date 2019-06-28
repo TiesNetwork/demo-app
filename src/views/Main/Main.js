@@ -58,7 +58,7 @@ const Main = ({
 }: MainPropsType): React.Element<typeof Switch> => (
   <div className={style.Root}>
     <div className={style.Header}>
-      <div className={style.Logo} />
+      <div className={style.Logo} onClick={() => window.location.reload()} />
 
       <div className={style.HeaderRight}>
         <div className={style.Actions}>

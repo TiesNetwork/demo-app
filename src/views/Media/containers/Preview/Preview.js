@@ -118,7 +118,7 @@ const MediaPreview = ({
     </div>
 
     <div className={style.Download}>
-      <Download disabled={!hasContent} onSubmit={handleDownload} />
+      <Download onSubmit={handleDownload} />
     </div>
 
     {isOwner && (

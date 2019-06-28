@@ -13,7 +13,6 @@ type File {
   createdAt: String!
   description: String
   extension: String!
-  hasContent: Boolean
   mimetype: String
   name: String!
   owner: String

@@ -1,8 +1,30 @@
+.Root {
+  &With {
+    &Value {
+      .Back {
+        width: 36px;
+      }
+    }
+  }
+}
+
+.Back {
+  background: transparent;
+  border: 0;
+  color: #a6aebc;
+  height: 48px;
+  font-size: 20px;
+  overflow: hidden;
+  padding: 0;
+  width: 0;
+}
+
 .Button {
   border-radius: 0 4px 4px 0;
 }
 
 .Group {
+  align-items: center;
   display: flex;
 
   & input {
