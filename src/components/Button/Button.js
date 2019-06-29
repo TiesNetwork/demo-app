@@ -60,6 +60,7 @@ const Button = ({
         [style.RootIsDisabled]: !!disabled,
         [style.RootIsFull]: !!fullWidth,
         [style.RootIsLoading]: !!loading,
+        [style.RootIsOnlyIcon]: !children && !!icon,
       },
     )}
     disabled={disabled || loading}

@@ -30,6 +30,7 @@ type Tag {
 }
 
 extend type Query {
+  downloadFile(id: ID!): Upload!
   getFileList(contains: String): [File!]!
 }
 

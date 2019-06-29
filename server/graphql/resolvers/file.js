@@ -15,6 +15,30 @@ import File from '../../models/file';
 
 export default {
   Query: {
+    downloadFile: {
+      validation: object().shape({
+        id: string().required('ID is required!'),
+      }),
+      resolve: async (root, { id }) => {
+        // Find the file in DB
+        const records = await DB.recollect(
+          `SELECT id, content FROM "filestorage"."files" WHERE id IN (${id})`,
+        );
+        // Check file
+        if (!records || records.length === 0) {
+          throw new ApolloError('error.file_not_exist', 'FILE_NOT_EXIST');
+        }
+
+        // Get file content
+        const content = records[0].getValue('content');
+        // Check content
+        if (!content) {
+          throw new ApolloError('error.file_not_found', 'FILE_NOT_FOUND');
+        }
+        console.log(123);
+        return content;
+      },
+    },
     getFileList: async (root, { contains = '' }) => {
       const records: [Record] = await DB.recollect(
         'SELECT id, createdAt, description, extension, mimetype, name, size, thumbnail  FROM "filestorage"."files"',

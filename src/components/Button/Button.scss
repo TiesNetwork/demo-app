@@ -131,6 +131,15 @@
       width: 100%;
     }
 
+    &OnlyIcon {
+      min-width: 48px !important;
+
+      .Icon {
+        font-size: 16px;
+        margin: 0;
+      }
+    }
+
     &Loading {
       pointer-events: none;
     }

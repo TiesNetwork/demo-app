@@ -6,6 +6,7 @@ import { CSSTransition } from 'react-transition-group';
 import { compose, withHandlers, withState } from 'recompose';
 
 // Containers
+import Content from './containers/Content';
 import Empty from './containers/Empty';
 import Header from './containers/Header';
 import List from './containers/List';
@@ -123,6 +124,7 @@ const Media = ({
             </div>
           </CSSTransition>
 
+          <Content />
           <Upload />
         </div>
       );

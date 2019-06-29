@@ -1,0 +1,108 @@
+.Root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.Actions {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0 0;
+}
+
+.Artist {
+  color: #8a94a6;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.Audio {
+  display: none;
+}
+
+.Bar {
+  background: #F1F2F4;
+  border-radius: 4px;
+  height: 4px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.Close {
+  background: transparent !important;
+  color: #8a94a6 !important;
+
+  & > i {
+    font-size: 20px !important;
+  }
+}
+
+.Duration {
+  color: #8A94A6;
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.Header {
+  align-items: center;
+  display: flex;
+  flex: 0 0 48px;
+  height: 48px;
+  width: 100%;
+}
+
+.Icon {
+  align-items: center;
+  background: #000;
+  background-image: linear-gradient(106deg, #ff5980, #ffa882);
+  border-radius: 12px;
+  color: #fff;
+  display: flex;
+  flex: 0 0 48px;
+  font-size: 20px;
+  height: 48px;
+  justify-content: center;
+  width: 48px;
+}
+
+.Info {
+  margin: 0 0 0 12px;
+}
+
+.Mute {
+  background: transparent !important;
+  color: #8a94a6 !important;
+}
+
+.Play {
+  background-image: linear-gradient(106deg, #ff5980, #ffa882) !important;
+  border-radius: 100%;
+}
+
+.Progress {
+  margin: 20px 0 0;
+}
+
+.Spectrum {
+  height: 64px;
+  padding: 0 2px;
+  width: 100%;
+}
+
+.Title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.Value {
+  background-image: linear-gradient(106deg, #ff5980, #ffa882);
+  border-radius: 4px;
+  left: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}

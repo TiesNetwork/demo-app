@@ -16,7 +16,7 @@ import Download from './containers/Download';
 import Form from './containers/Form';
 
 // Ducks
-import { setSelectedId } from '@views/Media/ducks';
+import { MEDIA_CONTENT_MODAL_ID, setSelectedId } from '@views/Media/ducks';
 
 // GraphQL
 import deleteFile from '@views/Media/graphql/deleteFile.graphql';
@@ -25,6 +25,7 @@ import getFileList from '@views/Media/graphql/getFileList.graphql';
 import updateFile from '@views/Media/graphql/updateFile.graphql';
 
 // Services
+import { openModal } from '@services/modals';
 import { isOwner } from '@services/session';
 
 // Style
@@ -37,6 +38,7 @@ type MediaPreviewPropsType = {
   extension: string,
   handleClose: Function,
   handleDelete: Function,
+  handlePlayer: Function,
   handleSubmit: Function,
   hasContent: boolean,
   isOwner: boolean,
@@ -60,6 +62,7 @@ const MediaPreview = ({
   handleClose,
   handleDelete,
   handleDownload,
+  handlePlayer,
   handleSubmit,
   hasContent,
   isOwner,
@@ -84,15 +87,13 @@ const MediaPreview = ({
       </button>
     </div>
 
-    {thumbnail && (
-      <div className={style.Thumbnail}>
-        <img
-          alt={name}
-          className={style.Image}
-          src={`data:${mimetype};base64,${thumbnail}`}
-        />
-      </div>
-    )}
+    <div className={style.Thumbnail} onClick={handlePlayer}>
+      <img
+        alt={name}
+        className={style.Image}
+        src={`data:${mimetype};base64,${thumbnail}`}
+      />
+    </div>
 
     <div className={style.Info}>
       {!isOwner && (
@@ -145,7 +146,7 @@ const mapStateToProps: Function = (
 export default compose(
   connect(
     mapStateToProps,
-    { setSelectedId },
+    { openModal, setSelectedId },
   ),
   graphql(deleteFile, { name: 'deleteFile' }),
   graphql(downloadFile, { name: 'downloadFile' }),
@@ -204,6 +205,8 @@ export default compose(
           window.URL.revokeObjectURL(url);
         }
       }),
+    handlePlayer: ({ id, mimetype, openModal }): Function => (): void =>
+      openModal(MEDIA_CONTENT_MODAL_ID, { fileId: id, mimetype }),
     handleSubmit: ({ updateFile }) => ({ id, description, name }) =>
       updateFile({
         refetchQueries: [{ query: getFileList }],

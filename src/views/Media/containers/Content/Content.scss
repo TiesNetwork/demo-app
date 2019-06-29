@@ -1,0 +1,9 @@
+.Root {
+  overflow: hidden;
+  width: 360px;
+
+  & > * {
+    height: 100%;
+    width: 100%;
+  }
+}

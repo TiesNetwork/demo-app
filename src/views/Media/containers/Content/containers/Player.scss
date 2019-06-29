@@ -1,0 +1,99 @@
+.Root {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  width: 100%;
+
+  &Is {
+    &Loading {
+      .Loading {
+        opacity: 1;
+        transform: scale(1);
+        visibility: visible;
+      }
+
+      .Player {
+        opacity: 0;
+        transform: translateY(100%);
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+
+
+.Audio {
+  height: 56px;
+  // opacity: .1;
+  width: 100%;
+}
+
+
+.Loading {
+  color: #fff;
+  font-size: 40px;
+  opacity: 0;
+  position: absolute;
+  transform: scale(.8);
+  visibility: hidden;
+
+  & > i {
+    animation: loading 1s linear infinite;
+  }
+}
+
+.Player {
+  bottom: 0;
+  height: 56px;
+  left: 0;
+  opacity: 1;
+  position: absolute;
+  transform: translateY(0);
+  visibility: visible;
+  width: 100%;
+  z-index: 2;
+}
+
+.Progress {
+  margin: 20px 0 0;
+}
+
+.Range {
+  -webkit-appearance: none;
+  height: 4px;
+  margin: 0;
+  position: relative;
+  top: -16px;
+  width: 100%;
+
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #ff5980;
+    border-radius: 100%;
+    cursor: pointer;
+    height: 16px;
+    position: relative;
+    top: -6px;
+    width: 16px;
+  }
+
+  &::-webkit-slider-runnable-track {
+    background: #e1e4e8;
+    border-radius: 4px;
+    height: 4px;
+  }
+}
+
+.Spectrum {
+  height: 64px;
+  width: 100%;
+}
+
+
+
+@keyframes loading {
+  from { transform: rotate(0deg) }
+  to { transform: rotate(360deg)}
+}
