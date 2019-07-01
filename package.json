@@ -1,5 +1,5 @@
 {
-  "name": "ties.demo",
+  "name": "oasis.demo",
   "version": "0.1.3",
   "private": true,
   "dependencies": {
@@ -208,23 +208,23 @@
   },
   "main": "app/start.js",
   "build": {
-    "appId": "com.ties.filestorage",
+    "appId": "com.oasis.filestorage",
     "directories": {
       "buildResources": "."
     },
     "files": [
       "**/*",
-      "build/icon-ties.*"
+      "build/icon-oasis.*"
     ],
-    "productName": "Ties",
+    "productName": "Oasis",
     "dmg": {
-      "icon": "build/icon-ties.icns"
+      "icon": "build/icon-oasis.icns"
     },
     "mac": {
-      "icon": "build/icon-ties.icns"
+      "icon": "build/icon-oasis.icns"
     },
     "win": {
-      "icon": "build/icon-ties.png"
+      "icon": "build/icon-oasis.png"
     }
   },
   "homepage": "./"
