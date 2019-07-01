@@ -1,6 +1,7 @@
 .Root {
   align-items: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   position: relative;
 
@@ -35,6 +36,8 @@
 .Content {
   display: flex;
   height: 100%;
+  max-height: 100%;
+  max-width: 100%;
   opacity: 1;
   overflow: hidden;
   visibility: visible;

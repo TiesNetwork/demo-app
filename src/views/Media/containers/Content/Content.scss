@@ -1,9 +1,13 @@
 .Root {
+  display: flex;
+  flex-direction: column;
   max-height: calc(100% - 100px);
   max-width: calc(100% - 100px);
   overflow: hidden;
 
   & > * {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     width: 100%;
   }
