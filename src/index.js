@@ -47,6 +47,16 @@ const authLink = setContext((_, { headers }) => {
 
 const client: ApolloClient = new ApolloClient({
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'network-only',
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'network-only',
+      errorPolicy: 'all',
+    },
+  },
   link: authLink.concat(
     createUploadLink({
       uri: 'http://localhost:3001/graphql',

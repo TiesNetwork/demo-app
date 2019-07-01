@@ -1,6 +1,7 @@
 .Root {
+  max-height: calc(100% - 100px);
+  max-width: calc(100% - 100px);
   overflow: hidden;
-  width: 360px;
 
   & > * {
     height: 100%;

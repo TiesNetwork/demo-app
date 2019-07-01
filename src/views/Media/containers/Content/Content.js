@@ -14,7 +14,9 @@ import style from './Content.scss';
 
 const MediaContent = (): React.Element<typeof Modal> => (
   <Modal classNames={{ container: style.Root }} id={MEDIA_CONTENT_MODAL_ID}>
-    {({ fileId, mimetype }) => <Player id={fileId} mimetype={mimetype} />}
+    {({ fileId, mimetype }) =>
+      fileId && <Player id={fileId} mimetype={mimetype} />
+    }
   </Modal>
 );
 

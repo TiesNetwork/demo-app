@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { get, isEmpty } from 'lodash';
 import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
@@ -66,75 +67,97 @@ const MediaPreview = ({
   handleSubmit,
   hasContent,
   isOwner,
-  mimetype,
+  mimetype = '',
   name,
   owner,
   size = 0,
   thumbnail,
-}: MediaPreviewPropsType): React.Element<'div'> => (
-  <div className={style.Root}>
-    <div className={style.Header}>
-      <FormattedMessage
-        defaultMessage="File Preview"
-        id="media.preview.title"
-      />
+}: MediaPreviewPropsType): React.Element<'div'> => {
+  const type = mimetype.split('/')[0];
 
-      <button
-        className={style.Close} onClick={handleClose}
-        type="button"
-      >
-        <i className="fal fa-times" />
-      </button>
-    </div>
-
-    <div className={style.Thumbnail} onClick={handlePlayer}>
-      <img
-        alt={name}
-        className={style.Image}
-        src={`data:${mimetype};base64,${thumbnail}`}
-      />
-    </div>
-
-    <div className={style.Info}>
-      {!isOwner && (
-        <Field
-          label="media.preview.field.name"
-          value={`${name}.${extension}`}
+  return (
+    <div className={style.Root}>
+      <div className={style.Header}>
+        <FormattedMessage
+          defaultMessage="File Preview"
+          id="media.preview.title"
         />
+
+        <button
+          className={style.Close} onClick={handleClose}
+          type="button"
+        >
+          <i className="fal fa-times" />
+        </button>
+      </div>
+
+      {['audio', 'image', 'video'].indexOf(type) > -1 && (
+        <div
+          className={classNames(style.Thumbnail, {
+            [style.ThumbnailVariantAudio]: type === 'audio',
+            [style.ThumbnailVariantVideo]: type === 'video',
+          })}
+          onClick={handlePlayer}
+        >
+          {type === 'audio' && <i className="fas fa-music" />}
+          {type === 'video' && <i className="fas fa-film-alt" />}
+          {type === 'image' && (
+            <img
+              alt={name}
+              className={style.Image}
+              src={`data:${mimetype};base64,${thumbnail}`}
+            />
+          )}
+
+          {['audio', 'video'].indexOf(type) > -1 && (
+            <div className={style.ThumbnailPlay}>
+              <i className="fas fa-play" />
+            </div>
+          )}
+        </div>
       )}
 
-      <Field label="media.preview.field.type" value={mimetype} />
-      <Field
-        label="media.preview.field.size"
-        value={`${prettyBytes(size)} (${size} Bytes)`}
-      />
-      <Field
-        label="media.preview.field.createdAt"
-        value={moment(createdAt).format('MMM DD, YYYY')}
-      />
-      <Field
-        label="media.preview.field.owner"
-        value={<Owner address={owner} isOwner={isOwner} />}
-      />
-    </div>
+      <div className={style.Info}>
+        {!isOwner && (
+          <Field
+            label="media.preview.field.name"
+            value={`${name}.${extension}`}
+          />
+        )}
 
-    <div className={style.Download}>
-      <Download onSubmit={handleDownload} />
-    </div>
-
-    {isOwner && (
-      <div className={style.Form}>
-        <Form
-          extension={extension}
-          form={`file-${id}-form`}
-          initialValues={{ id, description, name }}
-          onDelete={handleDelete}
-          onSubmit={handleSubmit}
+        <Field label="media.preview.field.type" value={mimetype} />
+        <Field
+          label="media.preview.field.size"
+          value={`${prettyBytes(size)} (${size} Bytes)`}
+        />
+        <Field
+          label="media.preview.field.createdAt"
+          value={moment(createdAt).format('MMM DD, YYYY')}
+        />
+        <Field
+          label="media.preview.field.owner"
+          value={<Owner address={owner} isOwner={isOwner} />}
         />
       </div>
-    )}
-  </div>
-);
+
+      <div className={style.Download}>
+        <Download onSubmit={handleDownload} />
+      </div>
+
+      {isOwner && (
+        <div className={style.Form}>
+          <Form
+            extension={extension}
+            form={`file-${id}-form`}
+            initialValues={{ id, description, name }}
+            onDelete={handleDelete}
+            onSubmit={handleSubmit}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
 
 const mapStateToProps: Function = (
   state: Object,

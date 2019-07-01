@@ -20,6 +20,25 @@ import { closeModal } from '@services/modals';
 // Style
 import style from './Audio.scss';
 
+type MediaContentAudioPropTypes = {
+  currentTime: number,
+  duration: number,
+  handleClose: Function,
+  handleLoad: Function,
+  handleMute: Function,
+  handlePlay: Function,
+  handleTimeUpdate: Function,
+  isMuted: boolean,
+  isPlaying: boolean,
+  mimetype: string,
+  registerAudio: Function,
+  tags: {
+    artist: string,
+    title: string,
+  },
+  url: string,
+};
+
 const MediaContentAudio = ({
   currentTime = 0,
   duration = 0,
@@ -37,7 +56,7 @@ const MediaContentAudio = ({
   // State
   isMuted,
   isPlaying,
-}) => (
+}: MediaContentAudioPropTypes): React.Element<'div'> => (
   <div className={style.Root}>
     <div className={style.Header}>
       <div className={style.Icon}>
@@ -110,10 +129,11 @@ const MediaContentAudio = ({
     </div>
 
     <audio
-      className={style.Audio}
+      className={style.Content}
       controls
       id="audio"
       onCanPlay={handleLoad}
+      onEnded={handlePlay}
       onTimeUpdate={handleTimeUpdate}
       ref={registerAudio}
     >
