@@ -27,6 +27,7 @@
       width: 312px;
     }
 
+    &Image:not(.RootIsLoading),
     &Video:not(.RootIsLoading) {
       margin: -24px;
     }
@@ -42,6 +43,11 @@
   overflow: hidden;
   visibility: visible;
   width: 100%;
+}
+
+.Image {
+  max-height: 100%;
+  max-width: 100%;
 }
 
 .Loading {

@@ -8,18 +8,18 @@ import Audio from '../components/Audio';
 import Video from '../components/Video';
 
 // GraphQL
-import downloadFile from '@views/Media/graphql/downloadFile.graphql';
+import getFileContent from '@views/Media/graphql/getFileContent.graphql';
 
 // Style
 import style from './Player.scss';
 
 const MediaContentPlayer = ({ id, mimetype = '' }) => (
   <Query
-    fetchPolicy="no-cache" query={downloadFile}
+    fetchPolicy="no-cache" query={getFileContent}
     variables={{ id }}
   >
     {({ data, error, loading }) => {
-      const buffer: Object = get(data, 'downloadFile.data');
+      const buffer: Object = get(data, 'getFileContent.data');
       const blob: Blob =
         buffer && new Blob([new Uint8Array(buffer)], { type: mimetype });
       const type: string = mimetype.split('/')[0];
@@ -31,6 +31,7 @@ const MediaContentPlayer = ({ id, mimetype = '' }) => (
             style.Root,
             {
               [style.RootVariantAudio]: type === 'audio',
+              [style.RootVariantImage]: type === 'image',
               [style.RootVariantVideo]: type === 'video',
             },
             {
@@ -47,6 +48,12 @@ const MediaContentPlayer = ({ id, mimetype = '' }) => (
               <React.Fragment>
                 {type === 'audio' && <Audio blob={blob} url={url} />}
                 {type === 'video' && <Video url={url} />}
+                {type === 'image' && (
+                  <img
+                    alt={id} className={style.Image}
+                    src={url}
+                  />
+                )}
               </React.Fragment>
             )}
           </div>

@@ -1,0 +1,3 @@
+query getFileContent($id: ID!) {
+  getFileContent(id: $id)
+}

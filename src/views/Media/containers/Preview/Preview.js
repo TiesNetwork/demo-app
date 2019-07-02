@@ -109,11 +109,14 @@ const MediaPreview = ({
             />
           )}
 
-          {['audio', 'video'].indexOf(type) > -1 && (
-            <div className={style.ThumbnailPlay}>
-              <i className="fas fa-play" />
-            </div>
-          )}
+          <div className={style.ThumbnailPlay}>
+            <i
+              className={classNames('fas', {
+                'fa-play': ['audio', 'video'].indexOf(type) > -1,
+                'fa-search': type === 'image',
+              })}
+            />
+          </div>
         </div>
       )}
 
