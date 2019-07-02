@@ -15,7 +15,7 @@ import File from '../../models/file';
 
 export default {
   Query: {
-    downloadFile: {
+    getFileContent: {
       validation: object().shape({
         id: string().required('ID is required!'),
       }),
@@ -35,7 +35,7 @@ export default {
         if (!content) {
           throw new ApolloError('error.file_not_found', 'FILE_NOT_FOUND');
         }
-        console.log(123);
+
         return content;
       },
     },
