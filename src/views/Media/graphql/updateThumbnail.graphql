@@ -1,0 +1,6 @@
+mutation updateThumbnail($id: String!, $name: String!, $thumbnail: Upload) {
+  updateFile(id: $id, name: $name, thumbnail: $thumbnail) {
+    id
+    thumbnail
+  }
+}

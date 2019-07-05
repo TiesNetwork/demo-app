@@ -50,6 +50,7 @@ const MediaContentAudio = ({
   handleLoad,
   handleMute,
   handlePlay,
+  handleTimeChange,
   handleTimeUpdate,
   // Registers
   registerAudio,
@@ -93,6 +94,14 @@ const MediaContentAudio = ({
         <div
           className={style.Value}
           style={{ width: `${(currentTime / duration) * 100}%` }}
+        />
+
+        <input
+          className={style.Input}
+          max={duration}
+          onChange={handleTimeChange}
+          type="range"
+          value={currentTime}
         />
       </div>
 
@@ -168,6 +177,13 @@ export default compose(
           $audio.muted = !isMuted;
         }
       },
+      handleTimeChange: ({ setCurrentTime }): Function => (
+        event: SyntheticEvent,
+      ): void => {
+        const currentTime: number = event.target.value;
+        $audio.currentTime = currentTime;
+        setCurrentTime(currentTime);
+      },
       handleTimeUpdate: ({ setCurrentTime }): Function => (
         event: SyntheticEvent,
       ): void => setCurrentTime(event.target.currentTime),
@@ -178,7 +194,7 @@ export default compose(
         }
       },
       // Registers
-      registerAudio: (): Function => (node: HTMLElementAudi): void => {
+      registerAudio: (): Function => (node: HTMLElementAudio): void => {
         $audio = node;
       },
     };
