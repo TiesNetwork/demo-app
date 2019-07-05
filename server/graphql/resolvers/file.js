@@ -230,7 +230,11 @@ export default {
         id: string().required('ID is required!'),
         name: string().required('File name is required!'),
       }),
-      resolve: async (root, { id, description, name }, { privateKey }) => {
+      resolve: async (
+        root,
+        { id, description, name, thumbnail },
+        { privateKey },
+      ) => {
         // Find the file in DB
         const records = await DB.recollect(
           `SELECT id, description, name FROM "filestorage"."files" WHERE id IN (${id})`,
@@ -240,15 +244,69 @@ export default {
           throw new ApolloError('File does not exist!', 'FILE_NOT_EXIST');
         }
 
+        let newThumbnail;
+
+        // Get file meta and read file
+        if (thumbnail) {
+          const { createReadStream } = await thumbnail;
+          const { content, size } = await new Promise((resolve, reject) => {
+            // Body
+            let buffer;
+            // Create read stream
+            const stream = createReadStream();
+
+            // Build body from chunks
+            stream.on('data', chunk => {
+              buffer = !buffer
+                ? Buffer.from(chunk)
+                : Buffer.concat([buffer, chunk]);
+            });
+
+            // Handle end stream
+            stream.on('end', () =>
+              resolve({
+                content: buffer,
+                size: Buffer.byteLength(buffer),
+              }),
+            );
+          });
+
+          // Check file size
+          if (size > 8388608) {
+            throw new ApolloError('error.file_size_limit', 'FILE_SIZE_LIMIT');
+          }
+
+          if (thumbnail) {
+            try {
+              newThumbnail = await imageThumbnail(content, {
+                height: 576,
+                width: 576,
+              });
+            } catch (error) {
+              throw new ApolloError(
+                'error.file_thubmnail_fail',
+                'FILE_THUBMNAIL_FAIL',
+              );
+            }
+          }
+        }
+
         // Update description & name
         description &&
           records[0].putValue('description', description, File.description);
         name && records[0].putValue('name', name, File.name);
+        newThumbnail &&
+          records[0].putValue('thumbnail', newThumbnail, File.thumbnail);
 
         // Push to DB
         await DB.modify(records, Buffer.from(privateKey, 'hex'));
 
-        return { id, description, name };
+        return {
+          id,
+          description,
+          name,
+          thumbnail: (newThumbnail || '').toString('base64'),
+        };
       },
     },
   },

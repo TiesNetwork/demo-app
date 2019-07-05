@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { get, isEmpty } from 'lodash';
 import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
@@ -15,9 +14,10 @@ import Owner from './components/Owner';
 // Containers
 import Download from './containers/Download';
 import Form from './containers/Form';
+import Thumbnail from './containers/Thumbnail';
 
 // Ducks
-import { MEDIA_CONTENT_MODAL_ID, setSelectedId } from '@views/Media/ducks';
+import { setSelectedId } from '@views/Media/ducks';
 
 // GraphQL
 import deleteFile from '@views/Media/graphql/deleteFile.graphql';
@@ -39,7 +39,6 @@ type MediaPreviewPropsType = {
   extension: string,
   handleClose: Function,
   handleDelete: Function,
-  handlePlayer: Function,
   handleSubmit: Function,
   hasContent: boolean,
   isOwner: boolean,
@@ -63,7 +62,6 @@ const MediaPreview = ({
   handleClose,
   handleDelete,
   handleDownload,
-  handlePlayer,
   handleSubmit,
   hasContent,
   isOwner,
@@ -72,95 +70,72 @@ const MediaPreview = ({
   owner,
   size = 0,
   thumbnail,
-}: MediaPreviewPropsType): React.Element<'div'> => {
-  const type = mimetype.split('/')[0];
+}: MediaPreviewPropsType): React.Element<'div'> => (
+  <div className={style.Root}>
+    <div className={style.Header}>
+      <FormattedMessage
+        defaultMessage="File Preview"
+        id="media.preview.title"
+      />
 
-  return (
-    <div className={style.Root}>
-      <div className={style.Header}>
-        <FormattedMessage
-          defaultMessage="File Preview"
-          id="media.preview.title"
-        />
-
-        <button
-          className={style.Close} onClick={handleClose}
-          type="button"
-        >
-          <i className="fal fa-times" />
-        </button>
-      </div>
-
-      {['audio', 'image', 'video'].indexOf(type) > -1 && (
-        <div
-          className={classNames(style.Thumbnail, {
-            [style.ThumbnailVariantAudio]: type === 'audio',
-            [style.ThumbnailVariantVideo]: type === 'video',
-          })}
-          onClick={handlePlayer}
-        >
-          {type === 'audio' && <i className="fas fa-music" />}
-          {type === 'video' && <i className="fas fa-film-alt" />}
-          {type === 'image' && (
-            <img
-              alt={name}
-              className={style.Image}
-              src={`data:${mimetype};base64,${thumbnail}`}
-            />
-          )}
-
-          <div className={style.ThumbnailPlay}>
-            <i
-              className={classNames('fas', {
-                'fa-play': ['audio', 'video'].indexOf(type) > -1,
-                'fa-search': type === 'image',
-              })}
-            />
-          </div>
-        </div>
-      )}
-
-      <div className={style.Info}>
-        {!isOwner && (
-          <Field
-            label="media.preview.field.name"
-            value={`${name}.${extension}`}
-          />
-        )}
-
-        <Field label="media.preview.field.type" value={mimetype} />
-        <Field
-          label="media.preview.field.size"
-          value={`${prettyBytes(size)} (${size} Bytes)`}
-        />
-        <Field
-          label="media.preview.field.createdAt"
-          value={moment(createdAt).format('MMM DD, YYYY')}
-        />
-        <Field
-          label="media.preview.field.owner"
-          value={<Owner address={owner} isOwner={isOwner} />}
-        />
-      </div>
-
-      <div className={style.Download}>
-        <Download onSubmit={handleDownload} />
-      </div>
-
-      {isOwner && (
-        <div className={style.Form}>
-          <Form
-            extension={extension}
-            form={`file-${id}-form`}
-            initialValues={{ id, description, name }}
-            onDelete={handleDelete}
-            onSubmit={handleSubmit}
-          />
-        </div>
-      )}
+      <button
+        className={style.Close} onClick={handleClose}
+        type="button"
+      >
+        <i className="fal fa-times" />
+      </button>
     </div>
-  );
-};
+
+    <div className={style.Thumbnail}>
+      <Thumbnail
+        id={id}
+        isOwner={isOwner}
+        mimetype={mimetype}
+        name={name}
+        thumbnail={thumbnail}
+      />
+    </div>
+
+    <div className={style.Info}>
+      {!isOwner && (
+        <Field
+          label="media.preview.field.name"
+          value={`${name}.${extension}`}
+        />
+      )}
+
+      <Field label="media.preview.field.type" value={mimetype} />
+      <Field
+        label="media.preview.field.size"
+        value={`${prettyBytes(size)} (${size} Bytes)`}
+      />
+      <Field
+        label="media.preview.field.createdAt"
+        value={moment(createdAt).format('MMM DD, YYYY')}
+      />
+      <Field
+        label="media.preview.field.owner"
+        value={<Owner address={owner} isOwner={isOwner} />}
+      />
+    </div>
+
+    <div className={style.Download}>
+      <Download onSubmit={handleDownload} />
+    </div>
+
+    {isOwner && (
+      <div className={style.Form}>
+        <Form
+          extension={extension}
+          form={`file-${id}-form`}
+          initialValues={{ id, description, name }}
+          onDelete={handleDelete}
+          onSubmit={handleSubmit}
+        />
+      </div>
+    )}
+  </div>
+);
 
 const mapStateToProps: Function = (
   state: Object,
@@ -231,8 +206,6 @@ export default compose(
           window.URL.revokeObjectURL(url);
         }
       }),
-    handlePlayer: ({ id, mimetype, openModal }): Function => (): void =>
-      openModal(MEDIA_CONTENT_MODAL_ID, { fileId: id, mimetype }),
     handleSubmit: ({ updateFile }) => ({ id, description, name }) =>
       updateFile({
         refetchQueries: [{ query: getFileList }],

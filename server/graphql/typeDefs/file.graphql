@@ -38,5 +38,10 @@ extend type Mutation {
   createFile(file: Upload): File!
   deleteFile(id: String!): File!
   downloadFile(id: ID!): Upload!
-  updateFile(id: String!, description: String, name: String!): File!
+  updateFile(
+    id: String!
+    description: String
+    name: String!
+    thumbnail: Upload
+  ): File!
 }
