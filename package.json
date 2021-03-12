@@ -82,7 +82,7 @@
     "react-apollo": "^2.5.6",
     "react-app-polyfill": "^1.0.1",
     "react-audio-spectrum": "^0.0.9",
-    "react-dev-utils": "^9.0.1",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.5",
     "react-intl": "^2.9.0",
